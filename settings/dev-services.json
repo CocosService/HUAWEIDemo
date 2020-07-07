@@ -1,0 +1,23 @@
+{
+	"game": {
+		"name": "avgdemo",
+		"appid": "640930127",
+		"cid": "0"
+	},
+	"configs": [
+		{
+			"appid": "640930127",
+			"services": [
+				{
+					"service_id": "302",
+					"enable": true
+				},
+				{
+					"service_id": "301",
+					"enable": true
+				}
+			]
+		}
+	],
+	"needExecNative": true
+}
