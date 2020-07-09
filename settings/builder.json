@@ -5,10 +5,10 @@
   "excludeScenes": [],
   "includeSDKBox": false,
   "orientation": {
-    "landscapeLeft": true,
-    "landscapeRight": true,
-    "portrait": false,
-    "upsideDown": false
+    "landscapeLeft": false,
+    "landscapeRight": false,
+    "portrait": true,
+    "upsideDown": true
   },
   "webOrientation": "auto",
   "inlineSpriteFrames": true,
@@ -17,14 +17,14 @@
   "mainIsRemote": false,
   "optimizeHotUpdate": false,
   "md5Cache": true,
-  "nativeMd5Cache": true,
-  "encryptJs": true,
+  "nativeMd5Cache": false,
+  "encryptJs": false,
   "xxteaKey": "6fcc475d-9db3-4d",
   "zipCompressJs": true,
   "fb-instant-games": {},
   "android": {
     "REMOTE_SERVER_ROOT": "",
-    "packageName": "org.cocos2d.demo"
+    "packageName": "com.wzm.fangkuai"
   },
   "ios": {
     "REMOTE_SERVER_ROOT": "",

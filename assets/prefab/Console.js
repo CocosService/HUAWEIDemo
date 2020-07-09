@@ -9,7 +9,9 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        tips: cc.Label,
+        item: cc.Node,
+        scrollContent: cc.Node,
+        scrollView: cc.ScrollView,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -19,14 +21,17 @@ cc.Class({
     start() {
 
     },
-
-    init(tips, scene) {
-        this.tips.string = tips;
-        this.scene = scene;
+    log(...args) {
+        let str = args.join(' ');
+        let item = cc.instantiate(this.item);
+        item.getComponent('cc.Label').string = str;
+        item.active = true;
+        this.scrollContent.addChild(item);
+        this.scrollView.scrollToBottom(0.1);
+        cc.log(str);
     },
-
-    click() {
-        cc.director.loadScene(this.scene.name);
+    clean() {
+        this.scrollContent.removeAllChildren(true);
     }
     // update (dt) {},
 });

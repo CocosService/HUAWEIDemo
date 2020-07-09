@@ -15,6 +15,47 @@
 				{
 					"service_id": "301",
 					"enable": true
+				},
+				{
+					"service_id": "300",
+					"enable": false,
+					"params": {
+						"currentConfigId": "e7b307",
+						"config": {
+							"id": "e7b307",
+							"name": "HUAWEI  AppGallery Connect",
+							"platform": "3",
+							"channelID": "161221",
+							"channelName": "HUAWEI  AppGallery Connect",
+							"remarks": "",
+							"plugins": [
+								{
+									"hasParam": true,
+									"pParam": {
+										"HMSConfigFile": "/Users/wzm/company/hms/agconnect-services.json",
+										"HMSFeePublicKey": "sdfsdf",
+										"HMSResConfigs": "en"
+									},
+									"pId": "2243",
+									"pName": "HUAWEI HMS",
+									"pType": 14,
+									"pUseType": 14,
+									"hasLocal": true,
+									"hasUpdate": false,
+									"requireParam": true,
+									"pVersion": "1.1.3_4.0.4",
+									"needUpdate": true,
+									"isInstall": false
+								}
+							]
+						},
+						"appid": "640930127",
+						"plugin_version": "0.6.1_0.1.0"
+					}
+				},
+				{
+					"service_id": "272",
+					"enable": false
 				}
 			]
 		}

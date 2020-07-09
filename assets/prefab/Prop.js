@@ -9,7 +9,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        tips: cc.Label,
+        mLabel: cc.Label,
+        mValue: cc.Label,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -19,14 +20,18 @@ cc.Class({
     start() {
 
     },
-
-    init(tips, scene) {
-        this.tips.string = tips;
-        this.scene = scene;
+    init(label, value) {
+        this.label = label;
+        this.value = value;
     },
 
-    click() {
-        cc.director.loadScene(this.scene.name);
+    setValue(str) {
+        this.mValue.string = str;
+    },
+
+    setLabel(str) {
+        this.mLabel.string = str
     }
+
     // update (dt) {},
 });
