@@ -42,6 +42,10 @@ cc.Class({
         cc.director.loadScene('list');
     },
 
+    onDestroy() {
+        huawei.HMS.locationService.targetOff(this);
+    },
+
     updateLocationTips(location) {
         this.mLon.getComponent('Prop').setValue(location.longitude);
         this.mLat.getComponent('Prop').setValue(location.latitude);
@@ -86,7 +90,7 @@ cc.Class({
             } else {
                 this.console.log('持续定位失败，原因：', location.errMsg);
             }
-        });
+        }, this);
     },
 
     removeLocationUpdate() {

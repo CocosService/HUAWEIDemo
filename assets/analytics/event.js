@@ -43,7 +43,6 @@ cc.Class({
             idx: this.customEventIdx++,
             name: 'wzm',
             age: 18,
-            loves: ['flowers', 'cat', 'sleeping'],
             others: {
                 stature: 199,
                 six: 'six six six'

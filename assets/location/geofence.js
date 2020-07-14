@@ -26,7 +26,8 @@ cc.Class({
         }
     },
 
-    onDisable() {
+    onDestroy() {
+        huawei.HMS.locationGeofenceService.targetOff(this);
         huawei.HMS.locationService.targetOff(this);
     },
 
@@ -36,7 +37,7 @@ cc.Class({
     receiveEvent() {
         huawei.HMS.locationGeofenceService.on(huawei.HMS.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_RECEIVE_GEOFENCE_DATA, (result) => {
             this.console.log('HMS_RECEIVE_GEOFENCE_DATA...', JSON.stringify(result));
-        });
+        }, this);
     },
 
     mockLocation() {

@@ -18,11 +18,11 @@ cc.Class({
     receiveActivityUpdate() {
         huawei.HMS.locationActivityService.on(huawei.HMS.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_ACTIVITY_UPDATES, (result) => {
             this.console.log('HMS_ACTIVITY_UPDATES', JSON.stringify(result));
-        });
+        }, this);
 
         huawei.HMS.locationActivityService.on(huawei.HMS.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_CONVERSION_UPDATES, (result) => {
             this.console.log('HMS_CONVERSION_UPDATES...', JSON.stringify(result));
-        });
+        }, this);
     },
     removeActivityUpdates() {
         this.console.log('removeActivityUpdates...');
@@ -74,6 +74,9 @@ cc.Class({
             }
         });
         huawei.HMS.locationActivityService.removeActivityConversionUpdates();
-    }
+    },
+    onDestroy() {
+        huawei.HMS.locationActivityService.targetOff(this);
+    },
     // update (dt) {},
 });
