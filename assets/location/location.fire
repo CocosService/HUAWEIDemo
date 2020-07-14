@@ -192,7 +192,7 @@
       "array": [
         0,
         0,
-        372.39092362730867,
+        415.69219381653056,
         0,
         0,
         0,
@@ -4129,7 +4129,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "5defa1db-a959-4644-9eb1-f2712ea4238d"
+      "__uuid__": "85b3229e-e5a6-4b90-bc4f-854b193947a7"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -4414,7 +4414,7 @@
     },
     "component": "",
     "_componentId": "40d01L/4oRDc5AK6zY6Tegw",
-    "handler": "requestLocationPermission",
+    "handler": "geoClick",
     "customEventData": ""
   },
   {
@@ -4585,7 +4585,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "5defa1db-a959-4644-9eb1-f2712ea4238d"
+      "__uuid__": "85b3229e-e5a6-4b90-bc4f-854b193947a7"
     },
     "_type": 1,
     "_sizeMode": 0,
