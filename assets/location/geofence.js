@@ -114,7 +114,7 @@ cc.Class({
                 this.console.log('removeWithID...', 'fail:', result.errMsg);
             }
         });
-        huawei.HMS.locationGeofenceService.removeWithID(this.editBox.string);
+        huawei.HMS.locationGeofenceService.removeWithID([this.editBox.string]);
     }
     // update (dt) {},
 });
