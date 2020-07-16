@@ -69,6 +69,10 @@ cc.Class({
     requestLocationUpdate() {
         this.console.log('持续定位开启');
         if (this.hasPermission) {
+            huawei.HMS.locationService.setLocationInterval(10000);
+            //100是gps，102是网络，室内gps信号弱会自己换成网络
+            huawei.HMS.locationService.setLocationPriority(100);
+
             huawei.HMS.locationService.once(huawei.HMS.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_REQUEST_LOCATION_UPDATE, (result) => {
                 if (result.code === huawei.HMS.HMSLocationActivityService.StatusCode.success) {
                     this.console.log('持续定位开启成功');
