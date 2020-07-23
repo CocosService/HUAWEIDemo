@@ -20,7 +20,7 @@
           "pType": 14,
           "pUseType": 14,
           "hasLocal": true,
-          "hasUpdate": false,
+          "hasUpdate": true,
           "requireParam": true,
           "pVersion": "1.1.3_4.0.4",
           "needUpdate": true,

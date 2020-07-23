@@ -30,6 +30,17 @@ cc.Class({
         this.scrollView.scrollToBottom(0.1);
         cc.log(str);
     },
+
+    error(...args) {
+        let str = args.join(' ');
+        let item = cc.instantiate(this.item);
+        item.getComponent('cc.Label').string = str;
+        item.color = cc.color(255, 0, 0);
+        item.active = true;
+        this.scrollContent.addChild(item);
+        this.scrollView.scrollToBottom(0.1);
+        cc.error(str);
+    },
     clean() {
         this.scrollContent.removeAllChildren(true);
     }

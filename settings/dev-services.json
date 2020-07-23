@@ -10,11 +10,19 @@
 			"services": [
 				{
 					"service_id": "302",
-					"enable": true
+					"enable": true,
+					"params": {
+						"configFilePath": "/Users/wzm/company/hms/AGCDemo/settings/agconnect-services.json",
+						"plugin_version": "0.5.0_5.0.1"
+					}
 				},
 				{
 					"service_id": "301",
-					"enable": true
+					"enable": true,
+					"params": {
+						"configFilePath": "/Users/wzm/company/hms/AGCDemo/settings/agconnect-services.json",
+						"plugin_version": "1.1.9_1.0.0"
+					}
 				},
 				{
 					"service_id": "300",
@@ -41,7 +49,7 @@
 									"pType": 14,
 									"pUseType": 14,
 									"hasLocal": true,
-									"hasUpdate": false,
+									"hasUpdate": true,
 									"requireParam": true,
 									"pVersion": "1.1.3_4.0.4",
 									"needUpdate": true,
@@ -59,11 +67,24 @@
 				},
 				{
 					"service_id": "305",
-					"enable": true
+					"enable": true,
+					"params": {
+						"configFilePath": "/Users/wzm/company/hms/AGCDemo/settings/agconnect-services.json",
+						"plugin_version": "0.5.0_1.3.2"
+					}
 				},
 				{
 					"service_id": "303",
 					"enable": false
+				},
+				{
+					"service_id": "306",
+					"enable": true,
+					"params": {
+						"intentFilter": "https://lcywzmddd.cn",
+						"configFilePath": "/Users/wzm/company/hms/AGCDemo/settings/agconnect-services.json",
+						"plugin_version": "0.5.0_1.3.2"
+					}
 				}
 			]
 		}

@@ -787,6 +787,9 @@
       },
       {
         "__id__": 22
+      },
+      {
+        "__id__": 23
       }
     ],
     "_id": "11a66jZcRJ6YKOQksl/Oeb"
@@ -810,6 +813,13 @@
     "sceneName": "Crash",
     "scene": {
       "__uuid__": "ef551b5b-1262-47e1-b3ab-f47d54464300"
+    }
+  },
+  {
+    "__type__": "list-item",
+    "sceneName": "AppLinking",
+    "scene": {
+      "__uuid__": "d5a789d4-4e66-4e41-99c7-41311b607df6"
     }
   }
 ]
