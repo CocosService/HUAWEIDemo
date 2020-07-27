@@ -21,7 +21,7 @@
 					"enable": true,
 					"params": {
 						"configFilePath": "/Users/wzm/company/hms/AGCDemo/settings/agconnect-services.json",
-						"plugin_version": "1.1.9_1.0.0"
+						"plugin_version": "0.5.0_4.0.4"
 					}
 				},
 				{
@@ -85,6 +85,10 @@
 						"configFilePath": "/Users/wzm/company/hms/AGCDemo/settings/agconnect-services.json",
 						"plugin_version": "0.5.0_1.3.2"
 					}
+				},
+				{
+					"service_id": "307",
+					"enable": true
 				}
 			]
 		}
