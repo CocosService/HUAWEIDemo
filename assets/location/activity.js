@@ -58,22 +58,23 @@ cc.Class({
         });
         let cls = huawei.HMS.HMSConversionInfo;
         let type = huawei.HMS.ACTIVITY_IDENTIFICATION_ENUM;
+        let cType = huawei.HMS.ACTIVITY_CONVERSION_TYPE;
         let infoList = [
-            new cls(type.STILL, type.ENTER),
-            new cls(type.STILL, type.LEAVE),
+            new cls(type.STILL, cType.ENTER_ACTIVITY_CONVERSION),
+            new cls(type.STILL, cType.EXIT_ACTIVITY_CONVERSION),
         ];
         huawei.HMS.locationActivityService.createActivityConversionUpdates(infoList);
     },
-    removeActivityConversionUpdates() {
-        this.console.log('removeActivityConversionUpdates...');
+    deleteActivityConversionUpdates() {
+        this.console.log('deleteActivityConversionUpdates...');
         huawei.HMS.locationActivityService.once(huawei.HMS.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_REMOVE_ACTIVITY_CONVERSION_UPDATES, (result) => {
             if (result.code === huawei.HMS.HMSLocationActivityService.StatusCode.success) {
-                this.console.log('removeActivityConversionUpdates...', 'success');
+                this.console.log('deleteActivityConversionUpdates...', 'success');
             } else {
-                this.console.log('removeActivityConversionUpdates...', 'fail:', result.errMsg);
+                this.console.log('deleteActivityConversionUpdates...', 'fail:', result.errMsg);
             }
         });
-        huawei.HMS.locationActivityService.removeActivityConversionUpdates();
+        huawei.HMS.locationActivityService.deleteActivityConversionUpdates();
     },
     onDestroy() {
         huawei.HMS.locationActivityService.targetOff(this);
