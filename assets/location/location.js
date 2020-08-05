@@ -11,7 +11,6 @@ cc.Class({
         _location: null,
     },
 
-
     start() {
         window._demoLocation = this;
         if (cc.sys.platform !== cc.sys.ANDROID) {
@@ -21,6 +20,7 @@ cc.Class({
         this.checkPermission();
         this.receiveLocationUpdate();
     },
+    
     checkPermission() {
         this.console.log('开始检查权限');
         huawei.HMS.locationService.once(huawei.HMS.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LOCATION_SETTINGS, (result) => {
@@ -63,6 +63,8 @@ cc.Class({
                 }
             });
             huawei.HMS.locationService.getLastLocation();
+        } else {
+            this.console.error('没有定位权限');
         }
     },
 
@@ -83,6 +85,8 @@ cc.Class({
 
 
             huawei.HMS.locationService.requestLocationUpdates();
+        } else {
+            this.console.error('没有定位权限');
         }
     },
 
