@@ -58,7 +58,6 @@ cc.Class({
     },
 
     clearCachedData() {
-        let value = 1000 * 60 * 60;
         huawei.HMS.analytics.clearCachedData();
         this.console.log('clearCachedData', 'invoke');
     },
