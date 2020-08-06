@@ -18,51 +18,51 @@ cc.Class({
     },
 
     initListener() {
-        huawei.AGC.appMessaging.on(huawei.AGC.AGC_APP_MESSAGING_LISTENER_NAME.ON_MESSAGE_DISMISS, (result) => {
+        huawei.AGC.appMessagingService.on(huawei.AGC.AGC_APP_MESSAGING_LISTENER_NAME.ON_MESSAGE_DISMISS, (result) => {
             this.console.log('receive ON_MESSAGE_DISMISS', JSON.stringify(result));
         }, this);
-        huawei.AGC.appMessaging.on(huawei.AGC.AGC_APP_MESSAGING_LISTENER_NAME.ON_MESSAGE_CLICK, (result) => {
+        huawei.AGC.appMessagingService.on(huawei.AGC.AGC_APP_MESSAGING_LISTENER_NAME.ON_MESSAGE_CLICK, (result) => {
             this.console.log('receive ON_MESSAGE_CLICK', JSON.stringify(result));
 
         }, this);
-        huawei.AGC.appMessaging.on(huawei.AGC.AGC_APP_MESSAGING_LISTENER_NAME.ON_MESSAGE_DISPLAY, (result) => {
+        huawei.AGC.appMessagingService.on(huawei.AGC.AGC_APP_MESSAGING_LISTENER_NAME.ON_MESSAGE_DISPLAY, (result) => {
             this.console.log('receive ON_MESSAGE_DISPLAY', JSON.stringify(result));
 
         }, this);
     },
     onDestroy() {
-        huawei.AGC.appMessaging.targetOff(this);
+        huawei.AGC.appMessagingService.targetOff(this);
     },
     returnClick() {
         cc.director.loadScene('list');
     },
 
     getAAID() {
-        this.console.log('当前应用AAID', huawei.AGC.appMessaging.getAAID());
+        this.console.log('当前应用AAID', huawei.AGC.appMessagingService.getAAID());
     },
 
     setForceFetch() {
-        huawei.AGC.appMessaging.setForceFetch();
+        huawei.AGC.appMessagingService.setForceFetch();
     },
 
     setDisplayEnable() {
-        huawei.AGC.appMessaging.setDisplayEnable(this.displayEnable);
+        huawei.AGC.appMessagingService.setDisplayEnable(this.displayEnable);
         this.console.log('setDisplayEnable', this.displayEnable);
         this.displayEnable = !this.displayEnable;
     },
 
     setFetchMessageEnable() {
-        huawei.AGC.appMessaging.setFetchMessageEnable(this.fetchEnable);
+        huawei.AGC.appMessagingService.setFetchMessageEnable(this.fetchEnable);
         this.console.log('setFetchMessageEnable', this.fetchEnable);
         this.fetchEnable = !this.fetchEnable;
     },
 
     isFetchMessageEnable() {
-        this.console.log('isFetchMessageEnable', huawei.AGC.appMessaging.isFetchMessageEnable());
+        this.console.log('isFetchMessageEnable', huawei.AGC.appMessagingService.isFetchMessageEnable());
     },
 
     isDisplayEnable() {
-        this.console.log('isDisplayEnable', huawei.AGC.appMessaging.isDisplayEnable());
+        this.console.log('isDisplayEnable', huawei.AGC.appMessagingService.isDisplayEnable());
     }
 
     // update (dt) {},

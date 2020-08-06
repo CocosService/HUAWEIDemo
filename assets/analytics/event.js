@@ -23,7 +23,7 @@ cc.Class({
         let param = huawei.HMS.HAParamType;
         let params = {};
         params[param.LEVELNAME] = 'wzm666';
-        huawei.HMS.analytics.onEvent(type.STARTLEVEL, params);
+        huawei.HMS.analyticsService.onEvent(type.STARTLEVEL, params);
         this.console.log('onEvent', type.STARTLEVEL, 'params is', JSON.stringify(params));
     },
 
@@ -33,7 +33,7 @@ cc.Class({
         let params = {};
         params[param.LEVELNAME] = 'wzm666';
         params[param.RESULT] = 'success';
-        huawei.HMS.analytics.onEvent(type.COMPLETELEVEL, params);
+        huawei.HMS.analyticsService.onEvent(type.COMPLETELEVEL, params);
         this.console.log('onEvent', type.COMPLETELEVEL, 'params is', JSON.stringify(params));
     },
 
@@ -48,7 +48,7 @@ cc.Class({
                 six: 'six six six'
             }
         };
-        huawei.HMS.analytics.onEvent(eventName, params);
+        huawei.HMS.analyticsService.onEvent(eventName, params);
         this.console.log('onEvent', eventName, 'params is', JSON.stringify(params));
     }
     // update (dt) {},
