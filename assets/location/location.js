@@ -16,11 +16,10 @@ cc.Class({
         if (cc.sys.platform !== cc.sys.ANDROID) {
             return;
         }
-
+        this.receiveLocationInvoked = false;
         this.checkPermission();
-        this.receiveLocationUpdate();
     },
-    
+
     checkPermission() {
         this.console.log('开始检查权限');
         huawei.HMS.locationService.once(huawei.HMS.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LOCATION_SETTINGS, (result) => {
@@ -83,7 +82,7 @@ cc.Class({
                 }
             });
 
-
+            this.receiveLocationUpdate();
             huawei.HMS.locationService.requestLocationUpdates();
         } else {
             this.console.error('没有定位权限');
@@ -91,6 +90,10 @@ cc.Class({
     },
 
     receiveLocationUpdate() {
+        if (this.receiveLocationInvoked) {
+            return;
+        }
+        this.receiveLocationInvoked = true;
         huawei.HMS.locationService.on(huawei.HMS.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LOCATION_UPDATES, (location) => {
             if (location.code === huawei.HMS.HMSLocationActivityService.StatusCode.success) {
                 this.console.log('获得持续定位：lon', location.longitude, 'lat :', location.latitude);
