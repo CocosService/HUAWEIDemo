@@ -15,7 +15,7 @@ cc.Class({
         window._demoAppLinking = this;
         this.console.log('请先生成链接再点击分享');
 
-        huawei.AGC.appLinkingService.on(huawei.AGC.AGC_APP_LINKING_EVENT_LISTENER_NAME.RECEIVE_LONG_LINK_CALLBACK, (data) => {
+        huawei.AGC.AppLinking.appLinkingService.on(huawei.AGC.AppLinking.AGC_APP_LINKING_EVENT_LISTENER_NAME.RECEIVE_LONG_LINK_CALLBACK, (data) => {
             if (data.code === 1) {
                 this.console.log('接收到deepLink：', data.getDeepLink());
             }
@@ -27,47 +27,47 @@ cc.Class({
     },
 
     onDestroy() {
-        huawei.AGC.appLinkingService.targetOff(this);
+        huawei.AGC.AppLinking.appLinkingService.targetOff(this);
     },
 
     buildShortLink() {
-        huawei.AGC.appLinkingService.once(huawei.AGC.AGC_APP_LINKING_EVENT_LISTENER_NAME.BUILD_SHORT_LINK, (data) => {
+        huawei.AGC.AppLinking.appLinkingService.once(huawei.AGC.AppLinking.AGC_APP_LINKING_EVENT_LISTENER_NAME.BUILD_SHORT_LINK, (data) => {
             if (data.code === 1) {
                 this._shortLink = data.data;
                 this.console.log('构建短链接成功：', this._shortLink);
             }
         }, this);
-        huawei.AGC.appLinkingService.buildShortLink(this._genLinkInfo());
+        huawei.AGC.AppLinking.appLinkingService.buildShortLink(this._genLinkInfo());
     },
 
     _genLinkInfo() {
-        let linkInfo = new huawei.AGC.AGCAppLinking();
+        let linkInfo = new huawei.AGC.AppLinking.AppLinking();
 
-        let linkBuilder = new huawei.AGC.AppLinkingBuilder();
+        let linkBuilder = new huawei.AGC.AppLinking.Builder();
         linkBuilder.setDeepLink(DEEP_LINK);
         linkBuilder.setUriPrefix(PREFIX_URL);
         linkInfo.setBuilder(linkBuilder);
 
-        let socialBuilder = new huawei.AGC.AppLinkingSocialCardInfo();
+        let socialBuilder = new huawei.AGC.AppLinking.SocialCardInfo();
         socialBuilder.setDescription('这是一个测试例');
         socialBuilder.setImageUrl('http://lcywzm.cn/temp/huatu1/res/avg/fc/fcd923bf-ab2b-4a2a-87cd-0cdc647ba006.1e14a.jpg');
         socialBuilder.setTitle('AppLinking Test');
         linkInfo.setSocialCardInfo(socialBuilder);
 
-        let campaignInfo = new huawei.AGC.AppLinkingCampaignInfo();
+        let campaignInfo = new huawei.AGC.AppLinking.CampaignInfo();
         campaignInfo.setMedium('test-medium');
         campaignInfo.setSource('test-source');
         campaignInfo.setName('test-name');
         linkInfo.setCampaignInfo(campaignInfo);
 
-        let androidLinkInfo = new huawei.AGC.AppLinkingAndroidLinkInfo();
+        let androidLinkInfo = new huawei.AGC.AppLinking.AndroidLinkInfo();
         androidLinkInfo.setMinimumVersion(1);
         linkInfo.setAndroidLinkInfo(androidLinkInfo);
         return linkInfo;
     },
 
     buildLongLink() {
-        this._longLink = huawei.AGC.appLinkingService.buildLongLink(this._genLinkInfo());
+        this._longLink = huawei.AGC.AppLinking.appLinkingService.buildLongLink(this._genLinkInfo());
         this.console.log('构建长链接成功，', this._longLink);
     },
 
@@ -76,7 +76,7 @@ cc.Class({
             this.console.error('当前短链接为空，无法分享');
             return;
         }
-        huawei.AGC.appLinkingService.shareLink(this._shortLink);
+        huawei.AGC.AppLinking.appLinkingService.shareLink(this._shortLink);
     },
 
     shareLongLink() {
@@ -84,7 +84,7 @@ cc.Class({
             this.console.error('当前长链接为空，无法分享');
             return;
         }
-        huawei.AGC.appLinkingService.shareLink(this._longLink);
+        huawei.AGC.AppLinking.appLinkingService.shareLink(this._longLink);
     },
 
     buildShortLinkFromLongLink() {
@@ -92,13 +92,13 @@ cc.Class({
             this.console.error('当前长链接为空，无法生成短链接');
             return;
         }
-        huawei.AGC.appLinkingService.once(huawei.AGC.AGC_APP_LINKING_EVENT_LISTENER_NAME.BUILD_SHORT_LINK_FROM_LONG_LINK, (data) => {
+        huawei.AGC.AppLinking.appLinkingService.once(huawei.AGC.AppLinking.AGC_APP_LINKING_EVENT_LISTENER_NAME.BUILD_SHORT_LINK_FROM_LONG_LINK, (data) => {
             if (data.code === 1) {
                 this._shortLink = data.data;
                 this.console.log('构建短链接成功：', this._shortLink);
             }
         }, this);
-        huawei.AGC.appLinkingService.buildShortLinkFromLongLink(this._longLink);
+        huawei.AGC.AppLinking.appLinkingService.buildShortLinkFromLongLink(this._longLink);
     },
     // update (dt) {},
 });

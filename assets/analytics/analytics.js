@@ -14,77 +14,77 @@ cc.Class({
 
     enableLog(event, level) {
         if (level) {
-            huawei.HMS.AnalyticsTools.enableLog(parseInt(level));
+            huawei.HMS.Analytics.AnalyticsTools.enableLog(parseInt(level));
         } else {
-            huawei.HMS.AnalyticsTools.enableLog();
+            huawei.HMS.Analytics.AnalyticsTools.enableLog();
         }
     },
     setAnalyticsEnabled() {
-        huawei.HMS.analyticsService.setAnalyticsEnabled(this.logStatus);
+        huawei.HMS.Analytics.analyticsService.setAnalyticsEnabled(this.logStatus);
         this.console.log('setAnalyticsEnabled', this.logStatus);
         this.logStatus = !this.logStatus;
     },
 
     setUserId() {
         let userId = 'wzm666';
-        huawei.HMS.analyticsService.setUserId(userId);
+        huawei.HMS.Analytics.analyticsService.setUserId(userId);
         this.console.log('setUserId', userId);
     },
 
     setUserProfile() {
         let name = 'profile1';
         let value = 'wzm666';
-        huawei.HMS.analyticsService.setUserProfile(name, value);
+        huawei.HMS.Analytics.analyticsService.setUserProfile(name, value);
         this.console.log('setUserProfile', name, value);
     },
 
     setPushToken() {
         //todo:这个token仅做演示，正式token请跟进API获取
         let token = 'wzm666';
-        huawei.HMS.analyticsService.setPushToken(token);
+        huawei.HMS.Analytics.analyticsService.setPushToken(token);
         this.console.log('setPushToken', token);
     },
 
     setMinActivitySessions() {
         let value = 1000 * 60 * 60;
-        huawei.HMS.analyticsService.setMinActivitySessions(value);
+        huawei.HMS.Analytics.analyticsService.setMinActivitySessions(value);
         this.console.log('setMinActivitySessions', value, 'ms');
     },
 
     setSessionDuration() {
         let value = 1000 * 60 * 60;
-        huawei.HMS.analyticsService.setSessionDuration(value);
+        huawei.HMS.Analytics.analyticsService.setSessionDuration(value);
         this.console.log('setSessionDuration', value, 'ms');
     },
 
     clearCachedData() {
-        huawei.HMS.analyticsService.clearCachedData();
+        huawei.HMS.Analytics.analyticsService.clearCachedData();
         this.console.log('clearCachedData', 'invoke');
     },
 
     getAAID() {
-        huawei.HMS.analyticsService.getAAID();
-        huawei.HMS.analyticsService.once(huawei.HMS.HMS_ANALYTICS_EVENT_LISTENER_NAME.GET_AAID, (result) => {
+        huawei.HMS.Analytics.analyticsService.getAAID();
+        huawei.HMS.Analytics.analyticsService.once(huawei.HMS.Analytics.HMS_ANALYTICS_EVENT_LISTENER_NAME.GET_AAID, (result) => {
             this.console.log('getAAID', JSON.stringify(result));
         });
     },
 
     getUserProfiles() {
-        huawei.HMS.analyticsService.getUserProfiles();
-        huawei.HMS.analyticsService.once(huawei.HMS.HMS_ANALYTICS_EVENT_LISTENER_NAME.GET_USER_PROFILES, (result) => {
+        huawei.HMS.Analytics.analyticsService.getUserProfiles();
+        huawei.HMS.Analytics.analyticsService.once(huawei.HMS.Analytics.HMS_ANALYTICS_EVENT_LISTENER_NAME.GET_USER_PROFILES, (result) => {
             this.console.log('getUserProfiles', JSON.stringify(result));
         });
     },
 
     pageStart() {
         let value = 'page_wzm';
-        huawei.HMS.analyticsService.pageStart(value, value);
+        huawei.HMS.Analytics.analyticsService.pageStart(value, value);
         this.console.log('pageStart', 'pageName=', value, 'pageClassOverride=', value);
     },
 
     pageEnd() {
         let value = 'page_wzm';
-        huawei.HMS.analyticsService.pageEnd(value);
+        huawei.HMS.Analytics.analyticsService.pageEnd(value);
         this.console.log('pageEnd', 'pageName=', value);
     },
 

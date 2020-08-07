@@ -186,7 +186,7 @@
       "array": [
         0,
         0,
-        434.7312747498657,
+        318.685053170274,
         0,
         0,
         0,
@@ -3093,7 +3093,7 @@
     },
     "component": "",
     "_componentId": "acebfRXIohBSJTrei314wSB",
-    "handler": "removeActivityConversionUpdates",
+    "handler": "deleteActivityConversionUpdates",
     "customEventData": ""
   },
   {

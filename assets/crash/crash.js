@@ -16,7 +16,7 @@ cc.Class({
 
     toggleCrashCollection() {
         this.console.log('enableCrashCollection invoke with state:', this.crashState);
-        huawei.AGC.AGConnectCrashService.enableCrashCollection(this.crashState);
+        huawei.AGC.Crash.CrashService.enableCrashCollection(this.crashState);
         this.crashState = !this.crashState;
     },
 
@@ -24,7 +24,7 @@ cc.Class({
         let time = 5;
         this.console.log(time, '秒后程序崩溃，崩溃后请重启程序等候几秒，再去 AGC 后台查看崩溃日志');
         this.scheduleOnce(() => {
-            huawei.AGC.AGConnectCrashService.testIt();
+            huawei.AGC.Crash.CrashService.testIt();
 
         }, time);
     },
