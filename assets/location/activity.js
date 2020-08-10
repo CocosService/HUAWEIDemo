@@ -67,7 +67,7 @@ cc.Class({
     },
     deleteActivityConversionUpdates() {
         this.console.log('deleteActivityConversionUpdates...');
-        huawei.HMS.Location.locationActivityService.once(huawei.HMS.Location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_REMOVE_ACTIVITY_CONVERSION_UPDATES, (result) => {
+        huawei.HMS.Location.locationActivityService.once(huawei.HMS.Location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_DELETE_ACTIVITY_CONVERSION_UPDATES, (result) => {
             if (result.code === huawei.HMS.Location.LocationActivityService.StatusCode.success) {
                 this.console.log('deleteActivityConversionUpdates...', 'success');
             } else {
