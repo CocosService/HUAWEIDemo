@@ -1,0 +1,36 @@
+{
+	"game": {
+		"name": "Service测试",
+		"appid": "663498847",
+		"cid": "0"
+	},
+	"configs": [
+		{
+			"appid": "663498847",
+			"services": [
+				{
+					"service_id": "303",
+					"enable": true
+				},
+				{
+					"service_id": "235",
+					"enable": false,
+					"params": {
+						"appid": "663498847",
+						"storeid": "",
+						"plugin_version": "1.2.9_2.2.0"
+					}
+				},
+				{
+					"service_id": "272",
+					"enable": false,
+					"params": {
+						"env_id": "cocos-test-12fdc4",
+						"plugin_version": "0.6.2_1.6.1"
+					}
+				}
+			]
+		}
+	],
+	"needExecNative": true
+}

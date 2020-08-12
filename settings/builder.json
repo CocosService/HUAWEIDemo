@@ -24,7 +24,7 @@
   "fb-instant-games": {},
   "android": {
     "REMOTE_SERVER_ROOT": "",
-    "packageName": "com.wzm.fangkuai"
+    "packageName": "com.cocos.service.test.huawei"
   },
   "ios": {
     "REMOTE_SERVER_ROOT": "",
