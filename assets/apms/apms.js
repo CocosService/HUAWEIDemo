@@ -6,14 +6,6 @@ cc.Class({
     console: require('Console'),
   },
 
-  randomString(len) {
-    len = len || 32;
-    var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
-    var pwd = '';
-    for (var i = 0; i < len; i++) pwd += chars.charAt(Math.floor(Math.random() * chars.length));
-    return pwd;
-  },
-
   httpPost(url, params) {
     return new Promise((resolve, reject) => {
       var xhr = cc.loader.getXMLHttpRequest();
@@ -38,7 +30,7 @@ cc.Class({
 
   startCustomTrace() {
     if (this._customTraceName !== '') return;
-    this._customTraceName = "customTrace_" + this.randomString(6);
+    this._customTraceName = "customTrace1";
     hasAPMS && this._apms.startCustomTrace(this._customTraceName);
     this.console.log('APMS', "start custom trace, trace name : " + this._customTraceName);
   },

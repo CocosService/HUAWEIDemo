@@ -28,6 +28,18 @@
 						"env_id": "cocos-test-12fdc4",
 						"plugin_version": "0.6.2_1.6.1"
 					}
+				},
+				{
+					"service_id": "305",
+					"enable": false
+				},
+				{
+					"service_id": "308",
+					"enable": true,
+					"params": {
+						"configFilePath": "/Users/macos/Source/ccServices/HUAWEIDemo/settings/agconnect-services.json",
+						"plugin_version": "0.5.0_1.4.0"
+					}
 				}
 			]
 		}

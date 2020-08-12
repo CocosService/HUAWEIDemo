@@ -52,6 +52,8 @@ cc.Class({
         break;
       case 'apms':
         turnOn = !!(huawei.AGC && huawei.AGC.apms && huawei.AGC.apms.enableCollection);
+      case 'remoteconfig':
+        turnOn = !!(huawei.AGC && huawei.AGC.remoteConfig && huawei.AGC.remoteConfig.fetch);
         break;
       default:
         break;
