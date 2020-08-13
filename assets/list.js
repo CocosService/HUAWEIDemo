@@ -55,6 +55,9 @@ cc.Class({
       case 'remoteconfig':
         turnOn = !!(huawei.AGC && huawei.AGC.remoteConfig && huawei.AGC.remoteConfig.fetch);
         break;
+      case 'auth':
+        turnOn = !!(huawei.AGC && huawei.AGC.auth && huawei.AGC.auth.switchAuthType);
+        break;
       default:
         break;
     }

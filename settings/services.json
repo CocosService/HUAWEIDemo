@@ -40,6 +40,22 @@
 						"configFilePath": "/Users/macos/Source/ccServices/HUAWEIDemo/settings/agconnect-services.json",
 						"plugin_version": "0.5.0_1.4.0"
 					}
+				},
+				{
+					"service_id": "304",
+					"enable": true,
+					"params": {
+						"configFilePath": "/Users/macos/Source/ccServices/HUAWEIDemo/settings/agconnect-services.json",
+						"plugin_version": "0.5.0_1.3.1",
+						"selectProviders": [
+							"Anonymous",
+							"HMS",
+							"HWGame",
+							"Phone",
+							"Email"
+						],
+						"providerParam": {}
+					}
 				}
 			]
 		}

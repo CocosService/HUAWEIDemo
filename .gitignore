@@ -52,4 +52,7 @@ Thumbs.db
 agconnect-services.json
 sdkhub.json
 dev-services.json
+services.json
 agcapms/
+agcauth/
+agcrc/
