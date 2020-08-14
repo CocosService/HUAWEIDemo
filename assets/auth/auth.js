@@ -17,9 +17,7 @@ cc.Class({
       action: "register", // regiser, reset
     }
     this._auth = huawei.AGC.auth;
-    this._auth.setAuthListener((retCode, msg) => {
-      this.console.log("Auth", `${retCode}: ${msg}`);
-    })
+    this._auth.setAuthListener((retCode, msg) => this.console.log("Auth", `${retCode}: ${msg}`))
   },
 
   returnClick() {

@@ -7,8 +7,9 @@ cc.Class({
   },
 
   start() {
-    if (hasRemoteConfig) this._remoteConfig = huawei.AGC.remoteConfig;
-
+    if (!hasRemoteConfig) return;
+    this._remoteConfig = huawei.AGC.remoteConfig;
+    this._remoteConfig.setRemoteConfigListener((retCode, msg) => this.console.log("RemoteConfig", `${retCode}: ${msg}`))
   },
 
   fetchAndApply() {
