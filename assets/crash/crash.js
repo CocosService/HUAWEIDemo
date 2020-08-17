@@ -16,22 +16,22 @@ cc.Class({
 
     toggleCrashCollection() {
         this.console.log('enableCrashCollection invoke with state:', this.crashState);
-        huawei.AGC.Crash.CrashService.enableCrashCollection(this.crashState);
+         huawei.agc.crash.CrashService.enableCrashCollection(this.crashState);
         this.crashState = !this.crashState;
     },
 
     testJavaCrash() {
         let time = 5;
-        this.console.log(time, '秒后程序崩溃，崩溃后请重启程序等候几秒，再去 AGC 后台查看崩溃日志');
+        this.console.log('app will crash in ', time, ' seconds, please restart the app and wait for a while and then check the crash at AGC website at last');
         this.scheduleOnce(() => {
-            huawei.AGC.Crash.CrashService.testIt();
+             huawei.agc.crash.CrashService.testIt();
 
         }, time);
     },
 
     testNativeCrash() {
         let time = 5;
-        this.console.log(time, '秒后程序崩溃，崩溃后请重启程序等候几秒，再去 AGC 后台查看崩溃日志');
+        this.console.log('app will crash in ', time, ' seconds, please restart the app and wait for a while and then check the crash at AGC website at last');
         this.scheduleOnce(() => {
             crashTest && crashTest();
         }, time);

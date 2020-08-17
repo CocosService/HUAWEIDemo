@@ -36,19 +36,19 @@ cc.Class({
         sceneName = sceneName.toLowerCase();
         switch (sceneName) {
             case 'analytics':
-                turnOn = !!(huawei.HMS && huawei.HMS.Analytics && huawei.HMS.Analytics.analyticsService);
+                turnOn = !!(huawei.hms && huawei.hms.analytics && huawei.hms.analytics.analyticsService);
                 break;
             case 'applinking':
-                turnOn = !!(huawei.AGC && huawei.AGC.AppLinking &&huawei.AGC.AppLinking.appLinkingService);
+                turnOn = !!(huawei.agc && huawei.agc.applinking &&huawei.agc.applinking.appLinkingService);
                 break;
             case 'appmessaging':
-                turnOn = !!(huawei.AGC && huawei.AGC.AppMessaging && huawei.AGC.AppMessaging.appMessagingService);
+                turnOn = !!(huawei.agc && huawei.agc.appmessaging && huawei.agc.appmessaging.appMessagingService);
                 break;
             case 'crash':
-                turnOn = !!(huawei.AGC && huawei.AGC.Crash && huawei.AGC.Crash.CrashService);
+                turnOn = !!(huawei.agc && huawei.agc.crash && huawei.agc.crash.CrashService);
                 break;
             case 'location':
-                turnOn = !!(huawei.HMS && huawei.HMS.Location && huawei.HMS.Location.locationService);
+                turnOn = !!(huawei.hms && huawei.hms.location && huawei.hms.location.locationService);
                 break;
             default:
                 break;

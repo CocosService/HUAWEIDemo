@@ -19,21 +19,21 @@ cc.Class({
      * https://developer.huawei.com/consumer/cn/doc/development/HMS-Guides/event_description
      */
     startLevel() {
-        let type = huawei.HMS.Analytics.HAEventType;
-        let param = huawei.HMS.Analytics.HAParamType;
+        let type =  huawei.hms.analytics.HAEventType;
+        let param =  huawei.hms.analytics.HAParamType;
         let params = {};
         params[param.LEVELNAME] = 'wzm666';
-        huawei.HMS.Analytics.analyticsService.onEvent(type.STARTLEVEL, params);
+         huawei.hms.analytics.analyticsService.onEvent(type.STARTLEVEL, params);
         this.console.log('onEvent', type.STARTLEVEL, 'params is', JSON.stringify(params));
     },
 
     completeLevel() {
-        let type = huawei.HMS.Analytics.HAEventType;
-        let param = huawei.HMS.Analytics.HAParamType;
+        let type =  huawei.hms.analytics.HAEventType;
+        let param =  huawei.hms.analytics.HAParamType;
         let params = {};
         params[param.LEVELNAME] = 'wzm666';
         params[param.RESULT] = 'success';
-        huawei.HMS.Analytics.analyticsService.onEvent(type.COMPLETELEVEL, params);
+         huawei.hms.analytics.analyticsService.onEvent(type.COMPLETELEVEL, params);
         this.console.log('onEvent', type.COMPLETELEVEL, 'params is', JSON.stringify(params));
     },
 
@@ -48,7 +48,7 @@ cc.Class({
                 six: 'six six six'
             }
         };
-        huawei.HMS.Analytics.analyticsService.onEvent(eventName, params);
+         huawei.hms.analytics.analyticsService.onEvent(eventName, params);
         this.console.log('onEvent', eventName, 'params is', JSON.stringify(params));
     }
     // update (dt) {},
