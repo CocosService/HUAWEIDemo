@@ -183,7 +183,7 @@
       "array": [
         0,
         0,
-        434.7312747498657,
+        368.06079660838645,
         0,
         0,
         0,
@@ -1210,7 +1210,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 160,
+      "width": 191.17,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1263,8 +1263,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "崩溃测试",
-    "_N$string": "崩溃测试",
+    "_string": "Crash Test",
+    "_N$string": "Crash Test",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,

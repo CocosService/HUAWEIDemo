@@ -85,7 +85,7 @@ cc.Class({
             this.receiveLocationUpdate();
             huawei.hms.location.locationService.requestLocationUpdates();
         } else {
-            this.console.error('没有定位权限');
+            this.console.error('have not location permission');
         }
     },
 
