@@ -1,4 +1,3 @@
-const hasAPMS = huawei && huawei.agc && huawei.agc.apms && huawei.agc.apms.apmsService && huawei.agc.apms.apmsService.support ? true : false;
 cc.Class({
   extends: cc.Component,
 
@@ -23,7 +22,8 @@ cc.Class({
 
 
   start() {
-    if (hasAPMS) this._apms = huawei.agc.apms.apmsService;
+    this.hasAPMS = huawei && huawei.agc && huawei.agc.apms && huawei.agc.apms.apmsService && huawei.agc.apms.apmsService.support ? true : false;
+    if (this.hasAPMS) this._apms = huawei.agc.apms.apmsService;
     this._customTraceName = '';
     this._execNetWorkMeasure = false;
   },
@@ -31,13 +31,13 @@ cc.Class({
   startCustomTrace() {
     if (this._customTraceName !== '') return;
     this._customTraceName = "customTrace1";
-    hasAPMS && this._apms.startCustomTrace(this._customTraceName);
+    this.hasAPMS && this._apms.startCustomTrace(this._customTraceName);
     this.console.log('APMS', "start custom trace, trace name : " + this._customTraceName);
   },
 
   stopCustomTrace() {
     if (this._customTraceName === '') return;
-    hasAPMS && this._apms.stopCustomTrace(this._customTraceName);
+    this.hasAPMS && this._apms.stopCustomTrace(this._customTraceName);
     this.console.log('APMS', "stop custom trace, trace name : " + this._customTraceName);
     this._customTraceName = '';
   },
@@ -45,13 +45,13 @@ cc.Class({
   networkMeasure() {
     if (this._execNetWorkMeasure) return;
     let url = "https://api.apiopen.top/getJoke?page=1&count=2&type=video";
-    let networkMeasureId = hasAPMS ? this._apms.initNetworkMeasure(url, 'POST') : "";
+    let networkMeasureId = this.hasAPMS ? this._apms.initNetworkMeasure(url, 'POST') : "";
     this.console.log('APMS', "start network measure, id : " + networkMeasureId);
     this.console.log('APMS', "POST: " + url);
-    hasAPMS && this._apms.startNetworkMeasure(networkMeasureId);
+    this.hasAPMS && this._apms.startNetworkMeasure(networkMeasureId);
     this.httpPost(url).then(res => {
       console.log(JSON.parse(res));
-      hasAPMS && this._apms.stopNetworkMeasure(networkMeasureId);
+      this.hasAPMS && this._apms.stopNetworkMeasure(networkMeasureId);
       this.console.log('APMS', "stop network measure, id : " + networkMeasureId);
     });
   },

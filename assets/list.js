@@ -52,11 +52,12 @@ cc.Class({
         break;
       case 'apms':
         turnOn = !!(huawei && huawei.agc && huawei.agc.apms && huawei.agc.apms.apmsService && huawei.agc.apms.apmsService.support);
+        break;
       case 'remoteconfig':
         turnOn = !!(huawei && huawei.agc && huawei.agc.rc && huawei.agc.rc.rcService && huawei.agc.rc.rcService.support);
         break;
       case 'auth':
-        turnOn = !!(huawei.AGC && huawei.AGC.auth && huawei.AGC.auth.switchAuthType);
+        turnOn = !!(huawei && huawei.agc && huawei.agc.auth && huawei.agc.auth.authService && huawei.agc.auth.authService.support);
         break;
       default:
         break;

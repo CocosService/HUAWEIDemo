@@ -1,4 +1,3 @@
-const hasAuth = huawei && huawei.AGC && huawei.AGC.auth && huawei.AGC.auth.switchAuthType ? true : false;
 cc.Class({
   extends: cc.Component,
 
@@ -9,12 +8,13 @@ cc.Class({
 
 
   start() {
-    if (!hasAuth) return;
-    this._auth = huawei.AGC.auth;
+    this.hasAuth = huawei && huawei.agc && huawei.agc.auth && huawei.agc.auth.authService && huawei.agc.auth.authService.support ? true : false;
+    if (!this.hasAuth) return;
+    this._auth = huawei.agc.auth.authService;
     let usedProviders = JSON.parse(this._auth.getSupportAuthType());
     console.log(usedProviders);
-    for (var key in this._auth.AuthProvider) {
-      let value = this._auth.AuthProvider[key]
+    for (var key in huawei.agc.auth.AuthProvider) {
+      let value = huawei.agc.auth.AuthProvider[key]
       if (typeof usedProviders.find(e => e === value) !== 'undefined') {
         let prefab = cc.instantiate(this.BtnItem);
         prefab.getComponent('BtnItem').init(key, () => {

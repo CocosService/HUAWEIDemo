@@ -1,4 +1,3 @@
-const hasAuth = huawei && huawei.AGC && huawei.AGC.auth && huawei.AGC.auth.switchAuthType ? true : false;
 cc.Class({
   extends: cc.Component,
 
@@ -8,7 +7,8 @@ cc.Class({
   },
 
   start() {
-    if (!hasAuth) return;
+    this.hasAuth = huawei && huawei.agc && huawei.agc.auth && huawei.agc.auth.authService && huawei.agc.auth.authService.support ? true : false;
+    if (!this.hasAuth) return;
     this.loginInfo = {
       email: 'test@test.com', // email provider need
       phoneNumber: "181********", // phone provider need
@@ -16,7 +16,7 @@ cc.Class({
       verifyCode: "", // after get user info nend reset login info with verify code
       action: "register", // regiser, reset
     }
-    this._auth = huawei.AGC.auth;
+    this._auth = huawei.agc.auth.authService;
     this._auth.setAuthListener((retCode, msg) => this.console.log("Auth", `${retCode}: ${msg}`))
   },
 
@@ -26,17 +26,17 @@ cc.Class({
 
   switchAuthType() {
     cc.director.loadScene('providers');
-    if (!hasAuth) return;
+    if (!this.hasAuth) return;
     this._auth.action = 'login';
   },
 
   onDestroy() {},
 
   login() {
-    if (!hasAuth) return;
+    if (!this.hasAuth) return;
     if (typeof this._auth.loginAuthType == 'undefined') return this.console.log("Auth", `please click Switch Auth Provider!`);
     this._auth.switchAuthType(this._auth.loginAuthType);
-    if (this._auth.loginAuthType === this._auth.AuthProvider.Phone_Provider || this._auth.loginAuthType === this._auth.AuthProvider.Email_Provider) {
+    if (this._auth.loginAuthType === huawei.agc.auth.AuthProvider.Phone_Provider || this._auth.loginAuthType === huawei.agc.auth.AuthProvider.Email_Provider) {
       if (!this.verifyCode.string) return this.console.log('Auth', 'Please input verify code!');
       this.loginInfo.verifyCode = this.verifyCode.string;
       this._auth.setLoginInfo(this.loginInfo);
@@ -46,17 +46,17 @@ cc.Class({
 
   logout() {
     this._auth.switchAuthType(this._auth.loginAuthType);
-    hasAuth && this._auth.logout();
+    this.hasAuth && this._auth.logout();
   },
 
   getVerifyCode() {
     this._auth.switchAuthType(this._auth.loginAuthType);
-    hasAuth && this._auth.setLoginInfo(this.loginInfo);
-    hasAuth && this._auth.getVerifyCode();
+    this.hasAuth && this._auth.setLoginInfo(this.loginInfo);
+    this.hasAuth && this._auth.getVerifyCode();
   },
 
   getUserInfo() {
-    if (!hasAuth) return;
+    if (!this.hasAuth) return;
     let userInfo = this._auth.getUserInfo();
     this.console.log('Auth', JSON.stringify(userInfo));
   },

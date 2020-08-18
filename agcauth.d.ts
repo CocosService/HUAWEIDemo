@@ -1,5 +1,17 @@
+/**
+ * @internal
+ */
+declare const jsb: {
+    reflection: {
+        callStaticMethod: (...args: any) => any;
+    };
+};
+/**
+ * @internal
+ */
+declare const cc: any;
 declare namespace huawei {
-    namespace AGC {
+    namespace agc {
         namespace auth {
             enum AuthProvider {
                 /**
@@ -423,122 +435,138 @@ declare namespace huawei {
             interface AuthListener {
                 (retCode: number, msg: string): void;
             }
-            /**
-             * set the listener for auth
-             * @param {AuthListener} listener auth listener
-             */
-            function setAuthListener(listener: AuthListener): void;
-            /**
-             * switch current used provider
-             * @param { AuthProvider } authType auth provider tag
-             */
-            function switchAuthType(authType: AuthProvider): void;
-            /**
-             * Get support providers, link "[0, 1, 2]"
-             */
-            function getSupportAuthType(): String;
-            /**
-             * User login
-             */
-            function login(): void;
-            /**
-             * user logout
-             */
-            function logout(): void;
-            /**
-             * Current user link other provider
-             * @param { AuthProvider } authType other provider tage
-             */
-            function link(authType: AuthProvider): void;
-            /**
-             * Get verify code (only user the Email or Phone provider)
-             */
-            function getVerifyCode(): void;
-            /**
-             * User regiser (only user the Email or Phone provider)
-             */
-            function register(): void;
-            /**
-             * Set user regiser or login info (only user the Email or Phone provider)
-             * this function invoked must before the other functions
-             * @param loginInfo
-             * @example
-             * ```
-             * let loginInfo = {
-             *    email: '953459485#qq.com',  // email provider need
-             *    phoneNumber: "18166036531", // phone provider need
-             *    countryCode: "86",          // phone provider need
-             *    verifyCode: code,           // after get user info nend reset login info with verify code
-             *    action: "register",         // regiser, reset
-             * }
-             * ```
-             */
-            function setLoginInfo(loginInfo: any): void;
-            /**
-             * Get Current User
-             * ```
-             * let userInfo = {
-             *    isAnonymous: false,
-             *    uid: "123",
-             *    displayName: "123" ,
-             *    photoUrl: "123",
-             *    email: "123",
-             *    phone: "123",
-             *    providerId: "1",
-             *    providerInfo: "123",
-             *    emailVerified: 1,
-             *    passwordSetted : 1,
-             * }
-             * ```
-             */
-            function getUserInfo(): any;
-            /**
-             * Get User token
-             * @param forceRefresh is force
-             */
-            function getToken(forceRefresh: boolean): void;
-            /**
-             * update user profile
-             * @param displayName display name
-             * @param photoUrl    photo url
-             */
-            function updateProfile(displayName: String, photoUrl: String): void;
-            /**
-             * update user password
-             * @param newPassword new password
-             * @param verifyCode  verify code
-             * @param provider    userd provider
-             */
-            function updatePassword(newPassword: String, verifyCode: String, provider: AuthProvider): void;
-            /**
-             * update user email
-             * @param newEmail new email
-             * @param newVerifyCode verify code
-             */
-            function updateEmail(newEmail: String, newVerifyCode: String): void;
-            /**
-             * update user phone
-             * @param countryCode country code
-             * @param phoneNumber phone number
-             * @param newVerifyCode  verify code
-             */
-            function updatePhone(countryCode: String, phoneNumber: String, newVerifyCode: String): void;
-            /**
-             * get user extra info
-             */
-            function getUserExtra(): void;
-            /**
-             * delete user
-             */
-            function deleteUser(): void;
-            /**
-             * reset user password
-             * @param emailOrPhone email ro phone
-             * @param newPassword  new passowrd
-             * @param verifyCode   verify code
-             * @param countryCode  country code (if use email ,the donot fill this paramter)
-             */
-            function resetPassword(emailOrPhone: String, newPassword: String, verifyCode: String, countryCode?: string): void;
+            class AGCAuthBaseService {
+                static callStaticMethod(...args: (number | boolean | string)[]): any;
+            }
+            class AGCAuthService extends AGCAuthBaseService {
+                private cls_ServiceAGCAuth;
+                support: boolean;
+                listener: AuthListener;
+                /**
+                 * set the listener for auth
+                 * @param {AuthListener} listener auth listener
+                 */
+                setAuthListener(listener: AuthListener): void;
+                /**
+                 * switch current used provider
+                 * @param { AuthProvider } authType auth provider tag
+                 */
+                switchAuthType(authType: AuthProvider): void;
+                /**
+                 * Get support providers, link "[0, 1, 2]"
+                 */
+                getSupportAuthType(): string;
+                /**
+                 * User login
+                 */
+                login(): void;
+                /**
+                 * user logout
+                 */
+                logout(): void;
+                /**
+                 * Current user link other provider
+                 * @param { AuthProvider } authType other provider tage
+                 */
+                link(authType: AuthProvider): void;
+                /**
+                 * Get verify code (only user the Email or Phone provider)
+                 */
+                getVerifyCode(): void;
+                /**
+                 * User regiser (only user the Email or Phone provider)
+                 */
+                register(): void;
+                /**
+                 * Set user regiser or login info (only user the Email or Phone provider)
+                 * this function invoked must before the other functions
+                 * @param loginInfo
+                 * @example
+                 * ```
+                 * let loginInfo = {
+                 *    email: '953459485#qq.com',  // email provider need
+                 *    phoneNumber: "18166036531", // phone provider need
+                 *    countryCode: "86",          // phone provider need
+                 *    verifyCode: code,           // after get user info nend reset login info with verify code
+                 *    action: "register",         // regiser, reset
+                 * }
+                 * ```
+                 */
+                setLoginInfo(loginInfo: any): void;
+                /**
+                 * Get Current User
+                 * ```
+                 * let userInfo = {
+                 *    isAnonymous: false,
+                 *    uid: "123",
+                 *    displayName: "123" ,
+                 *    photoUrl: "123",
+                 *    email: "123",
+                 *    phone: "123",
+                 *    providerId: "1",
+                 *    providerInfo: "123",
+                 *    emailVerified: 1,
+                 *    passwordSetted : 1,
+                 * }
+                 * ```
+                 */
+                getUserInfo(): any;
+                /**
+                 * Get User token
+                 * @param forceRefresh is force
+                 */
+                getToken(forceRefresh: boolean): void;
+                /**
+                 * update user profile
+                 * @param displayName display name
+                 * @param photoUrl    photo url
+                 */
+                updateProfile(displayName: string, photoUrl: string): void;
+                /**
+                 * update user password
+                 * @param newPassword new password
+                 * @param verifyCode  verify code
+                 * @param provider    userd provider
+                 */
+                updatePassword(newPassword: string, verifyCode: string, provider: AuthProvider): void;
+                /**
+                 * update user email
+                 * @param newEmail new email
+                 * @param newVerifyCode verify code
+                 */
+                updateEmail(newEmail: string, newVerifyCode: string): void;
+                /**
+                 * update user phone
+                 * @param countryCode country code
+                 * @param phoneNumber phone number
+                 * @param newVerifyCode  verify code
+                 */
+                updatePhone(countryCode: string, phoneNumber: string, newVerifyCode: string): void;
+                /**
+                 * get user extra info
+                 */
+                getUserExtra(): void;
+                /**
+                 * delete user
+                 */
+                deleteUser(): void;
+                /**
+                 * reset user password
+                 * @param emailOrPhone email ro phone
+                 * @param newPassword  new passowrd
+                 * @param verifyCode   verify code
+                 * @param countryCode  country code (if use email ,the donot fill this paramter)
+                 */
+                resetPassword(emailOrPhone: string, newPassword: string, verifyCode: string, countryCode?: string): void;
+                /**
+                 * receive result info
+                 * @param retCode result code
+                 * @param msg     result info
+                 * @internal
+                 */
+                onAuthResult(retCode: number, msg: string): void;
+            }
+            const authService: AGCAuthService;
         }
     }
 }
