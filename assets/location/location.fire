@@ -192,7 +192,7 @@
       "array": [
         0,
         0,
-        434.7312747498657,
+        314.5296013369608,
         0,
         0,
         0,
@@ -628,7 +628,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -160.5,
+        -190.709,
         563.265,
         0,
         0,
@@ -1725,7 +1725,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 211.11,
+      "width": 431.29,
       "height": 80
     },
     "_anchorPoint": {
@@ -1737,8 +1737,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        205.52,
-        571.795,
+        147.619,
+        574.312,
         0,
         0,
         0,
@@ -1789,7 +1789,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 160,
+      "width": 360.18,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1801,7 +1801,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -25.555000000000007,
+        -35.55500000000001,
         0,
         0,
         0,
@@ -1842,8 +1842,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "定位权限",
-    "_N$string": "定位权限",
+    "_string": "Location Permission",
+    "_N$string": "Location Permission",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1910,7 +1910,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        59.99999999999999,
+        150.09,
         0,
         0,
         0,
@@ -2007,7 +2007,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 40,
+      "width": 60,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -2019,7 +2019,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        85.55499999999999,
+        185.645,
         0,
         0,
         0,
@@ -2060,8 +2060,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "无",
-    "_N$string": "无",
+    "_string": "NO",
+    "_N$string": "NO",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2099,7 +2099,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 211.11,
+      "width": 431.29,
       "height": 80
     },
     "_resize": 1,
@@ -2389,7 +2389,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 240,
+      "width": 280,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -2442,8 +2442,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "申请定位权限",
-    "_N$string": "申请定位权限",
+    "_string": "Check Permission",
+    "_N$string": "Check Permission",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2456,7 +2456,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 2,
     "_N$cacheMode": 0,
     "_id": "75T4fqAeRBOpwp04kfOE0V"
   },
@@ -2845,7 +2845,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 160,
+      "width": 280,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -2898,8 +2898,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "最后位置",
-    "_N$string": "最后位置",
+    "_string": "getLastLocation",
+    "_N$string": "getLastLocation",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2912,7 +2912,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 2,
     "_N$cacheMode": 0,
     "_id": "34tAfzyQNHYaWaTbo/t1jM"
   },
@@ -3301,7 +3301,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 160,
+      "width": 280.21,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3354,8 +3354,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "持续定位",
-    "_N$string": "持续定位",
+    "_string": "RequestLocationUpdate",
+    "_N$string": "RequestLocationUpdate",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -3368,7 +3368,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 2,
     "_N$cacheMode": 0,
     "_id": "c1oapR3D5PIpLgOc2Gm77m"
   },
@@ -3757,7 +3757,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 240,
+      "width": 280,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3810,8 +3810,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "取消持续定位",
-    "_N$string": "取消持续定位",
+    "_string": "removeLocationUpdates",
+    "_N$string": "removeLocationUpdates",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -3824,7 +3824,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 2,
     "_N$cacheMode": 0,
     "_id": "7bHZOIfPpKloNQ/IbI6zrT"
   },
@@ -4213,7 +4213,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 160,
+      "width": 173.46,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -4266,8 +4266,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "地理围栏",
-    "_N$string": "地理围栏",
+    "_string": "Geofence",
+    "_N$string": "Geofence",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -4669,7 +4669,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 126.68,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -4722,8 +4722,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "活动",
-    "_N$string": "活动",
+    "_string": "Activity",
+    "_N$string": "Activity",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,

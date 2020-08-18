@@ -21,28 +21,28 @@ cc.Class({
     },
 
     checkPermission() {
-        this.console.log('开始检查权限');
-        huawei.HMS.Location.locationService.once(huawei.HMS.Location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LOCATION_SETTINGS, (result) => {
-            if (result.code === huawei.HMS.Location.LocationActivityService.StatusCode.success) {
-                this.console.log('获取权限成功');
+        this.console.log('Check permission');
+        huawei.hms.location.locationService.once(huawei.hms.location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LOCATION_SETTINGS, (result) => {
+            if (result.code === huawei.hms.location.LocationActivityService.StatusCode.success) {
+                this.console.log('Check permission success');
                 this.hasPermission = true;
             } else {
                 this.requestLocationPermission();
             }
             this.checkPermissionTips();
         });
-        huawei.HMS.Location.locationService.checkLocationSettings();
+        huawei.hms.location.locationService.checkLocationSettings();
     },
 
     checkPermissionTips() {
-        this.permission.getComponent('Prop').setValue(this.hasPermission ? "是" : "否");
+        this.permission.getComponent('Prop').setValue(this.hasPermission ? "Yes" : "No");
     },
     returnClick() {
         cc.director.loadScene('list');
     },
 
     onDestroy() {
-        huawei.HMS.Location.locationService.targetOff(this);
+        huawei.hms.location.locationService.targetOff(this);
     },
 
     updateLocationTips(location) {
@@ -50,42 +50,42 @@ cc.Class({
         this.mLat.getComponent('Prop').setValue(location.latitude);
     },
     getLastLocation() {
-        this.console.log('获取最后位置');
+        this.console.log('Get last location');
         if (this.hasPermission) {
-            huawei.HMS.Location.locationService.once(huawei.HMS.Location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LAST_LOCATION, (location) => {
-                if (location.code === huawei.HMS.Location.LocationActivityService.StatusCode.success) {
-                    this.console.log('获取最后位置成功 lon:' + location.longitude + ",lat:" + location.latitude);
+            huawei.hms.location.locationService.once(huawei.hms.location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LAST_LOCATION, (location) => {
+                if (location.code === huawei.hms.location.LocationActivityService.StatusCode.success) {
+                    this.console.log('get last location lon:' + location.longitude + ",lat:" + location.latitude);
                     this._location = location;
                     this.updateLocationTips(location);
                 } else {
-                    this.console.log('获取最后位置失败，原因：', location.errMsg);
+                    this.console.log('get last location fail，reason：', location.errMsg);
                 }
             });
-            huawei.HMS.Location.locationService.getLastLocation();
+            huawei.hms.location.locationService.getLastLocation();
         } else {
-            this.console.error('没有定位权限');
+            this.console.error('have not location permission');
         }
     },
 
     requestLocationUpdate() {
-        this.console.log('持续定位开启');
+        this.console.log('invoke location update');
         if (this.hasPermission) {
-            huawei.HMS.Location.locationService.setLocationInterval(10000);
+            huawei.hms.location.locationService.setLocationInterval(10000);
             //100是gps，102是网络，室内gps信号弱会自己换成网络
-            huawei.HMS.Location.locationService.setLocationPriority(100);
+            huawei.hms.location.locationService.setLocationPriority(100);
 
-            huawei.HMS.Location.locationService.once(huawei.HMS.Location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_REQUEST_LOCATION_UPDATE, (result) => {
-                if (result.code === huawei.HMS.Location.LocationActivityService.StatusCode.success) {
-                    this.console.log('持续定位开启成功');
+            huawei.hms.location.locationService.once(huawei.hms.location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_REQUEST_LOCATION_UPDATE, (result) => {
+                if (result.code === huawei.hms.location.LocationActivityService.StatusCode.success) {
+                    this.console.log('invoke location update success');
                 } else {
-                    this.console.log('持续定位开启失败，原因：', result.errMsg);
+                    this.console.log('invoke location update fail，reason：', result.errMsg);
                 }
             });
 
             this.receiveLocationUpdate();
-            huawei.HMS.Location.locationService.requestLocationUpdates();
+            huawei.hms.location.locationService.requestLocationUpdates();
         } else {
-            this.console.error('没有定位权限');
+            this.console.error('have not location permission');
         }
     },
 
@@ -94,40 +94,40 @@ cc.Class({
             return;
         }
         this.receiveLocationInvoked = true;
-        huawei.HMS.Location.locationService.on(huawei.HMS.Location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LOCATION_UPDATES, (location) => {
-            if (location.code === huawei.HMS.Location.LocationActivityService.StatusCode.success) {
-                this.console.log('获得持续定位：lon', location.longitude, 'lat :', location.latitude);
+        huawei.hms.location.locationService.on(huawei.hms.location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LOCATION_UPDATES, (location) => {
+            if (location.code === huawei.hms.location.LocationActivityService.StatusCode.success) {
+                this.console.log('receive location：lon', location.longitude, 'lat :', location.latitude);
                 this.updateLocationTips(location);
             } else {
-                this.console.log('持续定位失败，原因：', location.errMsg);
+                this.console.log('location update fail，reason：', location.errMsg);
             }
         }, this);
     },
 
     removeLocationUpdate() {
-        this.console.log('取消持续定位');
-        huawei.HMS.Location.locationService.once(huawei.HMS.Location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_REMOVE_LOCATION_UPDATE, (result) => {
-            if (result.code === huawei.HMS.Location.LocationActivityService.StatusCode.success) {
-                this.console.log('取消持续定位成功');
+        this.console.log('remove location update');
+        huawei.hms.location.locationService.once(huawei.hms.location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_REMOVE_LOCATION_UPDATE, (result) => {
+            if (result.code === huawei.hms.location.LocationActivityService.StatusCode.success) {
+                this.console.log('remove location update success');
             } else {
-                this.console.log('持续定位关闭失败，原因：', result.errMsg);
+                this.console.log('remove location update，reason：', result.errMsg);
             }
         });
-        huawei.HMS.Location.locationService.removeLocationUpdates();
+        huawei.hms.location.locationService.removeLocationUpdates();
     },
 
     requestLocationPermission() {
-        this.console.log('开始请求权限');
-        huawei.HMS.Location.locationService.once(huawei.HMS.Location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LOCATION_PERMISSION, (result) => {
-            if (result.code === huawei.HMS.Location.LocationActivityService.StatusCode.success) {
-                this.console.log('获取权限成功');
+        this.console.log('request location permission');
+        huawei.hms.location.locationService.once(huawei.hms.location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_LOCATION_PERMISSION, (result) => {
+            if (result.code === huawei.hms.location.LocationActivityService.StatusCode.success) {
+                this.console.log('request location permission success');
                 this.hasPermission = true;
                 this.checkPermissionTips();
             } else {
-                this.console.log('获取权限失败', result.errMsg);
+                this.console.log('request location permission fail,reason:', result.errMsg);
             }
         });
-        huawei.HMS.Location.locationService.requestLocationPermission();
+        huawei.hms.location.locationService.requestLocationPermission();
     },
 
     activityClick() {
