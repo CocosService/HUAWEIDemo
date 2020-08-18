@@ -1,60 +1,77 @@
-(function () {
-  let _global = globalThis || global || window || self;
-  _global.huawei = _global.huawei || {};
-  huawei.AGC = huawei.AGC || {};
-  huawei.AGC.remoteConfig = huawei.AGC.remoteConfig || {};
-  huawei.AGC.remoteConfig.RemoteConfigRetCode = {
-    FETCH_SUCCESS: 1000,
-    FETCH_FAILED: 1100
-  }
-  huawei.AGC.remoteConfig.RemoteConfigSource = {
-    STATIC: 0,
-    DEFAULT: 1,
-    REMOTE: 2
-  }
-  huawei.AGC.remoteConfig.setRemoteConfigListener = (listener) => {
-    if (typeof listener !== 'function') throw new TypeError("the listener not be Function");
-    huawei.AGC.remoteConfig.listener = listener;
-  };
-  if (!_global.jsb || !jsb.reflection) return;
-  // Only Android support AGC Remote Config
-  if (cc.sys.os === cc.sys.OS_ANDROID) {
-    let cls_ServiceAGCRemoteConfig = "org/cocos2dx/javascript/service/ServiceAGCRemoteConfig";
-    huawei.AGC.remoteConfig.fetchAndApply = (intervalSeconds = -1) => {
-      jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "fetchAndApply", "(J)V", intervalSeconds);
-    }
-    huawei.AGC.remoteConfig.fetch = (intervalSeconds = -1) => {
-      jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "fetch", "(J)V", intervalSeconds);
-    }
-    huawei.AGC.remoteConfig.applyLastFetched = () => {
-      jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "applyLastFetched", "()V");
-    }
-    huawei.AGC.remoteConfig.getValueAsBoolean = (key) => {
-      return jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "getValueAsBoolean", "(Ljava/lang/String;)Z", key);
-    }
-    huawei.AGC.remoteConfig.getValueAsDouble = (key) => {
-      return jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "getValueAsDouble", "(Ljava/lang/String;)F", key);
-    }
-    huawei.AGC.remoteConfig.getValueAsLong = (key) => {
-      return jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "getValueAsLong", "(Ljava/lang/String;)I", key);
-    }
-    huawei.AGC.remoteConfig.getValueAsString = (key) => {
-      return jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "getValueAsString", "(Ljava/lang/String;)Ljava/lang/String;", key);
-    }
-    huawei.AGC.remoteConfig.getMergedAll = () => {
-      return JSON.parse(jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "getMergedAll", "()Ljava/lang/String;"));
-    }
-    huawei.AGC.remoteConfig.getSource = (key) => {
-      return jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "getSource", "(Ljava/lang/String;)I", key);
-    }
-    huawei.AGC.remoteConfig.clearAll = () => {
-      jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "clearAll", "()V");
-    }
-    huawei.AGC.remoteConfig.setDeveloperMode = (isDeveloperMode) => {
-      jsb.reflection.callStaticMethod(cls_ServiceAGCRemoteConfig, "setDeveloperMode", "(Z)V", isDeveloperMode);
-    }
-    huawei.AGC.remoteConfig.onRemoteConfigResult = (retCode, msg) => {
-      huawei.AGC.remoteConfig.listener && huawei.AGC.remoteConfig.listener(retCode, msg);
-    };
-  }
-})();
+"use strict";
+var huawei;
+(function (huawei) {
+    let agc;
+    (function (agc) {
+        let rc;
+        (function (rc) {
+            let RemoteConfigRetCode;
+            (function (RemoteConfigRetCode) {
+                RemoteConfigRetCode[RemoteConfigRetCode["FETCH_SUCCESS"] = 1000] = "FETCH_SUCCESS";
+                RemoteConfigRetCode[RemoteConfigRetCode["FETCH_FAILED"] = 1100] = "FETCH_FAILED";
+            })(RemoteConfigRetCode = rc.RemoteConfigRetCode || (rc.RemoteConfigRetCode = {}));
+            let RemoteConfigSource;
+            (function (RemoteConfigSource) {
+                RemoteConfigSource[RemoteConfigSource["STATIC"] = 0] = "STATIC";
+                RemoteConfigSource[RemoteConfigSource["DEFAULT"] = 1] = "DEFAULT";
+                RemoteConfigSource[RemoteConfigSource["REMOTE"] = 2] = "REMOTE";
+            })(RemoteConfigSource = rc.RemoteConfigSource || (rc.RemoteConfigSource = {}));
+            class AGCRCBaseService {
+                static callStaticMethod(...args) {
+                    return jsb.reflection.callStaticMethod(...args);
+                }
+            }
+            rc.AGCRCBaseService = AGCRCBaseService;
+            class AGCRCService extends AGCRCBaseService {
+                constructor() {
+                    super(...arguments);
+                    this.cls_ServiceAGCRemoteConfig = "org/cocos2dx/javascript/service/ServiceAGCRemoteConfig";
+                    this.listener = null;
+                }
+                setRemoteConfigListener(listener) {
+                    this.listener = listener;
+                }
+                fetchAndApply(intervalSeconds = -1) {
+                    AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "fetchAndApply", "(J)V", intervalSeconds);
+                }
+                fetch(intervalSeconds = -1) {
+                    AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "fetch", "(J)V", intervalSeconds);
+                }
+                applyLastFetched() {
+                    AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "applyLastFetched", "()V");
+                }
+                getValueAsBoolean(key) {
+                    return AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "getValueAsBoolean", "(Ljava/lang/String;)Z", key);
+                }
+                getValueAsDouble(key) {
+                    return AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "getValueAsDouble", "(Ljava/lang/String;)F", key);
+                }
+                getValueAsLong(key) {
+                    return AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "getValueAsLong", "(Ljava/lang/String;)I", key);
+                }
+                getValueAsString(key) {
+                    return AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "getValueAsString", "(Ljava/lang/String;)Ljava/lang/String;", key);
+                }
+                getMergedAll() {
+                    return JSON.parse(AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "getMergedAll", "()Ljava/lang/String;"));
+                }
+                getSource(key) {
+                    return AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "getSource", "(Ljava/lang/String;)I", key);
+                }
+                clearAll() {
+                    AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "clearAll", "()V");
+                }
+                setDeveloperMode(isDeveloperMode) {
+                    AGCRCService.callStaticMethod(this.cls_ServiceAGCRemoteConfig, "setDeveloperMode", "(Z)V", isDeveloperMode);
+                }
+                onRemoteConfigResult(retCode, msg) {
+                    this.listener && this.listener(retCode, msg);
+                }
+                ;
+            }
+            rc.AGCRCService = AGCRCService;
+            rc.rcService = new AGCRCService();
+            rc.rcService.support = typeof jsb !== 'undefined' && cc.sys.os === cc.sys.OS_ANDROID;
+        })(rc = agc.rc || (agc.rc = {}));
+    })(agc = huawei.agc || (huawei.agc = {}));
+})(huawei || (huawei = {}));

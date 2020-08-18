@@ -10,7 +10,11 @@
 			"services": [
 				{
 					"service_id": "303",
-					"enable": true
+					"enable": true,
+					"params": {
+						"configFilePath": "/Users/macos/Source/ccServices/HUAWEIDemo/settings/agconnect-services.json",
+						"plugin_version": "0.5.0_1.3.1"
+					}
 				},
 				{
 					"service_id": "235",

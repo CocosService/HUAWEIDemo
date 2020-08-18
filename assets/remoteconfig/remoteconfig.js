@@ -1,4 +1,4 @@
-const hasRemoteConfig = huawei && huawei.AGC && huawei.AGC.remoteConfig && huawei.AGC.remoteConfig.fetch ? true : false;
+const hasRemoteConfig = huawei && huawei.agc && huawei.agc.rc && huawei.agc.rc.rcService && huawei.agc.rc.rcService.support ? true : false;
 cc.Class({
   extends: cc.Component,
 
@@ -8,7 +8,7 @@ cc.Class({
 
   start() {
     if (!hasRemoteConfig) return;
-    this._remoteConfig = huawei.AGC.remoteConfig;
+    this._remoteConfig = huawei.agc.rc.rcService;
     this._remoteConfig.setRemoteConfigListener((retCode, msg) => this.console.log("RemoteConfig", `${retCode}: ${msg}`))
   },
 
