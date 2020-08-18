@@ -64,7 +64,5 @@ cc.Class({
     }
     return turnOn;
   }
-}
-
-// update (dt) {},
+  // update (dt) {},
 });
