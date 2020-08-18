@@ -1,4 +1,4 @@
-const hasAPMS = huawei && huawei.AGC && huawei.AGC.apms && huawei.AGC.apms.enableCollection ? true : false;
+const hasAPMS = huawei && huawei.agc && huawei.agc.apms && huawei.agc.apms.apmsService && huawei.agc.apms.apmsService.support ? true : false;
 cc.Class({
   extends: cc.Component,
 
@@ -23,7 +23,7 @@ cc.Class({
 
 
   start() {
-    if (hasAPMS) this._apms = huawei.AGC.apms;
+    if (hasAPMS) this._apms = huawei.agc.apms.apmsService;
     this._customTraceName = '';
     this._execNetWorkMeasure = false;
   },

@@ -1,7 +1,7 @@
 declare namespace huawei {
     namespace AGC {
         namespace auth {
-            enum AuthProvier {
+            enum AuthProvider {
                 /**
                  * Anonymous sign-in.
                  */
@@ -430,9 +430,9 @@ declare namespace huawei {
             function setAuthListener(listener: AuthListener): void;
             /**
              * switch current used provider
-             * @param { AuthProvier } authType auth provider tag
+             * @param { AuthProvider } authType auth provider tag
              */
-            function switchAuthType(authType: AuthProvier): void;
+            function switchAuthType(authType: AuthProvider): void;
             /**
              * Get support providers, link "[0, 1, 2]"
              */
@@ -447,9 +447,9 @@ declare namespace huawei {
             function logout(): void;
             /**
              * Current user link other provider
-             * @param { AuthProvier } authType other provider tage
+             * @param { AuthProvider } authType other provider tage
              */
-            function link(authType: AuthProvier): void;
+            function link(authType: AuthProvider): void;
             /**
              * Get verify code (only user the Email or Phone provider)
              */
@@ -509,7 +509,7 @@ declare namespace huawei {
              * @param verifyCode  verify code
              * @param provider    userd provider
              */
-            function updatePassword(newPassword: String, verifyCode: String, provider: AuthProvier): void;
+            function updatePassword(newPassword: String, verifyCode: String, provider: AuthProvider): void;
             /**
              * update user email
              * @param newEmail new email

@@ -51,7 +51,7 @@ cc.Class({
         turnOn = !!(huawei.HMS && huawei.HMS.Location && huawei.HMS.Location.locationService);
         break;
       case 'apms':
-        turnOn = !!(huawei.AGC && huawei.AGC.apms && huawei.AGC.apms.enableCollection);
+        turnOn = !!(huawei && huawei.agc && huawei.agc.apms && huawei.agc.apms.apmsService && huawei.agc.apms.apmsService.support);
       case 'remoteconfig':
         turnOn = !!(huawei.AGC && huawei.AGC.remoteConfig && huawei.AGC.remoteConfig.fetch);
         break;
