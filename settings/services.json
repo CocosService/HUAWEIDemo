@@ -10,10 +10,10 @@
 			"services": [
 				{
 					"service_id": "303",
-					"enable": true,
+					"enable": false,
 					"params": {
 						"configFilePath": "/Users/macos/Source/ccServices/HUAWEIDemo/settings/agconnect-services.json",
-						"plugin_version": "0.5.0_1.3.1"
+						"plugin_version": "0.5.1_1.3.1"
 					}
 				},
 				{
@@ -39,7 +39,7 @@
 				},
 				{
 					"service_id": "308",
-					"enable": true,
+					"enable": false,
 					"params": {
 						"configFilePath": "/Users/macos/Source/ccServices/HUAWEIDemo/settings/agconnect-services.json",
 						"plugin_version": "0.5.0_1.4.0"
@@ -47,18 +47,22 @@
 				},
 				{
 					"service_id": "304",
-					"enable": true,
+					"enable": false,
 					"params": {
 						"configFilePath": "/Users/macos/Source/ccServices/HUAWEIDemo/settings/agconnect-services.json",
 						"plugin_version": "0.5.0_1.3.1",
 						"selectProviders": [
-							"Anonymous",
-							"HMS",
-							"HWGame",
-							"Phone",
-							"Email"
+							"Google",
+							"Facebook",
+							"Twitter"
 						],
-						"providerParam": {}
+						"providerParam": {
+							"qq_app_id": "1106180529",
+							"fb_app_id": "875567925949158",
+							"google_client_id": "889721642240-3o06hh7oiikfkamcbf4hpv3ndddfe3hr.apps.googleusercontent.com",
+							"twitter_app_key": "U6OfNqhMeVi7AvscC36b5lyGI",
+							"twitter_app_secret": "uGzXrcCmh34t9Xaz3nnXIDyfQsCQggGZnjZFwYm8aV3Fy43Rlu"
+						}
 					}
 				}
 			]

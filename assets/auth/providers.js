@@ -19,6 +19,7 @@ cc.Class({
         let prefab = cc.instantiate(this.BtnItem);
         prefab.getComponent('BtnItem').init(key, () => {
           this._auth.loginAuthType = value;
+          this._auth.logout();
           this.returnClick();
         });
         this.scrollContent.addChild(prefab);

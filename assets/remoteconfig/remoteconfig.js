@@ -13,7 +13,7 @@ cc.Class({
   },
 
   fetchAndApply() {
-    this.hasRemoteConfig && this._remoteConfig.fetchAndApply();
+    this.hasRemoteConfig && this._remoteConfig.fetchAndApply(0);
     this.console.log('Remote Config', 'Fetch config from remote and apply config!');
   },
 
