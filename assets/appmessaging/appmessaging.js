@@ -37,7 +37,7 @@ cc.Class({
     },
 
     getAAID() {
-        this.console.log('当前应用AAID', huawei.agc.appmessaging.appMessagingService.getAAID());
+        this.console.log('current AAID', huawei.agc.appmessaging.appMessagingService.getAAID());
     },
 
     setForceFetch() {
