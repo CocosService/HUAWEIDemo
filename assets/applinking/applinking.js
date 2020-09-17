@@ -15,7 +15,7 @@ cc.Class({
         window._demoAppLinking = this;
         this.console.log('please build links before share');
 
-        huawei.agc.applinking.appLinkingService.on(huawei.agc.applinking.AGC_APP_LINKING_EVENT_LISTENER_NAME.RECEIVE_LINK_CALLBACK, (data) => {
+        huawei.agc.applinking.appLinkingService.on(huawei.agc.applinking.AGC_APP_LINKING_EVENT_LISTENER_NAME.RECEIVE_LONG_LINK_CALLBACK, (data) => {
             if (data.code === 1) {
                 this.console.log('receive deepLink：', data.getDeepLink());
             }
