@@ -89,6 +89,28 @@ cc.Class({
         }
     },
 
+    requestLocationUpdateEx() {
+        this.console.log('invoke location update');
+        if (this.hasPermission) {
+            huawei.hms.location.locationService.setLocationInterval(10000);
+            //100是gps，102是网络，室内gps信号弱会自己换成网络
+            huawei.hms.location.locationService.setLocationPriority(100);
+
+            huawei.hms.location.locationService.once(huawei.hms.location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_REQUEST_LOCATION_UPDATE, (result) => {
+                if (result.code === huawei.hms.location.LocationActivityService.StatusCode.success) {
+                    this.console.log('invoke location update success');
+                } else {
+                    this.console.log('invoke location update fail，reason：', result.errMsg);
+                }
+            });
+
+            this.receiveLocationUpdate();
+            huawei.hms.location.locationService.requestLocationUpdatesEx();
+        } else {
+            this.console.error('have not location permission');
+        }
+    },
+
     receiveLocationUpdate() {
         if (this.receiveLocationInvoked) {
             return;
@@ -135,5 +157,33 @@ cc.Class({
     },
     geoClick() {
         cc.director.loadScene('geofence');
+    },
+    getLastLocationWithAddress() {
+        if (!this.hasPermission) {
+            this.console.log('have not location permission');
+            return;
+        }
+        huawei.hms.location.locationService.once(huawei.hms.location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_GET_HWLOCATION, (result) => {
+            if (result.code === huawei.hms.location.LocationService.StatusCode.success) {
+                this.console.log('getLastLocationWithAddress success,data is ', JSON.stringify(result));
+            } else {
+                this.console.log('getLastLocationWithAddress fail ,reason ', result.errMsg);
+            }
+        });
+        huawei.hms.location.locationService.getLastLocationWithAddress();
+    },
+    flushLocations() {
+        if (!this.hasPermission) {
+            this.console.log('have not location permission');
+            return;
+        }
+        huawei.hms.location.locationService.once(huawei.hms.location.HMS_LOCATION_EVENT_LISTENER_NAME.HMS_FLUSH_LOCATIONS, (result) => {
+            if (result.code === huawei.hms.location.LocationService.StatusCode.success) {
+                this.console.log('flushLocations success,data is ', result.toString());
+            } else {
+                this.console.log('flushLocations fail ,reason ', result.errMsg);
+            }
+        });
+        huawei.hms.location.locationService.flushLocations();
     }
 });
