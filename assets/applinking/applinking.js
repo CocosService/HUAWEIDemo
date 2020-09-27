@@ -63,6 +63,8 @@ cc.Class({
         let androidLinkInfo = new huawei.agc.applinking.AndroidLinkInfo();
         androidLinkInfo.setMinimumVersion(1);
         linkInfo.setAndroidLinkInfo(androidLinkInfo);
+        androidLinkInfo.setFallbackUrl('https://lcywzm.cn/feedback');
+        androidLinkInfo.setOpenType(huawei.agc.applinking.AndroidOpenType.AppGallery);
         return linkInfo;
     },
 

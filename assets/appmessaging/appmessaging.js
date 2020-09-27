@@ -11,6 +11,7 @@ cc.Class({
         window._demoAppMessaging = this;
         this.displayEnable = false;
         this.fetchEnable = false;
+        this.currentLocation = huawei.agc.appmessaging.Location.CENTER;
         this.console.log('please open and config app message at AGC website first');
         this.console.log('need to add AAID to AGC website to open debug mode');
         this.initListener();
@@ -22,11 +23,13 @@ cc.Class({
         }, this);
         huawei.agc.appmessaging.appMessagingService.on(huawei.agc.appmessaging.AGC_APP_MESSAGING_LISTENER_NAME.ON_MESSAGE_CLICK, (result) => {
             this.console.log('receive ON_MESSAGE_CLICK', JSON.stringify(result));
-
         }, this);
         huawei.agc.appmessaging.appMessagingService.on(huawei.agc.appmessaging.AGC_APP_MESSAGING_LISTENER_NAME.ON_MESSAGE_DISPLAY, (result) => {
             this.console.log('receive ON_MESSAGE_DISPLAY', JSON.stringify(result));
+        }, this);
 
+        huawei.agc.appmessaging.appMessagingService.on(huawei.agc.appmessaging.AGC_APP_MESSAGING_LISTENER_NAME.ON_MESSAGE_ERROR, (result) => {
+            this.console.log('receive ON_MESSAGE_ERROR', JSON.stringify(result));
         }, this);
     },
     onDestroy() {
@@ -62,6 +65,18 @@ cc.Class({
 
     isDisplayEnable() {
         this.console.log('isDisplayEnable', huawei.agc.appmessaging.appMessagingService.isDisplayEnable());
+    },
+    setLocation() {
+        let service = huawei.agc.appmessaging;
+        let tips = 'CENTER';
+        if (this.currentLocation === service.Location.BOTTOM) {
+            this.currentLocation = service.Location.CENTER
+        } else if (this.currentLocation === service.Location.CENTER) {
+            this.currentLocation = service.Location.BOTTOM
+            tips = 'BOTTOM';
+        }
+        this.console.log('set location to ', tips);
+        service.appMessagingService.setDisplayLocation(this.currentLocation);
     }
 
     // update (dt) {},
