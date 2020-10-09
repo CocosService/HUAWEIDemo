@@ -32,7 +32,7 @@ cc.Class({
 
     handleAppMessage() {
         setTimeout(() => {
-            if (this.checkAbility('appmessaging')) {
+            if (this.checkAbility('applinking')) {
                 huawei.agc.applinking.appLinkingService.once(huawei.agc.applinking.AGC_APP_LINKING_EVENT_LISTENER_NAME.RECEIVE_LINK_CALLBACK, (data) => {
                     if (data.code === 1) {
                         this.console.log('receive link', JSON.stringify(data));
