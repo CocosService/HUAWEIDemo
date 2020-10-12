@@ -48,6 +48,15 @@ cc.Class({
     let networkMeasureId = this.hasAPMS ? this._apms.initNetworkMeasure(url, 'POST') : "";
     this.console.log('APMS', "start network measure, id : " + networkMeasureId);
     this.console.log('APMS', "POST: " + url);
+    this._apms.putNetworkMeasureProperty(networkMeasureId, 'key1', 'value1');
+    this.console.log('APMS', "Auto Test: " + "putNetworkMeasureProperty(networkMeasureId, 'key1', 'value1');");
+    this._apms.putNetworkMeasureProperty(networkMeasureId, 'key2', 'value2');
+    this.console.log('APMS', "Auto Test: " + "putNetworkMeasureProperty(networkMeasureId, 'key2', 'value2');");
+    this.console.log('APMS', "Auto Test: " + "getNetworkMeasureProperty(networkMeasureId, 'key1'); -- " + this._apms.getNetworkMeasureProperty(networkMeasureId, 'key1'));
+    this.console.log('APMS', "Auto Test: " + "getNetworkMeasureProperties(networkMeasureId); -- " + JSON.stringify(this._apms.getNetworkMeasureProperties(networkMeasureId)));
+    this._apms.removeNetworkMeasureProperty(networkMeasureId, 'key1');
+    this.console.log('APMS', "Auto Test: " + "removeNetworkMeasureProperty(networkMeasureId, 'key1');");
+    this.console.log('APMS', "Auto Test: " + "getNetworkMeasureProperties(networkMeasureId); -- " + JSON.stringify(this._apms.getNetworkMeasureProperties(networkMeasureId)));
     this.hasAPMS && this._apms.startNetworkMeasure(networkMeasureId);
     this.httpPost(url).then(res => {
       console.log(JSON.parse(res));
