@@ -79,13 +79,29 @@ cc.Class({
   },
 
   link() {
+    if (!this.hasAuth) return;
     if (typeof this._auth.loginAuthType == 'undefined') return this.console.log("Auth", `please click Switch Auth Provider!`);
-    this.hasAuth && this._auth.link(this._auth.loginAuthType);
+    if (this._auth.loginAuthType === huawei.agc.auth.AuthProvider.Phone_Provider) {
+      if (!this.countryCode.string) return this.console.log('Auth', 'Please input country code!');
+      if (!this.numberOrEmial.string) return this.console.log('Auth', 'Please input phone number!');
+      if (!this.verifyCode.string) return this.console.log('Auth', 'Please input verify code!');
+      this.loginInfo.countryCode = this.countryCode.string;
+      this.loginInfo.phoneNumber = this.numberOrEmial.string;
+      this.loginInfo.verifyCode = this.verifyCode.string;
+    } else if (this._auth.loginAuthType === huawei.agc.auth.AuthProvider.Email_Provider) {
+      if (!this.numberOrEmial.string) return this.console.log('Auth', 'Please input email!');
+      if (!this.verifyCode.string) return this.console.log('Auth', 'Please input verify code!');
+      this.loginInfo.email = this.numberOrEmial.string;
+      this.loginInfo.verifyCode = this.verifyCode.string;
+    }
+    this._auth.setLoginInfo(this.loginInfo);
+    this._auth.link(this._auth.loginAuthType);
   },
 
   unlink() {
+    if (!this.hasAuth) return;
     if (typeof this._auth.loginAuthType == 'undefined') return this.console.log("Auth", `please click Switch Auth Provider!`);
-    this.hasAuth && this._auth.unlink(this._auth.loginAuthType);
+    this._auth.unlink(this._auth.loginAuthType);
   },
 
   getVerifyCode() {
