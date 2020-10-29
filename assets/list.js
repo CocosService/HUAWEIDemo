@@ -20,7 +20,6 @@ cc.Class({
 
   start() {
     this.list.forEach((item) => {
-      console.log(item.sceneName);
       if (this.checkAbility(item.sceneName)) {
         let prefab = cc.instantiate(this.BtnItem);
         prefab.getComponent('BtnItem').init(item.sceneName, item.scene);
@@ -78,6 +77,9 @@ cc.Class({
         break;
       case 'db':
         turnOn = !!(huawei && huawei.agc && huawei.agc.db && huawei.agc.db.dbService && huawei.agc.db.dbService.support);
+        break;
+      case 'storage':
+        turnOn = !!(huawei && huawei.agc && huawei.agc.storage && huawei.agc.storage.storageService && huawei.agc.storage.storageService.support);
         break;
       default:
         break;

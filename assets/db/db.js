@@ -27,7 +27,7 @@ cc.Class({
     this.console.log('Cloud DB', 'delete count : ' + count);
   },
 
-  deleteByQuery() {
+  deleteByQuery() { 
     if (!this.hasDB) return;
     let query = this._db.AGCCloudDBZoneQuery.where("test", "deleteTest").lessThan('id', "5");
     let count = this._zone.deleteSync(query, this._db.QueryPolicy.POLICY_QUERY_FROM_CLOUD_PRIOR);
