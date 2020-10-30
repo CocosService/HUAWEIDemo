@@ -304,7 +304,7 @@
       "array": [
         0,
         0,
-        478.04602288901015,
+        436.4768035073571,
         0,
         0,
         0,
@@ -1349,6 +1349,9 @@
       },
       {
         "__id__": 45
+      },
+      {
+        "__id__": 46
       }
     ],
     "_id": "11a66jZcRJ6YKOQksl/Oeb"
@@ -1421,6 +1424,13 @@
     "sceneName": "Storage",
     "scene": {
       "__uuid__": "fbfb7318-d731-4068-8c8d-bb02fe590011"
+    }
+  },
+  {
+    "__type__": "list-item",
+    "sceneName": "Function",
+    "scene": {
+      "__uuid__": "df4c0058-4734-4d80-b3ac-cbef77de200d"
     }
   }
 ]
