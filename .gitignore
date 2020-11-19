@@ -49,9 +49,9 @@ Thumbs.db
 #//////////////////////////
 
 .vscode/
-agconnect-services.json
+agconnect-services**.json
+agc**.json
 sdkhub.json
-dev-services.json
-services.json
+**services.json
 /assets/agc*
 /agc*.d.ts
