@@ -48,6 +48,10 @@ cc.Class({
 	 * @param sceneName
 	 */
 	checkAbility(sceneName) {
+		if (typeof huawei === 'undefined') {
+			return false;
+		}
+
 		let turnOn = false;
 		sceneName = sceneName.toLowerCase();
 		switch (sceneName) {
