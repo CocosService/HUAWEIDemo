@@ -55,3 +55,4 @@ sdkhub.json
 **services.json
 /assets/agc*
 /agc*.d.ts
+!/attach/**.*
