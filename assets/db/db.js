@@ -16,7 +16,7 @@ cc.Class({
 
     queryAll() {
         if (!this.hasDB) return;
-        let query = this._db.AGCCloudDBZoneQuery.where("test", "queryTest");
+        let query = this._db.AGCCloudDBZoneQuery.where("Types", "queryTest");
         let result = this._zone.querySync(query, this._db.QueryPolicy.POLICY_QUERY_FROM_CLOUD_ONLY);
         if (result instanceof Array && result.length > 0) {
             this.console.log('Cloud DB', 'getObjectTypeName : ' + result[0].getObjectTypeName());
@@ -27,7 +27,7 @@ cc.Class({
 
     deleteByQuery() {
         if (!this.hasDB) return;
-        let query = this._db.AGCCloudDBZoneQuery.where("test", "deleteTest").lessThan('id', "5");
+        let query = this._db.AGCCloudDBZoneQuery.where("Types", "deleteTest").lessThan('typeInt', 5);
         let count = this._zone.deleteSync(query, this._db.QueryPolicy.POLICY_QUERY_FROM_CLOUD_ONLY);
         this.console.log('Cloud DB', 'delete count : ' + count);
     },
@@ -37,12 +37,16 @@ cc.Class({
         let objs = [];
         for (var i = 0; i < 10; i++) {
             let obj = {
-                id: `${i+1}`,
-                name: `name${i+1}`
+                typeInt: i+1,
+                typeLong: i+1,
+                typeDouble: i+1,
+                typeBool: i % 2 === 0,
+                typeStr: `name${i+1}`,
+                typeDate: new Date(),
             }
             objs.push(obj);
         }
-        let count = this._zone.insertSync(objs, "test");
+        let count = this._zone.insertSync(objs, "Types");
         this.console.log('Cloud DB', 'insert count : ' + count);
     },
 
