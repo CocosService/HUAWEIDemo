@@ -37,12 +37,11 @@ cc.Class({
         let objs = [];
         for (var i = 0; i < 10; i++) {
             let obj = {
-                typeInt: i+1,
-                typeLong: i+1,
-                typeDouble: i+1,
+                typeInt: i + 1,
+                typeLong: i + 1,
+                typeDouble: i + 1,
                 typeBool: i % 2 === 0,
                 typeStr: `name${i+1}`,
-                typeDate: new Date(),
             }
             objs.push(obj);
         }
