@@ -156,6 +156,16 @@ to enable the debug mode at the first time'
         director.loadScene('analytics-custom-event');
     }
 
+    toggleRestrictionEnabled() {
+        huawei.hms.analytics.analyticsService.setRestrictionEnabled(
+            !huawei.hms.analytics.analyticsService.isRestrictionEnabled()
+        );
+        this.console.log(
+            'isRestrictionEnabled',
+            huawei.hms.analytics.analyticsService.isRestrictionEnabled()
+        );
+    }
+
     private printAnalyticsResult(result: huawei.hms.analytics.AnalyticsResult) {
         this.console.log('code:', result.code);
         this.console.log('originData:', result.originData);
