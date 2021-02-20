@@ -107,7 +107,7 @@ to enable the debug mode at the first time'
         huawei.hms.analytics.analyticsService.getAAID();
         huawei.hms.analytics.analyticsService.once(
             huawei.hms.analytics.HMS_ANALYTICS_EVENT_LISTENER_NAME.GET_AAID,
-            (result: huawei.hms.analytics.AnalyticsResult) => {
+            (result) => {
                 this.console.log('getAAID');
                 this.printAnalyticsResult(result);
             }
@@ -119,7 +119,7 @@ to enable the debug mode at the first time'
         huawei.hms.analytics.analyticsService.once(
             huawei.hms.analytics.HMS_ANALYTICS_EVENT_LISTENER_NAME
                 .GET_USER_PROFILES,
-            (result: huawei.hms.analytics.AnalyticsResult) => {
+            (result) => {
                 this.console.log('getUserProfiles');
                 this.printAnalyticsResult(result);
             }
