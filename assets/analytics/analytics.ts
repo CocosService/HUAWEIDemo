@@ -73,16 +73,23 @@ to enable the debug mode at the first time'
     }
 
     setUserProfile() {
-        const name = 'profile1';
-        const value = 'wzm666';
+        let name = 'profile1';
+        let value = 'wzm666';
         huawei.hms.analytics.analyticsService.setUserProfile(name, value);
-        this.console.log('setUserProfile', name, value);
+        this.console.log('1. setUserProfile', name, value);
+        name = huawei.hms.analytics.HAUserProfileType.USERLEVEL;
+        value = '60';
+        huawei.hms.analytics.analyticsService.setUserProfile(name, value);
+        this.console.log('2. setUserProfile', name, value);
     }
 
     deleteUserProfile() {
-        const name = 'profile1';
+        let name = 'profile1';
         huawei.hms.analytics.analyticsService.setUserProfile(name, null);
-        this.console.log('deleteUserProfile', name);
+        this.console.log('1. deleteUserProfile', name);
+        name = huawei.hms.analytics.HAUserProfileType.USERLEVEL;
+        huawei.hms.analytics.analyticsService.setUserProfile(name, null);
+        this.console.log('2. deleteUserProfile', name);
     }
 
     setPushToken() {
