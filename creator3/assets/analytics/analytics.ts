@@ -8,6 +8,7 @@ export class Analytics extends Component {
     console: Console = null!;
 
     private analyticsEnabled = true;
+    private logLevel: huawei.hms.analytics.LOG_LEVEL | null = null;
 
     start() {
         this.console.log(
@@ -15,33 +16,41 @@ export class Analytics extends Component {
 "adb shell setprop debug.huawei.hms.analytics.app package_name" \
 to enable the debug mode at the first time'
         );
-        this.enableLog(null, 'Debug');
+        this.setLogLevel(null, 'Debug');
     }
 
-    enableLog(event: Event | null, level?: string) {
+    enableLog() {
+        if (this.logLevel) {
+            huawei.hms.analytics.AnalyticsTools.enableLog(this.logLevel);
+        } else {
+            huawei.hms.analytics.AnalyticsTools.enableLog();
+        }
+        this.console.log(`enable log`);
+    }
+
+    setLogLevel(event: Event | null, levelStr?: string) {
         const LOG_LEVEL = huawei.hms.analytics.LOG_LEVEL;
 
-        let levelNum = undefined;
-        switch (level) {
+        switch (levelStr) {
+            case 'Default':
+                this.logLevel = null;
+                break;
             case 'Debug':
-                levelNum = LOG_LEVEL.debug;
+                this.logLevel = LOG_LEVEL.debug;
                 break;
             case 'Info':
-                levelNum = LOG_LEVEL.info;
+                this.logLevel = LOG_LEVEL.info;
                 break;
             case 'Warn':
-                levelNum = LOG_LEVEL.warn;
+                this.logLevel = LOG_LEVEL.warn;
                 break;
             case 'Error':
-                levelNum = LOG_LEVEL.error;
+                this.logLevel = LOG_LEVEL.error;
                 break;
             default:
-                this.console.error(`Unknown log level: ${level}`);
+                this.console.error(`Unknown log level: ${levelStr}`);
                 return;
         }
-
-        huawei.hms.analytics.AnalyticsTools.enableLog(levelNum);
-        this.console.log(`enable log: ${level}`);
     }
 
     setReportPolicies() {
@@ -163,15 +172,17 @@ to enable the debug mode at the first time'
         director.loadScene('analytics-custom-event');
     }
 
-    toggleRestrictionEnabled() {
-        huawei.hms.analytics.analyticsService.setRestrictionEnabled(
-            !huawei.hms.analytics.analyticsService.isRestrictionEnabled()
-        );
-        this.console.log(
-            'isRestrictionEnabled',
-            huawei.hms.analytics.analyticsService.isRestrictionEnabled()
-        );
-    }
+    // NOTE: This is the API of new version SDK, we will add back it
+    //       in the future version.
+    // toggleRestrictionEnabled() {
+    //     huawei.hms.analytics.analyticsService.setRestrictionEnabled(
+    //         !huawei.hms.analytics.analyticsService.isRestrictionEnabled()
+    //     );
+    //     this.console.log(
+    //         'isRestrictionEnabled',
+    //         huawei.hms.analytics.analyticsService.isRestrictionEnabled()
+    //     );
+    // }
 
     private printAnalyticsResult(result: huawei.hms.analytics.AnalyticsResult) {
         this.console.log('code:', result.code);
