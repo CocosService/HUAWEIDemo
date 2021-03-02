@@ -39,9 +39,15 @@ export class Startup extends Component {
         switch (sceneName) {
             case 'analytics':
                 return !!(
-                    huawei.hms &&
-                    huawei.hms.analytics &&
-                    huawei.hms.analytics.analyticsService
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei.hms && huawei.hms.analytics && huawei.hms.analytics.analyticsService
+                );
+            case 'function':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei.agc && huawei.agc.func && huawei.agc.func.funcService
                 );
             default:
                 return false;
