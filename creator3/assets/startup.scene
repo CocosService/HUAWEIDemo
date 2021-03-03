@@ -625,7 +625,7 @@
     "_paddingTop": 5,
     "_paddingBottom": 5,
     "_spacingX": 0,
-    "_spacingY": 0,
+    "_spacingY": 20,
     "_verticalDirection": 1,
     "_horizontalDirection": 0,
     "_constraint": 0,
