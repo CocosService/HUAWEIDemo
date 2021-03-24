@@ -622,7 +622,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CloudFunctionsLayout",
+    "_name": "ButtonsLayout",
     "_objFlags": 0,
     "_parent": {
       "__id__": 7
