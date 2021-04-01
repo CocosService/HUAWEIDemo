@@ -61,6 +61,12 @@ export class Startup extends Component {
                     // @ts-ignore
                     huawei && huawei.agc && huawei.agc.apms && huawei.agc.apms.apmsService
                 );
+            case 'crash':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei && huawei.agc && huawei.agc.crash && huawei.agc.crash.crashService
+                );
             default:
                 return false;
         }
