@@ -30,7 +30,7 @@
     "_prefab": null,
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 47
+      "__id__": 48
     },
     "_id": "7c6fc3e5-11bf-4022-8c48-5d2548763dfe"
   },
@@ -1067,6 +1067,9 @@
       },
       {
         "__id__": 46
+      },
+      {
+        "__id__": 47
       }
     ],
     "buttonLoadScene": {
@@ -1095,18 +1098,22 @@
     "sceneName": "crash"
   },
   {
+    "__type__": "SceneListItem",
+    "sceneName": "appmessaging"
+  },
+  {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 48
-    },
-    "shadows": {
       "__id__": 49
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 50
     },
-    "fog": {
+    "_skybox": {
       "__id__": 51
+    },
+    "fog": {
+      "__id__": 52
     }
   },
   {
