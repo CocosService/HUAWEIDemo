@@ -41,37 +41,37 @@ export class Startup extends Component {
                 return !!(
                     // prettier-ignore
                     // @ts-ignore
-                    huawei.hms && huawei.hms.analytics && huawei.hms.analytics.analyticsService
+                    huawei?.hms?.analytics?.analyticsService
                 );
             case 'function':
                 return !!(
                     // prettier-ignore
                     // @ts-ignore
-                    huawei.agc && huawei.agc.func && huawei.agc.func.funcService
+                    huawei?.agc?.func?.funcService
                 );
             case 'remoteconfig':
                 return !!(
                     // prettier-ignore
                     // @ts-ignore
-                    huawei && huawei.agc && huawei.agc.rc && huawei.agc.rc.rcService
+                    huawei?.agc?.rc?.rcService
                 );
             case 'apms':
                 return !!(
                     // prettier-ignore
                     // @ts-ignore
-                    huawei && huawei.agc && huawei.agc.apms && huawei.agc.apms.apmsService
+                    huawei?.agc?.apms?.apmsService
                 );
             case 'crash':
                 return !!(
                     // prettier-ignore
                     // @ts-ignore
-                    huawei && huawei.agc && huawei.agc.crash && huawei.agc.crash.crashService
+                    huawei?.agc?.crash?.crashService
                 );
             case 'appmessaging':
                 return !!(
                     // prettier-ignore
                     // @ts-ignore
-                    huawei && huawei.agc && huawei.agc.appmessaging && huawei.agc.appmessaging.appMessagingService
+                    huawei?.agc?.appmessaging?.appMessagingService
                 );
             default:
                 return false;
