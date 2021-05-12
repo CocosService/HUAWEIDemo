@@ -1,36 +1,17 @@
 {
+    "schemaVersion": 8,
     "permissions": [
         {
             "permissions": [
-                {
-                    "role": "World",
-                    "rights": [
-                        "Read"
-                    ]
-                },
+                { "role": "World", "rights": ["Read"] },
                 {
                     "role": "Authenticated",
-                    "rights": [
-                        "Read",
-                        "Upsert",
-                        "Delete"
-                    ]
+                    "rights": ["Read", "Upsert", "Delete"]
                 },
-                {
-                    "role": "Creator",
-                    "rights": [
-                        "Read",
-                        "Upsert",
-                        "Delete"
-                    ]
-                },
+                { "role": "Creator", "rights": ["Read", "Upsert", "Delete"] },
                 {
                     "role": "Administrator",
-                    "rights": [
-                        "Read",
-                        "Upsert",
-                        "Delete"
-                    ]
+                    "rights": ["Read", "Upsert", "Delete"]
                 }
             ],
             "objectTypeName": "Types"
@@ -39,13 +20,7 @@
     "objectTypes": [
         {
             "indexes": [
-                {
-                    "indexName": "index1",
-                    "indexList": [
-                        "typeInt",
-                        "typeLong"
-                    ]
-                }
+                { "indexName": "index1", "indexList": ["typeInt", "typeLong"] }
             ],
             "objectTypeName": "Types",
             "fields": [
