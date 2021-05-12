@@ -81,6 +81,12 @@ export class Startup extends Component {
                     // @ts-ignore
                     huawei?.agc?.auth?.authService?.support
                 );
+            case 'storage':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.agc?.storage?.storageService?.support
+                );
             default:
                 return false;
         }
