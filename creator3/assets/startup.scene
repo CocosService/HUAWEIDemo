@@ -30,7 +30,7 @@
     "_prefab": null,
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 48
+      "__id__": 49
     },
     "_id": "7c6fc3e5-11bf-4022-8c48-5d2548763dfe"
   },
@@ -1029,6 +1029,9 @@
       },
       {
         "__id__": 47
+      },
+      {
+        "__id__": 48
       }
     ],
     "buttonLoadScene": {
@@ -1069,18 +1072,22 @@
     "sceneName": "storage"
   },
   {
+    "__type__": "SceneListItem",
+    "sceneName": "db"
+  },
+  {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 49
-    },
-    "shadows": {
       "__id__": 50
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 51
     },
-    "fog": {
+    "_skybox": {
       "__id__": 52
+    },
+    "fog": {
+      "__id__": 53
     }
   },
   {
