@@ -46,6 +46,8 @@ export class Auth extends Component {
         this.curProviderType = parseInt(
             sys.localStorage.getItem('agcAuthCurProviderType') || '-1'
         );
+        if (!this.isSupportedProvider(this.curProviderType))
+            this.curProviderType = -1;
 
         if (this.curProviderType === -1)
             this.labelCurProvider.string = 'Not Selected';
@@ -70,6 +72,13 @@ export class Auth extends Component {
         });
     }
 
+    isSupportedProvider(providerType: number) {
+        const supportedProviders = JSON.parse(
+            huawei.agc.auth.authService.getSupportAuthType()
+        );
+        return supportedProviders.indexOf(providerType) !== -1;
+    }
+
     switchAuthProvider() {
         director.loadScene('auth-switch-provider');
     }
@@ -84,8 +93,6 @@ export class Auth extends Component {
 
     getVerifyCode() {
         if (!this.checkProviderSelected()) return;
-
-        const authProvider = huawei.agc.auth.AuthProvider;
 
         this.fillLoginInfo(false);
 
