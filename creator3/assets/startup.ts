@@ -19,6 +19,8 @@ export class Startup extends Component {
     buttonLoadScene: Prefab = null!;
 
     start() {
+        // @ts-ignore
+        cc.debug.setDisplayStats(false);
         for (const sceneListItem of this.sceneList) {
             if (!this.checkServiceAvailable(sceneListItem.sceneName)) continue;
 
@@ -72,6 +74,24 @@ export class Startup extends Component {
                     // prettier-ignore
                     // @ts-ignore
                     huawei?.agc?.appmessaging?.appMessagingService
+                );
+            case 'auth':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.agc?.auth?.authService?.support
+                );
+            case 'storage':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.agc?.storage?.storageService?.support
+                );
+            case 'db':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.agc?.db?.dbService?.support
                 );
             default:
                 return false;
