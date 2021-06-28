@@ -9,8 +9,8 @@ cc.Class({
     return new Promise((resolve, reject) => {
       var xhr = cc.loader.getXMLHttpRequest();
       xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300))
-          resolve(xhr.responseText);
+        if (xhr.readyState === 4)
+          resolve(xhr);
       };
       xhr.open("POST", url, true);
       xhr.timeout = 5000;
@@ -20,12 +20,18 @@ cc.Class({
 
   },
 
-
   start() {
     this.hasAPMS = huawei && huawei.agc && huawei.agc.apms && huawei.agc.apms.apmsService && huawei.agc.apms.apmsService.support ? true : false;
     if (this.hasAPMS) this._apms = huawei.agc.apms.apmsService;
     this._customTraceName = '';
     this._execNetWorkMeasure = false;
+  },
+
+  setUserIdentifier() {
+    if (!this.hasAPMS) return;
+    const userIdentifier = '475f5afaxxxxx';
+    this._apms.setUserIdentifier(userIdentifier);
+    this.console.log('APMS', `setUserIdentifier to ${userIdentifier}`);
   },
 
   startCustomTrace() {
@@ -59,7 +65,12 @@ cc.Class({
     this.console.log('APMS', "Auto Test: " + "getNetworkMeasureProperties(networkMeasureId); -- " + JSON.stringify(this._apms.getNetworkMeasureProperties(networkMeasureId)));
     this.hasAPMS && this._apms.startNetworkMeasure(networkMeasureId);
     this.httpPost(url).then(res => {
-      console.log(JSON.parse(res));
+      huawei.agc.apms.apmsService.setNetworkMeasureStatusCode(networkMeasureId, res.status);
+      if (res.status >= 200 && res.status < 300) {
+        this.console.log(res.responseText);
+      } else {
+        this.console.log('HTTP post failed, status: ' + res.status);
+      }
       this.hasAPMS && this._apms.stopNetworkMeasure(networkMeasureId);
       this.console.log('APMS', "stop network measure, id : " + networkMeasureId);
     });
