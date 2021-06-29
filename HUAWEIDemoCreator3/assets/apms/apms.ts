@@ -18,12 +18,7 @@ export class APMS extends Component {
         return new Promise((resolve, reject) => {
             const xhr = loader.getXMLHttpRequest();
             xhr.onreadystatechange = () => {
-                if (
-                    xhr.readyState === 4 &&
-                    xhr.status >= 200 &&
-                    xhr.status < 300
-                )
-                    resolve(xhr.responseText);
+                if (xhr.readyState === 4) resolve(xhr);
             };
             xhr.open('POST', url, true);
             xhr.timeout = 5000;
@@ -37,6 +32,12 @@ export class APMS extends Component {
 
     start() {
         this.customTraceName = '';
+    }
+
+    setUserIdentifier() {
+        const userIdentifier = '475f5afaxxxxx';
+        this.apms.setUserIdentifier(userIdentifier);
+        this.console.log('APMS', `setUserIdentifier to ${userIdentifier}`);
     }
 
     startCustomTrace() {
@@ -109,7 +110,13 @@ export class APMS extends Component {
         );
         this.apms.startNetworkMeasure(networkMeasureId);
         this.httpPost(url).then((res) => {
-            this.console.log(JSON.parse(res));
+            this.apms.setNetworkMeasureStatusCode(networkMeasureId, res.status);
+            if (res.status >= 200 && res.status < 300) {
+                this.console.log(JSON.parse(res.responseText));
+            } else {
+                this.console.log('HTTP post failed, status: ' + res.status);
+            }
+
             this.apms.stopNetworkMeasure(networkMeasureId);
             this.console.log(
                 'APMS',
