@@ -1,4 +1,4 @@
-import { _decorator, Component, loader } from 'cc';
+import { _decorator, Component, loader, director } from 'cc';
 import { Console } from '../prefabs/console';
 const { ccclass, property } = _decorator;
 
@@ -123,5 +123,9 @@ export class APMS extends Component {
                 'stop network measure, id : ' + networkMeasureId
             );
         });
+    }
+
+    enterGameScene() {
+        director.loadScene('apms-game');
     }
 }
