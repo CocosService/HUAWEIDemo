@@ -52,6 +52,7 @@ cc.Class({
   },
 
   toggleEnableGamePlugin() {
+    if (!this.hasAPMS) return;
     this.gamePluginEnabled = !this.gamePluginEnabled;
     this.apmsGameService.enableGamePlugin(this.gamePluginEnabled);
     cc.sys.localStorage.setItem('agcAPMSGamePluginEnabled', this.gamePluginEnabled + '');
