@@ -76,6 +76,10 @@ cc.Class({
     });
   },
 
+  enterGameScene() {
+    cc.director.loadScene('apms-game');
+  },
+
   returnClick() {
     cc.director.loadScene('list');
   },
