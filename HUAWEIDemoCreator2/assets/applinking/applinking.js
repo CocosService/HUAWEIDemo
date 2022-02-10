@@ -1,5 +1,5 @@
-const PREFIX_URL = 'https://chuanqi.drcn.agconnect.link';
-const DEEP_LINK = 'https://lcywzm.cn/temp/huatu1';
+const PREFIX_URL = 'https://cocosagcserver.drcn.agconnect.link';
+const DEEP_LINK = 'https://developer.huawei.com/consumer/cn/console#/serviceCards/AppService';
 cc.Class({
     extends: cc.Component,
 
