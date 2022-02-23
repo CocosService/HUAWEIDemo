@@ -66,7 +66,7 @@ please restart the app and wait for a while and then check the crash at the AGC 
         this.console.log(`app will cause a native crash in ${time} seconds, \
 please restart the app and wait for a while and then check the crash at the AGC website`);
         this.scheduleOnce(() => {
-            huawei.agc.crash.crashService.testItNative();
+            agcnativecrash.crashTest();
         }, time);
     }
 }
