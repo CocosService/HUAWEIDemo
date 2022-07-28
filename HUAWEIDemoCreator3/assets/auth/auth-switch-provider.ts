@@ -40,7 +40,7 @@ export class AuthSwitchProvider extends Component {
     }
 
     switchProvider(_event: Event, authType: string) {
-        sys.localStorage.setItem('agcAuthCurProviderType', authType);
+        sys.localStorage.setItem('agcAuthCurProviderType', authType+'');
         this.goBack();
     }
 
