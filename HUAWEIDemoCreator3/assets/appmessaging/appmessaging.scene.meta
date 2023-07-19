@@ -1,1 +1,11 @@
-{"ver":"1.1.27","importer":"scene","imported":true,"uuid":"3b9e0e33-09b5-40ee-8fee-fb85bfb0b00a","files":[".json"],"subMetas":{},"userData":{}}
+{
+  "ver": "1.1.44",
+  "importer": "scene",
+  "imported": true,
+  "uuid": "3b9e0e33-09b5-40ee-8fee-fb85bfb0b00a",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {}
+}

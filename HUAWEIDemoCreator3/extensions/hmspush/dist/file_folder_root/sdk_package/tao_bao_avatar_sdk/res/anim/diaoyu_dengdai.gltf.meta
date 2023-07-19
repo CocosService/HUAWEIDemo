@@ -1,0 +1,98 @@
+{
+  "ver": "2.3.2",
+  "importer": "gltf",
+  "imported": true,
+  "uuid": "f485eb07-35e5-47a4-a30f-358d48e9f026",
+  "files": [
+    "__original-animation-0.cconb",
+    "__original-animation-1.cconb"
+  ],
+  "subMetas": {
+    "6fa78": {
+      "importer": "gltf-animation",
+      "uuid": "f485eb07-35e5-47a4-a30f-358d48e9f026@6fa78",
+      "displayName": "",
+      "id": "6fa78",
+      "name": "diaoyu_dengdai_Head.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 6.300000190734863
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "d85a1": {
+      "importer": "gltf-animation",
+      "uuid": "f485eb07-35e5-47a4-a30f-358d48e9f026@d85a1",
+      "displayName": "",
+      "id": "d85a1",
+      "name": "diaoyu_dengdai_Body.animation",
+      "userData": {
+        "gltfIndex": 1,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 6.300000190734863
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "allowMeshDataAccess": true,
+    "animationImportSettings": [
+      {
+        "name": "diaoyu_dengdai_Head",
+        "duration": 6.300000190734863,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "diaoyu_dengdai_Head",
+            "from": 0,
+            "to": 6.300000190734863,
+            "wrapMode": 2
+          }
+        ]
+      },
+      {
+        "name": "diaoyu_dengdai_Body",
+        "duration": 6.300000190734863,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "diaoyu_dengdai_Body",
+            "from": 0,
+            "to": 6.300000190734863,
+            "wrapMode": 2
+          }
+        ]
+      }
+    ],
+    "assetFinder": {
+      "meshes": [],
+      "skeletons": [],
+      "textures": [],
+      "materials": [],
+      "scenes": []
+    }
+  }
+}

@@ -8,15 +8,27 @@ export class APMS extends Component {
     console: Console = null!;
 
     private apms: typeof huawei.agc.apms.apmsService = (typeof huawei ===
-    'undefined'
+        'undefined'
         ? null
         : huawei?.agc?.apms?.apmsService)!;
 
     private customTraceName = '';
 
-    httpPost(url: string, params?: any): Promise<any> {
+
+
+    start () {
+        this.customTraceName = '';
+        //设置性能管理服务开关
+        huawei.agc.apms.apmsService.enableCollection(true);
+        //设置ANR监控开关
+        huawei.agc.apms.apmsService.enableAnrMonitor(true);
+
+    }
+
+
+    httpPost (url: string, params?: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            const xhr = loader.getXMLHttpRequest();
+            const xhr = new XMLHttpRequest();
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) resolve(xhr);
             };
@@ -30,17 +42,29 @@ export class APMS extends Component {
         });
     }
 
-    start() {
-        this.customTraceName = '';
+    httpGet (url: string, params?: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) resolve(xhr);
+            };
+            xhr.open('GET', url, true);
+            xhr.timeout = 5000;
+            // xhr.setRequestHeader(
+            //     'Content-Type',
+            //     'application/x-www-form-urlencoded'
+            // );
+            xhr.send(params);
+        });
     }
 
-    setUserIdentifier() {
-        const userIdentifier = '475f5afaxxxxx';
+    setUserIdentifier () {
+        const userIdentifier = 'dkjgdsjajkfashjdf';
         this.apms.setUserIdentifier(userIdentifier);
         this.console.log('APMS', `setUserIdentifier to ${userIdentifier}`);
     }
 
-    startCustomTrace() {
+    startCustomTrace () {
         if (this.customTraceName !== '') return;
         this.customTraceName = 'customTrace1';
         this.apms.startCustomTrace(this.customTraceName);
@@ -50,7 +74,7 @@ export class APMS extends Component {
         );
     }
 
-    stopCustomTrace() {
+    stopCustomTrace () {
         if (this.customTraceName === '') return;
         this.apms.stopCustomTrace(this.customTraceName);
         this.console.log(
@@ -60,61 +84,57 @@ export class APMS extends Component {
         this.customTraceName = '';
     }
 
-    networkMeasure() {
-        let url = 'https://api.apiopen.top/getJoke?page=1&count=2&type=video';
-        let networkMeasureId = this.apms.initNetworkMeasure(url, 'POST');
+    networkMeasure () {
+        let url = 'https://api.apiopen.top/api/getPinYin?text=你好啊';
+        let networkMeasureId = this.apms.initNetworkMeasure(url, 'GET');
         this.console.log(
             'APMS',
             'start network measure, id : ' + networkMeasureId
         );
-        this.console.log('APMS', 'POST: ' + url);
+        this.console.log('APMS', 'GET: ' + url);
+
+        //设置
         this.apms.putNetworkMeasureProperty(networkMeasureId, 'key1', 'value1');
         this.console.log(
             'APMS',
-            'Auto Test: ' +
-                "putNetworkMeasureProperty(networkMeasureId, 'key1', 'value1');"
+            `1-put-key1 (${networkMeasureId}, 'key1', 'value1');`
         );
         this.apms.putNetworkMeasureProperty(networkMeasureId, 'key2', 'value2');
         this.console.log(
             'APMS',
-            'Auto Test: ' +
-                "putNetworkMeasureProperty(networkMeasureId, 'key2', 'value2');"
+            `2-put-key2 (${networkMeasureId}, 'key2', 'value2');`
+        );
+
+        //获取
+        this.console.log(
+            'APMS',
+            `3-get-key1 (${this.apms.getNetworkMeasureProperty(networkMeasureId, 'key1')});`
+
         );
         this.console.log(
             'APMS',
-            'Auto Test: ' +
-                "getNetworkMeasureProperty(networkMeasureId, 'key1'); -- " +
-                this.apms.getNetworkMeasureProperty(networkMeasureId, 'key1')
-        );
-        this.console.log(
-            'APMS',
-            'Auto Test: ' +
-                'getNetworkMeasureProperties(networkMeasureId); -- ' +
-                JSON.stringify(
-                    this.apms.getNetworkMeasureProperties(networkMeasureId)
-                )
+            `4-get-all (${JSON.stringify(
+                this.apms.getNetworkMeasureProperties(networkMeasureId)
+            )});`
         );
         this.apms.removeNetworkMeasureProperty(networkMeasureId, 'key1');
         this.console.log(
             'APMS',
-            'Auto Test: ' +
-                "removeNetworkMeasureProperty(networkMeasureId, 'key1');"
+            `5-remove-key1 (${networkMeasureId}`
         );
         this.console.log(
             'APMS',
-            'Auto Test: ' +
-                'getNetworkMeasureProperties(networkMeasureId); -- ' +
-                JSON.stringify(
-                    this.apms.getNetworkMeasureProperties(networkMeasureId)
-                )
+            `6-get-all (${JSON.stringify(
+                this.apms.getNetworkMeasureProperties(networkMeasureId)
+            )});`
         );
         this.apms.startNetworkMeasure(networkMeasureId);
-        this.httpPost(url).then((res) => {
+        this.httpGet(url).then((res) => {
             this.apms.setNetworkMeasureStatusCode(networkMeasureId, res.status);
             if (res.status >= 200 && res.status < 300) {
                 this.console.log(JSON.parse(res.responseText));
             } else {
-                this.console.log('HTTP post failed, status: ' + res.status);
+                this.console.log('HTTP get failed, status: ' + res.status);
             }
 
             this.apms.stopNetworkMeasure(networkMeasureId);
@@ -125,7 +145,81 @@ export class APMS extends Component {
         });
     }
 
-    enterGameScene() {
-        director.loadScene('apms-game');
+    enterGameScene () {
+        // director.loadScene('apms-game');
     }
+
+    // createApmsLog () {
+    //     let suc = this.apms.createApmsLog();
+    //     this.console.log(
+    //         'createApmsLog',
+    //         'suc : ' + suc
+    //     );
+    // }
+
+    // //verbose | debug | info | warn | error
+    // setApmsLog () {
+    //     let verbose = this.apms.setApmsLog("verbose", "TEST-LOG", "this is verbose");
+    //     let debug = this.apms.setApmsLog("debug", "TEST-LOG", "this is debug");
+    //     let info = this.apms.setApmsLog("info", "TEST-LOG", "this is info");
+    //     let warn = this.apms.setApmsLog("warn", "TEST-LOG", "this is warn");
+    //     let error = this.apms.setApmsLog("error", "TEST-LOG", "this is error");
+
+    //     this.console.log(
+    //         'setApmsLog',
+    //         ' verbose : ' + verbose,
+    //         ' debug : ' + debug,
+    //         ' info : ' + info,
+    //         ' warn : ' + warn,
+    //         ' error : ' + error,
+    //     );
+    // }
+
+    // flushApmsLog () {
+    //     this.apms.flushApmsLog();
+    //     this.console.log(
+    //         'flushApmsLog',
+    //     );
+    // }
+
+    // releaseApmsLog () {
+    //     this.apms.releaseApmsLog();
+    //     this.console.log(
+    //         'releaseApmsLog',
+    //     );
+    // }
+
+    // fetchApmsLog () {
+    //     this.apms.fetchApmsLog();
+    //     this.apms.once(
+    //         huawei.agc.apms.API_EVENT_LIST.fetchApmsLogCallback,
+    //         (result) => {
+    //             this.console.log('fetchApmsLog', result);
+    //         }
+    //     );
+    // }
+
+    // grantApmsLog () {
+    //     this.apms.grantApmsLog();
+    //     this.console.log(
+    //         'grantApmsLog',
+    //     );
+    // }
+
+    // denyApmsLog () {
+    //     this.apms.denyApmsLog();
+    //     this.console.log(
+    //         'denyApmsLog',
+    //     );
+    // }
+
+
+
+    // setUserPrivacyAgreed () {
+    //     this.apms.setUserPrivacyAgreed(true);
+    //     this.console.log(
+    //         'setUserPrivacyAgreed'
+    //     );
+    // }
+
 }

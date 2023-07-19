@@ -1,0 +1,28 @@
+<div id="app">
+    <div class="settings">
+        <br />
+        配置信息:<br />
+        <br />
+
+        <ui-label slot="label" value="1.请输入项目对应的淘宝小游戏的AppId"></ui-label>
+        <ui-input placeholder="请输入AppId" id="appId" ref="appId"
+            @confirm="onAppidConfirm($event.target.value)">
+        </ui-input>
+
+        <br />
+
+        <ui-label slot="label" value="2.构建时是否把SDK依赖的其他资源作为远程资源发布"></ui-label>
+        <ui-checkbox value="false" id="useRemote"  ref="useRemote"
+            @confirm="onSelectRemoteConfirm($event.target.value)"
+        >(勾选后作为远程资源发布,放置到构建后的remote文件夹)</ui-checkbox>
+        <br />
+        <br />
+
+        <div class="commands">
+            <ui-button class="green" @confirm="run()">
+                <ui-label> 初始化 </ui-label>
+            </ui-button>
+        </div>
+
+    </div>
+</div>

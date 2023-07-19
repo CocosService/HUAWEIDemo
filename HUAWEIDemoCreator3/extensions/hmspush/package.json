@@ -1,0 +1,43 @@
+{
+    "name": "service-taobaoavatar",
+    "version": "1.0.1",
+    "author": "shanfeng.hou@cocos.com",
+    "upgrade": "./upgrade.js",
+    "contents": {
+        "detail": {
+            "main": "./dist/detail/detail.js"
+        }
+    },
+    "builder": {
+        "main": "./dist/builder/builder.js"
+    },
+    "scripts": {
+        "release": "cross-env NODE_ENV=production gulp publish"
+    },
+    "dependencies": {
+        "editor-build-helper": "0.1.5",
+        "fs-extra": "^9.1.0",
+        "plist": "^3.0.4"
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^9.0.11",
+        "@types/node": "^14.14.39",
+        "@types/plist": "^3.0.2",
+        "@types/request": "^2.48.5",
+        "@types/vue": "^2.0.0",
+        "@types/watch": "^1.0.1",
+        "cross-env": "^7.0.3",
+        "del": "^6.0.0",
+        "gulp": "^4.0.2",
+        "gulp-clean-css": "^4.3.0",
+        "gulp-if": "^3.0.0",
+        "gulp-javascript-obfuscator": "^1.1.6",
+        "gulp-replace": "^1.0.0",
+        "gulp-shell": "^0.8.0",
+        "gulp-terser": "^2.0.1",
+        "gulp-typescript": "^6.0.0-alpha.1",
+        "gulp-watch": "^4.2.4",
+        "gulp-zip": "^5.1.0",
+        "typescript": "^4.2.4"
+    }
+}

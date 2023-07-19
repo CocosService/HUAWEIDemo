@@ -1,0 +1,96 @@
+{
+  "ver": "2.3.2",
+  "importer": "gltf",
+  "imported": true,
+  "uuid": "3c8be91a-48e3-437d-8e21-a13d4244d23e",
+  "files": [
+    "__original-animation-0.cconb",
+    "__original-animation-1.cconb"
+  ],
+  "subMetas": {
+    "b31cd": {
+      "importer": "gltf-animation",
+      "uuid": "3c8be91a-48e3-437d-8e21-a13d4244d23e@b31cd",
+      "displayName": "",
+      "id": "b31cd",
+      "name": "run_Head.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 1.5333333015441895
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "adb66": {
+      "importer": "gltf-animation",
+      "uuid": "3c8be91a-48e3-437d-8e21-a13d4244d23e@adb66",
+      "displayName": "",
+      "id": "adb66",
+      "name": "run_Body.animation",
+      "userData": {
+        "gltfIndex": 1,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 1.5333333015441895
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "animationImportSettings": [
+      {
+        "name": "run_Head",
+        "duration": 1.5333333015441895,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "run_Head",
+            "from": 0,
+            "to": 1.5333333015441895,
+            "wrapMode": 2
+          }
+        ]
+      },
+      {
+        "name": "run_Body",
+        "duration": 1.5333333015441895,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "run_Body",
+            "from": 0,
+            "to": 1.5333333015441895,
+            "wrapMode": 2
+          }
+        ]
+      }
+    ],
+    "assetFinder": {
+      "meshes": [],
+      "skeletons": [],
+      "textures": [],
+      "materials": [],
+      "scenes": []
+    }
+  }
+}
