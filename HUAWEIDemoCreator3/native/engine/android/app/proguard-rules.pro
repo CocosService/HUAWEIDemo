@@ -40,7 +40,18 @@
 -dontwarn android.webkit.WebView
 -dontwarn android.net.http.SslError
 -dontwarn android.webkit.WebViewClient
-# Cocos Service - For HUAWEI HMS PUSH
+
+# This is generated automatically by the Android Gradle plugin.
+-dontwarn android.hardware.BatteryState
+-dontwarn android.hardware.lights.Light
+-dontwarn android.hardware.lights.LightState$Builder
+-dontwarn android.hardware.lights.LightState
+-dontwarn android.hardware.lights.LightsManager$LightsSession
+-dontwarn android.hardware.lights.LightsManager
+-dontwarn android.hardware.lights.LightsRequest$Builder
+-dontwarn android.hardware.lights.LightsRequest
+-dontwarn android.net.ssl.SSLSockets
+-dontwarn android.os.VibratorManager# Cocos Service - For HUAWEI HMS PUSH
 -ignorewarnings
 -keepattributes *Annotation*
 -keepattributes Exceptions
@@ -50,3 +61,4 @@
 -keep class com.huawei.hianalytics.**{*;}
 -keep class com.huawei.updatesdk.**{*;}
 -keep class com.huawei.hms.**{*;}
+# Cocos Service - For HUAWEI HMS ACCOUNT

@@ -99,6 +99,12 @@ export class Startup extends Component {
                     // @ts-ignore
                     huawei?.hms?.push?.pushService
                 );
+            case 'account':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.hms?.account?.accountService
+                );
             default:
                 console.error("未处理的场景：" + sceneName);
                 return false;

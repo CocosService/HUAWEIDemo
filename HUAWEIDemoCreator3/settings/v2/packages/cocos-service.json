@@ -1,5 +1,5 @@
 {
-  "__version__": "3.0.5",
+  "__version__": "3.0.7",
   "game": {
     "app_id": "689714782",
     "c_id": "0",
@@ -88,6 +88,20 @@
         },
         {
           "service_id": "350",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "316",
+          "enable": false,
+          "param": {
+            "appIdAndroid": "614463fee4ebdcd18e373638",
+            "appIdIOS": "",
+            "plugin_version": "0.1.8_6.12.0"
+          }
+        },
+        {
+          "service_id": "352",
           "enable": true,
           "param": {}
         }
