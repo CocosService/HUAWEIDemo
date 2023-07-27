@@ -29,7 +29,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 52
+      "__id__": 53
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -60,7 +60,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 53
+      "__id__": 54
     },
     "_id": "7c6fc3e5-11bf-4022-8c48-5d2548763dfe"
   },
@@ -1156,6 +1156,9 @@
       },
       {
         "__id__": 51
+      },
+      {
+        "__id__": 52
       }
     ],
     "buttonLoadScene": {
@@ -1209,6 +1212,10 @@
     "sceneName": "account"
   },
   {
+    "__type__": "SceneListItem",
+    "sceneName": "game"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": null,
     "asset": null,
@@ -1219,25 +1226,25 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 54
-    },
-    "shadows": {
       "__id__": 55
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 56
     },
-    "fog": {
+    "_skybox": {
       "__id__": 57
     },
-    "octree": {
+    "fog": {
       "__id__": 58
     },
-    "skin": {
+    "octree": {
       "__id__": 59
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 60
+    },
+    "lightProbeInfo": {
+      "__id__": 61
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
