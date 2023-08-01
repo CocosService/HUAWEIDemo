@@ -27,7 +27,6 @@ export class Push extends Component {
         huawei.hms.push.pushService.on(huawei.hms.push.API_EVENT_LIST.debugApiResult, (res: huawei.hms.push.ApiCbResult) => {
             if (this.consolePanel) {
                 this.consolePanel.log("[debug]" + res.toString());
-                this.consolePanel.log("\n");
             } else {
                 console.error("console panel == null");
             }

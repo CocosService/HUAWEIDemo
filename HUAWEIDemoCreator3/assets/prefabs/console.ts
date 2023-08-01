@@ -18,23 +18,25 @@ export class Console extends Component {
     @property({ type: ScrollView })
     scrollView: ScrollView = null!;
 
-    log(...args: any[]) {
+    log (...args: any[]) {
+        //页面换行
+        args.push("\n");
         const { item, str } = this.addItem(null, ...args);
         if (item) log(str);
     }
 
-    error(...args: any[]) {
+    error (...args: any[]) {
         const { item, str } = this.addItem(({ label }) => {
             label.color = color(255, 0, 0);
         }, ...args);
         if (item) error(str);
     }
 
-    clear() {
+    clear () {
         this.getScrollContent()?.removeAllChildren();
     }
 
-    private addItem(
+    private addItem (
         onBuildItem:
             | ((components: { item: Node; label: Label }) => void)
             | null,
@@ -71,7 +73,7 @@ export class Console extends Component {
         return { item, str };
     }
 
-    private getScrollContent(): Node | null {
+    private getScrollContent (): Node | null {
         if (!this.scrollView.content) {
             log('Cannot get the content component of scroll view');
             return null;

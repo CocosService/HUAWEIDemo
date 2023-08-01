@@ -21,7 +21,6 @@ export class Account extends Component {
         this.account.on(huawei.hms.account.API_EVENT_LIST.debugApiResult, (res: huawei.hms.account.ApiCbResult) => {
             if (this.consolePanel) {
                 this.consolePanel.log("[debug]" + res.toString());
-                this.consolePanel.log("\n");
             } else {
                 console.error("console panel == null");
             }

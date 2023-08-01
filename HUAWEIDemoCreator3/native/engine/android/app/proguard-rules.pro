@@ -62,3 +62,8 @@
 -keep class com.huawei.updatesdk.**{*;}
 -keep class com.huawei.hms.**{*;}
 # Cocos Service - For HUAWEI HMS ACCOUNT
+# Cocos Service - For HUAWEI HMS GAME
+-keep interface com.huawei.hms.analytics.type.HAEventType{*;}
+-keep interface com.huawei.hms.analytics.type.HAParamType{*;}
+-keep class com.huawei.hms.analytics.HiAnalyticsInstance{*;}
+-keep class com.huawei.hms.analytics.HiAnalytics{*;}

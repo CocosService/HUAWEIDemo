@@ -105,6 +105,12 @@ export class Startup extends Component {
                     // @ts-ignore
                     huawei?.hms?.account?.accountService
                 );
+            case 'game':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.hms?.game?.gameService
+                );
             default:
                 console.error("未处理的场景：" + sceneName);
                 return false;

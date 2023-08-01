@@ -88,7 +88,7 @@
         },
         {
           "service_id": "350",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
@@ -102,6 +102,11 @@
         },
         {
           "service_id": "352",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "353",
           "enable": true,
           "param": {}
         }
