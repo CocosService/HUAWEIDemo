@@ -326,12 +326,12 @@ declare namespace huawei {
                  */
                 getEventListCallback(result: any): void;
                 /**
-                 * 显示浮标
+                 * 显示浮标 注意:部分华为设备不受本文档浮标相关接口的控制
                  * Api文档：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/buoyclient-0000001050123633
                 */
                 showFloatWindow(): void;
                 /**
-                 * 隐藏浮标
+                 * 隐藏浮标 注意:部分华为设备不受本文档浮标相关接口的控制
                 */
                 hideFloatWindow(): void;
             }

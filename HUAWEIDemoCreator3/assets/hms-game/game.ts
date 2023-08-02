@@ -2,6 +2,19 @@ import { _decorator, Component, loader, director, CCString, EventTarget, Node } 
 import { Console } from '../prefabs/console';
 const { ccclass, property } = _decorator;
 
+//存档数据结构
+interface ArchiveSummaryInfo {
+    activeTime: number,
+    archiveId: string,
+    currentProgress: number,
+    destInfo: string,
+    fileName: string,
+    hasThumbnail: boolean,
+    index: number,
+    recentUpdateTime: number,
+    thumbnailRatio: number,
+}
+
 /**
  * 华为游戏
 */
@@ -22,6 +35,8 @@ export class Game extends Component {
     ScrollView_doArchiveEvent: Node = null!;
 
 
+    //当前获取的存档数据
+    private _curGetArchiveSummaryInfoArr: Map<string, ArchiveSummaryInfo> = new Map();
 
     public closeSonShowMainPanel () {
         this.ScrollView_main.active = true;
@@ -316,7 +331,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "C1B196ADDD0CBD11F2403A7AB12A9A3BDD8A079E1ACC049EE948D67891D861F5",
+            achievementId: "141716BC39E1269BC8A092E5E74552EDBB365F66180D22DB07935421D7559A45",
         }
         this.game.doAchievementEvent("visualizeWithResult", JSON.stringify(info));
     }
@@ -329,7 +344,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "C1B196ADDD0CBD11F2403A7AB12A9A3BDD8A079E1ACC049EE948D67891D861F5",
+            achievementId: "141716BC39E1269BC8A092E5E74552EDBB365F66180D22DB07935421D7559A45",
         }
         this.game.doAchievementEvent("visualize", JSON.stringify(info));
     }
@@ -342,7 +357,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "019ECDD9541E9F1D47BE848166D56771BC87109C875770EB89450212753494AF",
+            achievementId: "CF70904A22DBC3D60135C0831DE99EA3D8E9E3961E663E3CFB8B0BD2D620E376",
             stepsNum: 1
         }
         this.game.doAchievementEvent("growWithResult", JSON.stringify(info));
@@ -356,7 +371,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "019ECDD9541E9F1D47BE848166D56771BC87109C875770EB89450212753494AF",
+            achievementId: "CF70904A22DBC3D60135C0831DE99EA3D8E9E3961E663E3CFB8B0BD2D620E376",
             stepsNum: 1
         }
         this.game.doAchievementEvent("grow", JSON.stringify(info));
@@ -371,7 +386,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "019ECDD9541E9F1D47BE848166D56771BC87109C875770EB89450212753494AF",
+            achievementId: "CF70904A22DBC3D60135C0831DE99EA3D8E9E3961E663E3CFB8B0BD2D620E376",
             stepsNum: 2
         }
         this.game.doAchievementEvent("makeStepsWithResult", JSON.stringify(info));
@@ -385,7 +400,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "019ECDD9541E9F1D47BE848166D56771BC87109C875770EB89450212753494AF",
+            achievementId: "CF70904A22DBC3D60135C0831DE99EA3D8E9E3961E663E3CFB8B0BD2D620E376",
             stepsNum: 2
         }
         this.game.doAchievementEvent("makeSteps", JSON.stringify(info));
@@ -400,7 +415,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "5B5A1F11D048E22C6A211E3F9942F2E9A2608FBB9C12489F9C994B562E9A80BE",
+            achievementId: "4B860D9F938C0B0746E08E89716C505EEB6E404B0B4DBC86833C11F570315E91",
         }
         this.game.doAchievementEvent("reachWithResult", JSON.stringify(info));
     }
@@ -414,7 +429,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "5B5A1F11D048E22C6A211E3F9942F2E9A2608FBB9C12489F9C994B562E9A80BE",
+            achievementId: "4B860D9F938C0B0746E08E89716C505EEB6E404B0B4DBC86833C11F570315E91",
         }
         this.game.doAchievementEvent("reach", JSON.stringify(info));
     }
@@ -686,13 +701,22 @@ export class Game extends Component {
      * 删除存档记录，包括华为游戏服务器和本地缓存的存档记录。华为游戏服务器侧根据存档记录的ID删除，本地缓存根据存档记录的名称删除。
     */
     removeArchive () {
-        console.error("TODO 获取存档ID");
-        return;
+        let selectInfo = this._getOneArchiveSummaryInfo();
+        if (selectInfo == null) {
+            this.consolePanel.log("当前暂无存档数据，如果玩家未存档过，请先执行 addArchive 添加存档，之后再调用 getArchiveSummaryList ,最后再调用此方法,删除第一个存档");
+            return;
+        }
+
         this.game.once(huawei.hms.game.API_EVENT_LIST.doArchiveEventCallback, (result: huawei.hms.game.ApiCbResult) => {
             this.consolePanel.log(result);
+            //删除成功后 移除本地存档
+            if (result.code == 1) {
+                this._curGetArchiveSummaryInfoArr.delete(selectInfo.archiveId);
+            }
+            console.log("删除存档后的数据：", this._getOneArchiveSummaryInfo);
         });
         let info = {
-            archiveId: "",
+            archiveId: selectInfo.archiveId,
         }
         this.game.doArchiveEvent("removeArchive", JSON.stringify(info));
     }
@@ -728,10 +752,10 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            title: "Savedata",      //界面上展示的存档的名称。
-            allowAddBtn: "1",       //是否允许有新增存档按钮。"1"允许 其他不允许
-            allowDeleteBtn: "1",    //是否允许有删除存档按钮。"1"允许 其他不允许
-            maxArchive: "5",          //展示存档的最大数量，"-1"表示展示全部。
+            title: "我的存档",      //界面上展示的存档的名称。
+            allowAddBtn: "0",       //是否允许有新增存档按钮。"1"允许 其他不允许
+            allowDeleteBtn: "0",    //是否允许有删除存档按钮。"1"允许 其他不允许
+            maxArchive: "-1",          //展示存档的最大数量，"-1"表示展示全部。
         }
         this.game.doArchiveEvent("getShowArchiveListIntent", JSON.stringify(info));
     }
@@ -744,6 +768,19 @@ export class Game extends Component {
     getArchiveSummaryList () {
         this.game.once(huawei.hms.game.API_EVENT_LIST.doArchiveEventCallback, (result: huawei.hms.game.ApiCbResult) => {
             this.consolePanel.log(result);
+            //临时存储 供删除用
+            if (result.code == 1 && result.data != null) {
+                //清除
+                this._curGetArchiveSummaryInfoArr.clear();
+                if (result.data.data != null && result.data.data.length != 0) {
+                    let arr = result.data.data as ArchiveSummaryInfo[];
+                    for (let i = 0; i < arr.length; i++) {
+                        const element = arr[i];
+                        this._curGetArchiveSummaryInfoArr.set(element.archiveId, element);
+                    }
+                }
+                console.log("获取到存档数据：", this._curGetArchiveSummaryInfoArr);
+            }
         });
         let info = {
             isRealTime: "1",      //是否联网获取数据。"1"是，表示从华为游戏服务器获取数据。否，表示从本地缓存获取数据。本地缓存时间为5分钟，如果本地无缓存或缓存超时，则从华为游戏服务器获取。
@@ -753,18 +790,41 @@ export class Game extends Component {
 
 
     /**
+     * 获取一个存档数据信息
+    */
+    private _getOneArchiveSummaryInfo (): ArchiveSummaryInfo {
+        if (this._curGetArchiveSummaryInfoArr.size == 0) {
+            return null;
+        }
+        let select: ArchiveSummaryInfo = null;
+        this._curGetArchiveSummaryInfoArr.forEach((val: ArchiveSummaryInfo, key: string) => {
+            //返回第一个
+            if (select == null) {
+                select = val;
+            }
+        })
+        return select;
+    }
+
+
+
+
+    /**
      * 打开存档数据/使用某个策略打开存档数据。/以文件名方式打开存档数据。/以不处理冲突的方式打开存档数据。
      * https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/archivesclient-0000001050123603#section20922651183118
     */
     loadArchiveDetails () {
-        console.error("TODO 获取存档ID");
-        return;
+        let selectInfo = this._getOneArchiveSummaryInfo();
+        if (selectInfo == null) {
+            this.consolePanel.log("当前暂无存档数据，如果玩家未存档过，请先执行 addArchive 添加存档，之后再调用 getArchiveSummaryList ,最后再调用此方法,删除第一个存档");
+            return;
+        }
         this.game.once(huawei.hms.game.API_EVENT_LIST.doArchiveEventCallback, (result: huawei.hms.game.ApiCbResult) => {
             this.consolePanel.log(result);
         });
         let info = {
             diffStrategy: "STRATEGY_TOTAL_PROGRESS",//https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/archivesclient-0000001050123603#section073211610341
-            archiveId: "",
+            archiveId: selectInfo.archiveId,
         }
         this.game.doArchiveEvent("loadArchiveDetails", JSON.stringify(info));
     }
@@ -774,20 +834,24 @@ export class Game extends Component {
      * https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/archivesclient-0000001050123603#section185311123389
     */
     updateArchive () {
-        console.error("TODO 获取存档ID");
-        return;
+        let selectInfo = this._getOneArchiveSummaryInfo();
+        if (selectInfo == null) {
+            this.consolePanel.log("当前暂无存档数据，如果玩家未存档过，请先执行 addArchive 添加存档，之后再调用 getArchiveSummaryList ,最后再调用此方法,删除第一个存档");
+            return;
+        }
+
         this.game.once(huawei.hms.game.API_EVENT_LIST.doArchiveEventCallback, (result: huawei.hms.game.ApiCbResult) => {
             this.consolePanel.log(result);
         });
         let info = {
             //selectArchive: "recentArchive",
-            archiveId: "",
+            archiveId: selectInfo.archiveId,
             activeTime: "8000",
             currentProgress: "60",
             archiveDetails: "time=8000,progress=60",
             descInfo: "savedata" + Math.ceil(Math.random() * 100),
-            thumbnail: "archiveIcon.png",
-            thumbnailMimeType: "png",
+            // thumbnail: "archiveIcon.png",
+            // thumbnailMimeType: "png",
         }
         this.game.doArchiveEvent("updateArchive", JSON.stringify(info));
     }

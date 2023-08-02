@@ -51,7 +51,7 @@
 -dontwarn android.hardware.lights.LightsRequest$Builder
 -dontwarn android.hardware.lights.LightsRequest
 -dontwarn android.net.ssl.SSLSockets
--dontwarn android.os.VibratorManager# Cocos Service - For HUAWEI HMS PUSH
+-dontwarn android.os.VibratorManager# Cocos Service - For HUAWEI HMS GAME
 -ignorewarnings
 -keepattributes *Annotation*
 -keepattributes Exceptions
@@ -61,8 +61,6 @@
 -keep class com.huawei.hianalytics.**{*;}
 -keep class com.huawei.updatesdk.**{*;}
 -keep class com.huawei.hms.**{*;}
-# Cocos Service - For HUAWEI HMS ACCOUNT
-# Cocos Service - For HUAWEI HMS GAME
 -keep interface com.huawei.hms.analytics.type.HAEventType{*;}
 -keep interface com.huawei.hms.analytics.type.HAParamType{*;}
 -keep class com.huawei.hms.analytics.HiAnalyticsInstance{*;}
