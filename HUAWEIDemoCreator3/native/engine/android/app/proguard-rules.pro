@@ -65,3 +65,6 @@
 -keep interface com.huawei.hms.analytics.type.HAParamType{*;}
 -keep class com.huawei.hms.analytics.HiAnalyticsInstance{*;}
 -keep class com.huawei.hms.analytics.HiAnalytics{*;}
+# Cocos Service - For HUAWEI HMS ADS
+-keep class com.huawei.openalliance.ad.** { *; }
+-keep class com.huawei.hms.ads.** { *; }
