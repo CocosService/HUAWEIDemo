@@ -68,3 +68,7 @@
 # Cocos Service - For HUAWEI HMS ADS
 -keep class com.huawei.openalliance.ad.** { *; }
 -keep class com.huawei.hms.ads.** { *; }
+# Cocos Service - For HUAWEI HMS LOCATION
+-keep class * extends com.huawei.hms.core.aidl.IMessageEntity{ *; }
+-keep public class com.huawei.location.nlp.network.** {*; }
+-keep class com.huawei.wisesecurity.ucs.**{*;}

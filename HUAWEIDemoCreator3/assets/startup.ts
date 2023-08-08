@@ -117,6 +117,13 @@ export class Startup extends Component {
                     // @ts-ignore
                     huawei?.hms?.ads?.adsService
                 );
+            case 'location':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.hms?.location?.locationService
+                );
+
             default:
                 console.error("未处理的场景：" + sceneName);
                 return false;
