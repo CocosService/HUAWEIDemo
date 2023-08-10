@@ -1,10 +1,4 @@
 {
-	"agcgw":{
-		"backurl":"connect-drcn.hispace.hicloud.com",
-		"url":"connect-drcn.dbankcloud.cn",
-		"websocketbackurl":"connect-ws-drcn.hispace.dbankcloud.com",
-		"websocketurl":"connect-ws-drcn.hispace.dbankcloud.cn"
-	},
 	"agcgw_all":{
 		"CN":"connect-drcn.dbankcloud.cn",
 		"CN_back":"connect-drcn.hispace.hicloud.com",
@@ -26,71 +20,37 @@
 		"SG_back":"connect-ws-dra.hispace.dbankcloud.com"
 	},
 	"client":{
-		"cp_id":"7150547",
-		"product_id":"388421841221566752",
-		"client_id":"1197063302396529664",
-		"client_secret":"F046264CE1EBF6B6F4ABA184320F0F31DF7CD6FB36163A2D8EB2386E6174804D",
-		"project_id":"388421841221566752",
-		"app_id":"108702107",
-		"api_key":"DAEDALVEdiYUnbiZoJkYcaVi4W+uXJvlphGn7cMRdMjdESQ4XxxZpIOqJqMi0iTARDAOMa0O0KiLzTVyz6kffKOkwddb5Cvpu/Iwtg==",
-		"package_name":"com.cocos.testservice"
+		"cp_id":"70086000159286487",
+		"product_id":"388421841221615736",
+		"client_id":"1218663413585039168",
+		"client_secret":"AEDF49DEC22E4D432DA282C14772AFCC6CE52AC6E3A3AECEC386B90784A3C1DF",
+		"project_id":"388421841221615736",
+		"app_id":"108919583",
+		"api_key":"DAEDANjR6nTAZt937NJIBRxanJ+HdrqnXA/yhN9wa7lYtdafDNpzUe2oaatWdDOZo2PDWxV6qn6vEdIL8kbTVeYU2zGHP7sDjf/eJg==",
+		"package_name":"com.cocos.testhwservice"
 	},
 	"oauth_client":{
-		"client_id":"108702107",
+		"client_id":"108919583",
 		"client_type":1
 	},
 	"app_info":{
-		"app_id":"108702107",
-		"package_name":"com.cocos.testservice"
+		"app_id":"108919583",
+		"package_name":"com.cocos.testhwservice"
 	},
-	"service":{
-		"analytics":{
-			"collector_url":"datacollector-drcn.dt.hicloud.com,datacollector-drcn.dt.dbankcloud.cn",
-			"collector_url_ru":"datacollector-drru.dt.dbankcloud.ru,datacollector-drru.dt.hicloud.com",
-			"collector_url_sg":"datacollector-dra.dt.hicloud.com,datacollector-dra.dt.dbankcloud.cn",
-			"collector_url_de":"datacollector-dre.dt.hicloud.com,datacollector-dre.dt.dbankcloud.cn",
-			"collector_url_cn":"datacollector-drcn.dt.hicloud.com,datacollector-drcn.dt.dbankcloud.cn",
-			"resource_id":"p1",
-			"channel_id":""
-		},
-		"edukit":{
-			"edu_url":"edukit.edu.cloud.huawei.com.cn",
-			"dh_url":"edukit.edu.cloud.huawei.com.cn"
-		},
-		"search":{
-			"url":"https://search-drcn.cloud.huawei.com"
-		},
-		"cloudstorage":{
-			"storage_url_sg_back":"https://agc-storage-dra.cloud.huawei.asia",
-			"storage_url_ru_back":"https://agc-storage-drru.cloud.huawei.ru",
-			"storage_url_ru":"https://agc-storage-drru.cloud.huawei.ru",
-			"storage_url_de_back":"https://agc-storage-dre.cloud.huawei.eu",
-			"storage_url_de":"https://ops-dre.agcstorage.link",
-			"storage_url":"https://agc-storage-drcn.platform.dbankcloud.cn",
-			"storage_url_sg":"https://ops-dra.agcstorage.link",
-			"storage_url_cn_back":"https://agc-storage-drcn.cloud.huawei.com.cn",
-			"storage_url_cn":"https://agc-storage-drcn.platform.dbankcloud.cn",
-			"default_storage":"test-cocos-service-zi2hu"
-		},
-		"ml":{
-			"mlservice_url":"ml-api-drcn.ai.dbankcloud.com,ml-api-drcn.ai.dbankcloud.cn"
-		}
-	},
-	"region":"CN",
 	"configuration_version":"3.0",
 	"appInfos":[
 		{
-			"package_name":"com.cocos.testservice",
+			"package_name":"com.cocos.testhwservice",
 			"client":{
-				"app_id":"108702107"
+				"app_id":"108919583"
 			},
 			"app_info":{
-				"package_name":"com.cocos.testservice",
-				"app_id":"108702107"
+				"package_name":"com.cocos.testhwservice",
+				"app_id":"108919583"
 			},
 			"oauth_client":{
 				"client_type":1,
-				"client_id":"108702107"
+				"client_id":"108919583"
 			}
 		}
 	]

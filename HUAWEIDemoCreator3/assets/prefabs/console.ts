@@ -18,14 +18,21 @@ export class Console extends Component {
     @property({ type: ScrollView })
     scrollView: ScrollView = null!;
 
+    index = 0;
+
+
     log (...args: any[]) {
-        //页面换行
+        this.index++;
+        args.unshift(this.index + "\n");
         args.push("\n");
         const { item, str } = this.addItem(null, ...args);
         if (item) log(str);
     }
 
     error (...args: any[]) {
+        this.index++;
+        args.unshift(this.index + "\n");
+        args.push("\n");
         const { item, str } = this.addItem(({ label }) => {
             label.color = color(255, 0, 0);
         }, ...args);
