@@ -73,3 +73,9 @@
 -keep public class com.huawei.location.nlp.network.** {*; }
 -keep class com.huawei.wisesecurity.ucs.**{*;}
 # Cocos Service - For HUAWEI HMS IAP
+# Cocos Service - For HUAWEI HMS ACCOUNT
+# Cocos Service - For HUAWEI AGC ServiceAGCAPMS
+-keep class com.huawei.agconnect.**{*;}
+-dontwarn com.huawei.agconnect.**
+-keep class com.hianalytics.android.**{*;}
+-keepattributes Exceptions, Signature, InnerClasses, LineNumberTable
