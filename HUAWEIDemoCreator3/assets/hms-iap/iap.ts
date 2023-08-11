@@ -47,9 +47,6 @@ export class Iap extends Component {
         //         console.error("console panel == null");
         //     }
         // }, this, false);
-
-        //设置支付公密钥
-        this.setPublicKey();
     }
 
     onDisable (): void {
@@ -60,10 +57,13 @@ export class Iap extends Component {
     //--------------------------------
 
     /**
-     * 设置支付公钥
+     * 初始化
     */
-    setPublicKey () {
-        this.iap.setPublicKey(this.iapPublicKey);
+    init () {
+        this.iap.once(huawei.hms.iap.API_EVENT_LIST.initCallBack, (res: huawei.hms.iap.ApiCbResult) => {
+            this.consolePanel && this.consolePanel.log(res);
+        });
+        this.iap.init(this.iapPublicKey, false);
     }
 
 
@@ -146,55 +146,27 @@ export class Iap extends Component {
                 }
             }
         });
-        this.iap.createPurchaseIntent(productId, priceType, developerPayload);
+        this.iap.createPurchaseIntent(productId, priceType, developerPayload, false);
 
     }
 
 
     /**
-     * 购买非PMS商品
-    */
-    createPurchaseIntentWithPrice () {
-        this.iap.once(huawei.hms.iap.API_EVENT_LIST.createPurchaseIntentWithPriceCallBack, (res: huawei.hms.iap.ApiCbResult) => {
-            this.consolePanel && this.consolePanel.log(res);
-        });
-        let info = {
-            currency: "CNY",
-            developerPayload: "test",
-            priceType: -1,
-            sdkChannel: "1",
-            productName: "test",
-            amount: "1",
-            productId: "productId",
-            serviceCatalog: "XXX",
-            country: "CN",
-        }
-        this.iap.createPurchaseIntentWithPrice(info);
-    }
-
-
-
-
-    /**
-     * 确认交易,执行消耗操作 0：消耗型商品; 1：非消耗型商品; 2：订阅型商品
+     * 确认交易,执行消耗操作 消耗型商品
     */
     consumeOwnedPurchase_type_0 () {
         this._consumeOwnedPurchase(0);
     }
-    //仅沙箱环境
+    /**
+     * 非消耗型商品仅沙箱环境可消耗
+    */
     consumeOwnedPurchase_type_1 () {
         this._consumeOwnedPurchase(1);
     }
 
-    //不支持 无需消耗 否则返回错误
-    // consumeOwnedPurchase_type_2 () {
-    //     this._consumeOwnedPurchase(2);
-    // }
-
-
-
     /**
      * 确认交易,执行消耗操作  在商品支付成功后，应用需要在发放商品成功之后调用此接口对消耗型商品执行消耗操作。
+     * 注意： 1.订阅商品不支持 无需消耗 否则返回错误，2.非消耗型商品仅沙箱环境可消耗
      * inAppPurchaseData 购买数据中的inAppPurchaseData
     */
     private _consumeOwnedPurchase (priceType: number) {
@@ -325,7 +297,15 @@ export class Iap extends Component {
     */
     obtainOwnedPurchaseRecord () {
         this.iap.once(huawei.hms.iap.API_EVENT_LIST.obtainOwnedPurchaseRecordCallBack, (res: huawei.hms.iap.ApiCbResult) => {
-            this.consolePanel && this.consolePanel.log(res);
+            // this.consolePanel && this.consolePanel.log(res);
+            if (res.code == huawei.hms.iap.StatusCode.success) {
+                let arr: Array<any> = res.data?.inAppPurchaseDataList;
+                if (arr != null) {
+                    this.consolePanel && this.consolePanel.log("获取到 " + arr.length + " 条订单记录");
+                }
+            } else {
+                this.consolePanel && this.consolePanel.log(res);
+            }
         });
         this.iap.obtainOwnedPurchaseRecord(0);
         // this.iap.obtainOwnedPurchaseRecord(2);

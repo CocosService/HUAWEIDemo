@@ -11,10 +11,10 @@ declare namespace huawei {
              */
             enum API_EVENT_LIST {
                 debugApiResult = "debugApiResult",
+                initCallBack = "initCallBack",
                 isEnvReadyCallBack = "isEnvReadyCallBack",
                 obtainProductInfoCallBack = "obtainProductInfoCallBack",
                 createPurchaseIntentCallBack = "createPurchaseIntentCallBack",
-                createPurchaseIntentWithPriceCallBack = "createPurchaseIntentWithPriceCallBack",
                 consumeOwnedPurchaseCallBack = "consumeOwnedPurchaseCallBack",
                 obtainOwnedPurchasesCallBack = "obtainOwnedPurchasesCallBack",
                 obtainOwnedPurchaseRecordCallBack = "obtainOwnedPurchaseRecordCallBack",
@@ -116,9 +116,15 @@ declare namespace huawei {
                  */
                 debugApiResult(result: any): void;
                 /**
-                 * 设置支付公钥
+                 * 初始化
+                 * @param publicKey 支付公钥
+                 * @param enablePendingPurchase 是否启用延迟付款型支付。若要在您的应用中使用延迟付款型支付功能，需要在发起购买前调用本接口
                 */
-                setPublicKey(key: string): void;
+                init(publicKey: string, enablePendingPurchase: boolean): void;
+                /**
+                 * @internal
+                */
+                private _initCallBack;
                 /**
                  * 获取是否支持应用内支付
                 */
@@ -139,36 +145,20 @@ declare namespace huawei {
                 private _obtainProductInfoCallBack;
                 /**
                  * 发起购买PMS商品
-                 * @param productId        商品ID
-                 * @param priceType        商品类型 0：消耗型商品; 1：非消耗型商品; 2：订阅型商品
-                 * @param developerPayload 商户侧保留信息
+                 * @param productId         商品ID
+                 * @param priceType         商品类型 0：消耗型商品; 1：非消耗型商品; 2：订阅型商品
+                 * @param developerPayload  商户侧保留信息
+                 * @param useFriendPay      是否采用好友支付（需要在init时候启用延迟支付）
                 */
-                createPurchaseIntent(productId: string, priceType: number, developerPayload: string): void;
+                createPurchaseIntent(productId: string, priceType: number, developerPayload: string, useFriendPay: boolean): void;
                 /**
                  * @internal
                 */
                 private _createPurchaseIntentCallBack;
                 /**
-                 * 购买非PMS商品
-                */
-                createPurchaseIntentWithPrice(info: {
-                    currency: string;
-                    developerPayload: string;
-                    priceType: number;
-                    sdkChannel: string;
-                    productName: string;
-                    amount: string;
-                    productId: string;
-                    serviceCatalog: string;
-                    country: string;
-                }): void;
-                /**
-                 * @internal
-                */
-                private _createPurchaseIntentWithPriceCallBack;
-                /**
-                 * 消耗品确认交易 在消耗型商品支付成功后，应用需要在发放商品成功之后调用此接口对消耗型商品执行消耗操作。
-                 * @param inAppPurchaseData 购买数据中的inAppPurchaseData
+                 * 确认交易 在商品支付成功后，应用需要在发放商品成功之后调用此接口对消耗型商品执行消耗操作
+                 * 注意： 1.订阅商品不支持 无需消耗 否则返回错误，2.非消耗型商品仅沙箱环境可消耗
+                 * @param inAppPurchaseData 订单数据
                 */
                 consumeOwnedPurchase(inAppPurchaseData: string): void;
                 /**
