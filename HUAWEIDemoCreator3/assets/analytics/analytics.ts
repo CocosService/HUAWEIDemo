@@ -7,7 +7,7 @@ export class Analytics extends Component {
     @property({ type: Console })
     console: Console = null!;
 
-    private analyticsEnabled = true;
+
     private logLevel: huawei.hms.analytics.LOG_LEVEL | null = null;
 
     start () {
@@ -153,13 +153,16 @@ to enable the debug mode at the first time'
         this.console.log('pageEnd', 'pageName=', value);
     }
 
-    toggleAnalyticsEnabled () {
-        huawei.hms.analytics.analyticsService.setAnalyticsEnabled(
-            this.analyticsEnabled
-        );
-        this.console.log('toggleAnalyticsEnabled', this.analyticsEnabled);
-        this.analyticsEnabled = !this.analyticsEnabled;
+    setAnalyticsEnabled () {
+        huawei.hms.analytics.analyticsService.setAnalyticsEnabled(true);
+        this.console.log('setAnalyticsEnabled');
     }
+
+    setAnalyticsDisabled () {
+        huawei.hms.analytics.analyticsService.setAnalyticsEnabled(false);
+        this.console.log('setAnalyticsDisabled');
+    }
+
 
     customEvent () {
         director.loadScene('analytics-custom-event');

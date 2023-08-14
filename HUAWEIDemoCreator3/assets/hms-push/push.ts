@@ -24,17 +24,19 @@ export class Push extends Component {
 
 
     onEnable () {
-        huawei.hms.push.pushService.on(huawei.hms.push.API_EVENT_LIST.debugApiResult, (res: huawei.hms.push.ApiCbResult) => {
-            if (this.consolePanel) {
-                this.consolePanel.log("[debug]" + res.toString());
-            } else {
-                console.error("console panel == null");
-            }
-        }, this, false);
+        //debug
+        // huawei.hms.push.pushService.on(huawei.hms.push.API_EVENT_LIST.debugApiResult, (res: huawei.hms.push.ApiCbResult) => {
+        //     if (this.consolePanel) {
+        //         this.consolePanel.log("[debug]" + res.toString());
+        //     } else {
+        //         console.error("console panel == null");
+        //     }
+        // }, this, false);
     }
 
     onDisable (): void {
-        huawei.hms.push.pushService.off(huawei.hms.push.API_EVENT_LIST.debugApiResult);
+        //debug
+        // huawei.hms.push.pushService.off(huawei.hms.push.API_EVENT_LIST.debugApiResult);
     }
 
 
@@ -43,6 +45,9 @@ export class Push extends Component {
      * 调用 SDK 的开始或注册推送方法，在成功回调中获取推送 Token。
     */
     startPush (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.startPushCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         huawei.hms.push.pushService.startPush(this.appId);
     }
 
@@ -51,31 +56,37 @@ export class Push extends Component {
      * 调用 SDK 的关闭推送方法。
     */
     closePush (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.closePushCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         huawei.hms.push.pushService.closePush(this.appId);
     }
     /**
      * 设置别名(不支持)
      * 调用 SDK 的设置别名方法。
     */
-    setAlias (): void {
-        let params = "alias1";
-        huawei.hms.push.pushService.setAlias(params);
-    }
+    // setAlias (): void {
+    //     let params = "alias1";
+    //     huawei.hms.push.pushService.setAlias(params);
+    // }
 
     /**
      * 删除别名(不支持)
      * 调用 SDK 的删除别名方法。
     */
-    delAlias (): void {
-        let params = "alias1";
-        huawei.hms.push.pushService.delAlias(params);
-    }
+    // delAlias (): void {
+    //     let params = "alias1";
+    //     huawei.hms.push.pushService.delAlias(params);
+    // }
 
 
     /**
      * 调用 SDK 的设置标签方法
     */
     setTag (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.setTagCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         huawei.hms.push.pushService.setTag("tag1");
     }
 
@@ -83,6 +94,9 @@ export class Push extends Component {
      * 删除标签 调用 SDK 的删除标签方法
     */
     delTag (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.delTagCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         huawei.hms.push.pushService.delTag("tag1");
     }
 
@@ -90,6 +104,9 @@ export class Push extends Component {
      * 异步任务打开接收通知栏消息开关
     */
     turnOnPush (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.turnOnPushCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         huawei.hms.push.pushService.turnOnPush();
     }
 
@@ -97,6 +114,9 @@ export class Push extends Component {
      * 异步任务关闭接收通知栏消息开关。
     */
     turnOffPush (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.turnOffPushCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         huawei.hms.push.pushService.turnOffPush();
     }
 
@@ -105,6 +125,10 @@ export class Push extends Component {
      * params：json 序列化后的数据
     */
     sendMessage (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.sendMessageCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
+
         let params = {
             "messageId": "messageId" + Math.ceil(Math.random() * 100000),
             "messageType": "mType1",
@@ -147,6 +171,9 @@ export class Push extends Component {
      * 删除本地生成的AAID与时间戳并同步删除已生成的与本AAID相关的所有Token。
     */
     deleteAAID () {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.deleteAAIDCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         huawei.hms.push.pushService.deleteAAID()
     }
 
@@ -155,7 +182,7 @@ export class Push extends Component {
     */
     isAutoInitEnabled () {
         let bol = huawei.hms.push.pushService.isAutoInitEnabled()
-        this.consolePanel.log(bol);
+        this.consolePanel.log("isAutoInitEnabled succeed,value:", bol);
     }
 
     private _curAutoInitEnabled: boolean = false;
@@ -165,6 +192,7 @@ export class Push extends Component {
     setAutoInitEnabled () {
         this._curAutoInitEnabled = !this._curAutoInitEnabled;
         huawei.hms.push.pushService.setAutoInitEnabled(this._curAutoInitEnabled);
+        this.consolePanel.log("setAutoInitEnabled succeed,value:", this._curAutoInitEnabled);
     }
 
     /**
@@ -192,10 +220,16 @@ export class Push extends Component {
      * 删除Token。
     */
     deleteToken (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.deleteTokenCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         huawei.hms.push.pushService.deleteToken(this.appId);
     }
 
     deleteTokenBySubjectId () {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.deleteTokenBySubjectIdCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         huawei.hms.push.pushService.deleteTokenBySubjectId(this.subjectId);
     }
 
@@ -204,13 +238,16 @@ export class Push extends Component {
     */
     isSupportProfile () {
         let bol = huawei.hms.push.pushService.isSupportProfile();
-        this.consolePanel.log(bol);
+        this.consolePanel.log("isSupportProfile succeed,value:", bol);
     }
 
     /**
      * 添加当前设备上该用户与应用的关系。
     */
     addProfile () {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.addProfileCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         let params = {
             "type": "CUSTOM_PROFILE",
             "profileId": "PROFILE_ID_001"
@@ -222,6 +259,9 @@ export class Push extends Component {
      * 清除当前设备上该用户与应用的关系。
     */
     deleteProfile () {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.deleteProfileCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
         let params = {
             "type": "CUSTOM_PROFILE",
             "profileId": "PROFILE_ID_001"

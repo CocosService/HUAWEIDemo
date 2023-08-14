@@ -70,7 +70,7 @@
         },
         {
           "service_id": "302",
-          "enable": false,
+          "enable": true,
           "param": {
             "installationSource": "AppGallery",
             "plugin_version": "2.2.0_6.10.0.302"
@@ -78,7 +78,7 @@
         },
         {
           "service_id": "303",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
