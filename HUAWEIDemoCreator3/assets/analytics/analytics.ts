@@ -53,6 +53,20 @@ to enable the debug mode at the first time'
         }
     }
 
+
+    //打开/关闭华为服务器对您上报的最终用户个人数据的接收
+    setAnalyticsEnabled () {
+        huawei.hms.analytics.analyticsService.setAnalyticsEnabled(true);
+        this.console.log('setAnalyticsEnabled');
+    }
+
+    setAnalyticsDisabled () {
+        huawei.hms.analytics.analyticsService.setAnalyticsEnabled(false);
+        this.console.log('setAnalyticsDisabled');
+    }
+
+
+
     setReportPolicies () {
         const ReportPolicy = huawei.hms.analytics.ReportPolicy;
         const moveBackgroundPolicy = ReportPolicy.ON_MOVE_BACKGROUND_POLICY;
@@ -135,6 +149,7 @@ to enable the debug mode at the first time'
         );
     }
 
+    //自定义进入页面事件，需要在调用本接口后调用pageEnd接口配对使用。
     pageStart () {
         const value = 'page_wzm';
         huawei.hms.analytics.analyticsService.pageStart(value, value);
@@ -147,20 +162,11 @@ to enable the debug mode at the first time'
         );
     }
 
+    //自定义退出页面事件，需要在调用本接口前先调用pageStart接口配对使用。
     pageEnd () {
         const value = 'page_wzm';
         huawei.hms.analytics.analyticsService.pageEnd(value);
         this.console.log('pageEnd', 'pageName=', value);
-    }
-
-    setAnalyticsEnabled () {
-        huawei.hms.analytics.analyticsService.setAnalyticsEnabled(true);
-        this.console.log('setAnalyticsEnabled');
-    }
-
-    setAnalyticsDisabled () {
-        huawei.hms.analytics.analyticsService.setAnalyticsEnabled(false);
-        this.console.log('setAnalyticsDisabled');
     }
 
 

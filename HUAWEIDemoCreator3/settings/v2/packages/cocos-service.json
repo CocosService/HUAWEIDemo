@@ -42,7 +42,7 @@
       "services": [
         {
           "service_id": "312",
-          "enable": false,
+          "enable": true,
           "param": {}
         },
         {
@@ -78,7 +78,7 @@
         },
         {
           "service_id": "303",
-          "enable": false,
+          "enable": true,
           "param": {}
         },
         {
@@ -88,7 +88,7 @@
         },
         {
           "service_id": "350",
-          "enable": false,
+          "enable": true,
           "param": {}
         },
         {
@@ -102,27 +102,27 @@
         },
         {
           "service_id": "352",
-          "enable": false,
+          "enable": true,
           "param": {}
         },
         {
           "service_id": "353",
-          "enable": false,
+          "enable": true,
           "param": {}
         },
         {
           "service_id": "354",
-          "enable": false,
+          "enable": true,
           "param": {}
         },
         {
           "service_id": "301",
-          "enable": false,
+          "enable": true,
           "param": {}
         },
         {
           "service_id": "355",
-          "enable": false,
+          "enable": true,
           "param": {}
         }
       ]

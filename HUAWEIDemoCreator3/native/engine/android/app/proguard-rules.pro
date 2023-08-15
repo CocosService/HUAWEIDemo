@@ -109,3 +109,8 @@
 -dontwarn org.bouncycastle.crypto.prng.SP800SecureRandomBuilder
 -dontwarn rx.Scheduler
 -dontwarn rx.schedulers.Schedulers
+
+# Cocos Service - For HUAWEI AGC Function
+-keepresourcexmlelements **
+-keepresources */*
+-dontwarn com.huawei.hms.analytics.connector.ConnectorManager

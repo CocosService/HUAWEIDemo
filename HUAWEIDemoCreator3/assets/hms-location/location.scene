@@ -5894,7 +5894,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "5fVN30uNZKVpcPIWjbmCg/",
+    "fileId": "91KJqgniRDAa3CCTp44ZDY",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -6062,7 +6062,7 @@
     },
     "component": "",
     "_componentId": "1137acBPZBN5bUeGmcLDBpV",
-    "handler": "removeLocationUpdates",
+    "handler": "requestLocationUpdates",
     "customEventData": ""
   },
   {
@@ -6073,7 +6073,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "removeLocationUpdates"
+    "value": "requestLocationUpdates"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -6148,7 +6148,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "removeLocationUpdates"
+    "value": "requestLocationUpdates"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -6208,7 +6208,7 @@
     "propertyPath": [
       "_actualFontSize"
     ],
-    "value": 48
+    "value": 45
   },
   {
     "__type__": "cc.Node",
@@ -6239,7 +6239,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "91KJqgniRDAa3CCTp44ZDY",
+    "fileId": "5fVN30uNZKVpcPIWjbmCg/",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -6407,7 +6407,7 @@
     },
     "component": "",
     "_componentId": "1137acBPZBN5bUeGmcLDBpV",
-    "handler": "requestLocationUpdates",
+    "handler": "removeLocationUpdates",
     "customEventData": ""
   },
   {
@@ -6418,7 +6418,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "requestLocationUpdates"
+    "value": "removeLocationUpdates"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -6493,7 +6493,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "requestLocationUpdates"
+    "value": "removeLocationUpdates"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -6553,7 +6553,7 @@
     "propertyPath": [
       "_actualFontSize"
     ],
-    "value": 45
+    "value": 48
   },
   {
     "__type__": "cc.Node",
@@ -8500,8 +8500,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 170,
-      "y": -195,
+      "x": -300,
+      "y": -325,
       "z": 0
     }
   },
@@ -8845,7 +8845,7 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -300,
+      "x": 170,
       "y": -325,
       "z": 0
     }
@@ -9190,8 +9190,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 170,
-      "y": -325,
+      "x": -300,
+      "y": -455,
       "z": 0
     }
   },
@@ -9535,7 +9535,7 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -300,
+      "x": 170,
       "y": -455,
       "z": 0
     }

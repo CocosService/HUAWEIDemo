@@ -40,17 +40,21 @@ export class Location extends Component {
 
         //其他被动事件
         //设置活动识别更新监听 1
-        huawei.hms.location.locationService.on(huawei.hms.location.API_EVENT_LIST.HMS_ACTIVITY_UPDATES, (result) => {
+        huawei.hms.location.locationActivityService.on(huawei.hms.location.API_EVENT_LIST.HMS_ACTIVITY_UPDATES, (result) => {
+            console.log("HMS_ACTIVITY_UPDATES")
             this.consolePanel.log(result);
-        });
+        }, this);
         //设置活动识别更新监听 2
-        huawei.hms.location.locationService.on(huawei.hms.location.API_EVENT_LIST.HMS_CONVERSION_UPDATES, (result) => {
+        huawei.hms.location.locationActivityService.on(huawei.hms.location.API_EVENT_LIST.HMS_CONVERSION_UPDATES, (result) => {
+            console.log("HMS_CONVERSION_UPDATES")
             this.consolePanel.log(result);
-        });
+
+        }, this);
         //设置地理围栏监听
-        huawei.hms.location.locationService.on(huawei.hms.location.API_EVENT_LIST.HMS_RECEIVE_GEOFENCE_DATA, (result) => {
+        huawei.hms.location.locationGeofenceService.on(huawei.hms.location.API_EVENT_LIST.HMS_RECEIVE_GEOFENCE_DATA, (result) => {
+            console.log("HMS_RECEIVE_GEOFENCE_DATA")
             this.consolePanel.log(result);
-        });
+        }, this);
 
         this.showMainClick();
 

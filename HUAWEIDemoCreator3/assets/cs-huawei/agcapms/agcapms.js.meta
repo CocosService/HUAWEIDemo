@@ -1,0 +1,17 @@
+{
+  "ver": "4.0.23",
+  "importer": "javascript",
+  "imported": true,
+  "uuid": "dc8447e6-e8fc-4f25-afb0-56d31a612bc9",
+  "files": [
+    ".js"
+  ],
+  "subMetas": {},
+  "userData": {
+    "isPlugin": true,
+    "loadPluginInWeb": false,
+    "loadPluginInNative": true,
+    "loadPluginInEditor": false,
+    "simulateGlobals": []
+  }
+}
