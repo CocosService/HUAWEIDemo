@@ -18,7 +18,7 @@ export class Startup extends Component {
     @property({ type: Prefab })
     buttonLoadScene: Prefab = null!;
 
-    start() {
+    start () {
         // @ts-ignore
         cc.debug.setDisplayStats(false);
         for (const sceneListItem of this.sceneList) {
@@ -33,7 +33,7 @@ export class Startup extends Component {
         }
     }
 
-    private checkServiceAvailable(sceneName: string): boolean {
+    private checkServiceAvailable (sceneName: string): boolean {
         if (typeof huawei === 'undefined') {
             return false;
         }
@@ -93,7 +93,45 @@ export class Startup extends Component {
                     // @ts-ignore
                     huawei?.agc?.db?.dbService?.support
                 );
+            case 'push':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.hms?.push?.pushService
+                );
+            case 'account':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.hms?.account?.accountService
+                );
+            case 'game':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.hms?.game?.gameService
+                );
+            case 'ads':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.hms?.ads?.adsService
+                );
+            case 'location':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.hms?.location?.locationService
+                );
+            case 'iap':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.hms?.iap?.iapService
+                );
+
             default:
+                console.error("未处理的场景：" + sceneName);
                 return false;
         }
     }

@@ -7,7 +7,8 @@ export class Function extends Component {
     @property({ type: Console })
     console: Console = null!;
 
-    callWithParam() {
+    //有参
+    callWithParam () {
         huawei.agc.func.funcService.wrap('func-$latest').call(
             (err, data) => {
                 if (err !== null) {
@@ -31,7 +32,8 @@ export class Function extends Component {
         );
     }
 
-    callWithoutParam() {
+    //无参
+    callWithoutParam () {
         huawei.agc.func.funcService.wrap('func-$latest').call((err, data) => {
             if (err !== null) {
                 this.console.log(

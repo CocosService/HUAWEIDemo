@@ -1,19 +1,20 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "",
+    "_name": "button-item",
     "_objFlags": 0,
     "_native": "",
     "data": {
       "__id__": 1
     },
     "optimizationPolicy": 0,
-    "asyncLoadAssets": false
+    "persistent": false
   },
   {
     "__type__": "cc.Node",
     "_name": "button-item",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "_parent": null,
     "_children": [
       {
@@ -54,6 +55,7 @@
       "y": 1,
       "z": 1
     },
+    "_mobility": 0,
     "_layer": 33554432,
     "_euler": {
       "__type__": "cc.Vec3",
@@ -105,6 +107,7 @@
       "y": 1,
       "z": 1
     },
+    "_mobility": 0,
     "_layer": 33554432,
     "_euler": {
       "__type__": "cc.Vec3",
@@ -125,7 +128,6 @@
     "__prefab": {
       "__id__": 4
     },
-    "_priority": 0,
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 490,
@@ -153,7 +155,6 @@
     "__prefab": {
       "__id__": 6
     },
-    "_visFlags": 0,
     "_customMaterial": null,
     "_srcBlendFactor": 2,
     "_dstBlendFactor": 4,
@@ -175,6 +176,7 @@
     "_enableWrapText": false,
     "_font": null,
     "_isSystemFontUsed": true,
+    "_spacingX": 0,
     "_isItalic": false,
     "_isBold": false,
     "_isUnderline": false,
@@ -229,7 +231,10 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "17ddCC9eJHfqx7Lk9U7pma"
+    "fileId": "17ddCC9eJHfqx7Lk9U7pma",
+    "instance": null,
+    "targetOverrides": null,
+    "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.UITransform",
@@ -242,7 +247,6 @@
     "__prefab": {
       "__id__": 11
     },
-    "_priority": 0,
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 550,
@@ -270,7 +274,6 @@
     "__prefab": {
       "__id__": 13
     },
-    "_visFlags": 0,
     "_customMaterial": null,
     "_srcBlendFactor": 2,
     "_dstBlendFactor": 4,
@@ -282,7 +285,8 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "0d83795d-11a4-44e8-96b4-283ec8fcc184@f9941"
+      "__uuid__": "0d83795d-11a4-44e8-96b4-283ec8fcc184@f9941",
+      "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 1,
     "_fillType": 0,
@@ -350,7 +354,8 @@
       "a": 255
     },
     "_normalSprite": {
-      "__uuid__": "0d83795d-11a4-44e8-96b4-283ec8fcc184@f9941"
+      "__uuid__": "0d83795d-11a4-44e8-96b4-283ec8fcc184@f9941",
+      "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": null,
     "_pressedSprite": null,
@@ -382,6 +387,8 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "611Hh0GjNMQYzqAHlWJH/W"
+    "fileId": "611Hh0GjNMQYzqAHlWJH/W",
+    "instance": null,
+    "targetOverrides": null
   }
 ]

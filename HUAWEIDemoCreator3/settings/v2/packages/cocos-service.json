@@ -1,0 +1,176 @@
+{
+  "__version__": "3.0.7",
+  "game": {
+    "app_id": "689714782",
+    "c_id": "0",
+    "name": "华为 service 服务测试"
+  },
+  "appConfigMaps": [
+    {
+      "app_id": "UNKNOW",
+      "config_id": "20dd67"
+    },
+    {
+      "app_id": "689714782",
+      "config_id": "bfd651"
+    }
+  ],
+  "configs": [
+    {
+      "app_id": "UNKNOW",
+      "config_id": "20dd67",
+      "config_name": "Default",
+      "config_remarks": "",
+      "services": [
+        {
+          "service_id": "312",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "350",
+          "enable": false,
+          "param": {}
+        }
+      ]
+    },
+    {
+      "app_id": "689714782",
+      "config_id": "bfd651",
+      "config_name": "Default",
+      "config_remarks": "",
+      "services": [
+        {
+          "service_id": "312",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "300",
+          "enable": false,
+          "param": {
+            "configId": "3abf03",
+            "plugin_version": "2.0.7_0.2.0"
+          }
+        },
+        {
+          "service_id": "307",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "244",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "270",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "302",
+          "enable": true,
+          "param": {
+            "installationSource": "AppGallery",
+            "plugin_version": "2.2.0_6.10.0.302"
+          }
+        },
+        {
+          "service_id": "303",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "243",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "350",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "316",
+          "enable": false,
+          "param": {
+            "appIdAndroid": "614463fee4ebdcd18e373638",
+            "appIdIOS": "",
+            "plugin_version": "0.1.8_6.12.0"
+          }
+        },
+        {
+          "service_id": "352",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "353",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "354",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "301",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "355",
+          "enable": true,
+          "param": {}
+        }
+      ]
+    }
+  ],
+  "sdkHubConfigSet": [
+    {
+      "id": "3abf03",
+      "name": "HUAWEI  AppGallery Connect",
+      "platform": "3",
+      "channelID": "161221",
+      "channelName": "HUAWEI  AppGallery Connect",
+      "remarks": "HUAWEI  AppGallery Connect",
+      "plugins": [
+        {
+          "hasParam": true,
+          "packageName": "huawei-hms",
+          "pParam": {
+            "HMSFeePublicKey": "MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEA7DV62hEbt8sUXZhauvZwmT3ES4vmTKR8vHuMex13BfpkqyWwxVmx00gp/Xrrq2eP+0AXGzmvl0bAiqhcnNKQQ8D5QN7viw0YMRnQvc+Da8AdMsSYo85jG6gE1BzwnyMX+LXTyfHoGprQfPlQG4SISigMIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEA7DV62hEbt8sUXZhauvZwmT3ES4vmTKR8vHuMex13BfpkqyWwxVmx00gp/Xrrq2eP+0AXGzmvl0bAiqhcnNKQQ8D5QN7viw0YMRnQvc+Da8AdMsSYo85jG6gE1BzwnyMX+LXTyfHoGprQfPlQG4SISigM9dfGJh6atS5Nl/mwmOr3EDgWI+NTnMweFCL5EzkPyUbh/MwKvdtUd9aWC43yusbgVWFwJ9TX2N9K/USldfb7DWl3A8kyW35G0sfiGnhlG2dY6PuggT2nVhoJuchDm9p6lVNcy1N8l0WidhbiOceyp3IdHo+ovGG/OEDhABuMunxkDPPo/7SU2+77bPCdmz1e3SU+kM0HyDNQy1Nb3PbavI3khC2ijzXy2jCIE50PYxpWti6ZFOpOhTGFAJgPTv6OpvWPmtQT9UmRltFmh40sTq+9lafWY50fGDD9zfzBGg9hkDAcyp2wMhLjGObwlY68WnW/OnKUqVj2M7SNS8zr1emLUZBdLrQtrhh/cJH1AgMBAAE=",
+            "HMSResConfigs": ""
+          },
+          "pId": "2243",
+          "pName": "HUAWEI HMS",
+          "pType": 30,
+          "pUseType": 30,
+          "hasLocal": true,
+          "hasUpdate": false,
+          "isInstall": false,
+          "requireParam": true,
+          "pVersion": "2.1.0_6.3.0",
+          "installProgress": true
+        },
+        {
+          "hasParam": false,
+          "packageName": "quick-previewpw",
+          "pParam": {},
+          "pId": "2377",
+          "pName": "sdk hub",
+          "pType": 7,
+          "pUseType": 1,
+          "hasLocal": false,
+          "hasUpdate": false,
+          "isInstall": false,
+          "requireParam": false,
+          "pVersion": "未安装",
+          "installProgress": true
+        }
+      ]
+    }
+  ]
+}
