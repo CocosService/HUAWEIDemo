@@ -30,8 +30,6 @@ export class Game extends Component {
     @property(Node)
     ScrollView_DoRankingsEvent: Node = null!;
     @property(Node)
-    ScrollView_doGetRankingInfoEvent: Node = null!;
-    @property(Node)
     ScrollView_doArchiveEvent: Node = null!;
 
 
@@ -42,7 +40,6 @@ export class Game extends Component {
         this.ScrollView_main.active = true;
         this.ScrollView_DoAchievementEvent.active = false;
         this.ScrollView_DoRankingsEvent.active = false;
-        this.ScrollView_doGetRankingInfoEvent.active = false;
         this.ScrollView_doArchiveEvent.active = false;
     }
 
@@ -319,7 +316,6 @@ export class Game extends Component {
         this.ScrollView_main.active = false;
         this.ScrollView_DoAchievementEvent.active = true;   //
         this.ScrollView_DoRankingsEvent.active = false;
-        this.ScrollView_doGetRankingInfoEvent.active = false;
         this.ScrollView_doArchiveEvent.active = false;
     }
 
@@ -331,7 +327,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "141716BC39E1269BC8A092E5E74552EDBB365F66180D22DB07935421D7559A45",
+            achievementId: "E6B5F0A9A51F000F177BD43CC92B87A6B061F3C33CFCAD2EEDADA1693039968F",
         }
         this.game.doAchievementEvent("visualizeWithResult", JSON.stringify(info));
     }
@@ -344,7 +340,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "141716BC39E1269BC8A092E5E74552EDBB365F66180D22DB07935421D7559A45",
+            achievementId: "E6B5F0A9A51F000F177BD43CC92B87A6B061F3C33CFCAD2EEDADA1693039968F",
         }
         this.game.doAchievementEvent("visualize", JSON.stringify(info));
     }
@@ -357,7 +353,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "CF70904A22DBC3D60135C0831DE99EA3D8E9E3961E663E3CFB8B0BD2D620E376",
+            achievementId: "019ECDD9541E9F1D47BE848166D56771BC87109C875770EB89450212753494AF",//分步成就1
             stepsNum: 1
         }
         this.game.doAchievementEvent("growWithResult", JSON.stringify(info));
@@ -371,7 +367,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "CF70904A22DBC3D60135C0831DE99EA3D8E9E3961E663E3CFB8B0BD2D620E376",
+            achievementId: "019ECDD9541E9F1D47BE848166D56771BC87109C875770EB89450212753494AF",//分步成就1
             stepsNum: 1
         }
         this.game.doAchievementEvent("grow", JSON.stringify(info));
@@ -386,8 +382,8 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "CF70904A22DBC3D60135C0831DE99EA3D8E9E3961E663E3CFB8B0BD2D620E376",
-            stepsNum: 2
+            achievementId: "CF70904A22DBC3D60135C0831DE99EA3D8E9E3961E663E3CFB8B0BD2D620E376",//分步成就2
+            stepsNum: 3
         }
         this.game.doAchievementEvent("makeStepsWithResult", JSON.stringify(info));
     }
@@ -400,8 +396,8 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "CF70904A22DBC3D60135C0831DE99EA3D8E9E3961E663E3CFB8B0BD2D620E376",
-            stepsNum: 2
+            achievementId: "CF70904A22DBC3D60135C0831DE99EA3D8E9E3961E663E3CFB8B0BD2D620E376",//分步成就2
+            stepsNum: 3
         }
         this.game.doAchievementEvent("makeSteps", JSON.stringify(info));
     }
@@ -415,7 +411,7 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "4B860D9F938C0B0746E08E89716C505EEB6E404B0B4DBC86833C11F570315E91",
+            achievementId: "5B5A1F11D048E22C6A211E3F9942F2E9A2608FBB9C12489F9C994B562E9A80BE",//测试成就1
         }
         this.game.doAchievementEvent("reachWithResult", JSON.stringify(info));
     }
@@ -429,106 +425,14 @@ export class Game extends Component {
             this.consolePanel.log(result);
         });
         let info = {
-            achievementId: "4B860D9F938C0B0746E08E89716C505EEB6E404B0B4DBC86833C11F570315E91",
+            achievementId: "5B5A1F11D048E22C6A211E3F9942F2E9A2608FBB9C12489F9C994B562E9A80BE",//测试成就1
         }
         this.game.doAchievementEvent("reach", JSON.stringify(info));
     }
 
 
 
-    //排行榜1------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-    /**
-     * 执行排行榜相关事件
-     * 参考文档：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/game-leaderboards-0000001050123481
-     * 排行榜创建地址：https://developer.huawei.com/consumer/cn/service/josp/agc/index.html#/myApp/108702107/9249519184596018033
-     * funcName 执行的接口名 支持： getRankingSwitchStatus | setRankingSwitchStatus | submitRankingScore ｜ submitScoreWithResult  
-     * jsonData json字符串形式的参数
-    */
-    doRankingsEvent () {
-        this.ScrollView_main.active = false;
-        this.ScrollView_DoAchievementEvent.active = false;
-        this.ScrollView_DoRankingsEvent.active = true; //
-        this.ScrollView_doGetRankingInfoEvent.active = false;
-        this.ScrollView_doArchiveEvent.active = false;
-    }
-    /**
-     * 查询玩家在当前排行榜的开关状态
-     * 用户首次登录时排行榜开关状态默认为0，表示玩家未设置在排行榜中公开自己的分数。
-    */
-    getRankingSwitchStatus () {
-        this.game.once(huawei.hms.game.API_EVENT_LIST.doRankingsEventCallback, (result: huawei.hms.game.ApiCbResult) => {
-            this.consolePanel.log(result);
-        });
-        this.game.doRankingsEvent("getRankingSwitchStatus", "{}");
-    }
-
-    private _curOpenRankingStatus = false;
-    /**
-     * 设置 排行榜开关 1 打开， 0 关
-    */
-    setRankingSwitchStatus () {
-        this.game.once(huawei.hms.game.API_EVENT_LIST.doRankingsEventCallback, (result: huawei.hms.game.ApiCbResult) => {
-            this.consolePanel.log(result);
-        });
-        let info = {
-            stateValue: this._curOpenRankingStatus ? 1 : 0
-        }
-        this.game.doRankingsEvent("setRankingSwitchStatus", JSON.stringify(info));
-        //循环
-        this._curOpenRankingStatus = !this._curOpenRankingStatus;
-    }
-
-
-    /**
-     * 提交玩家分数 排行榜的开关状态要为1
-     * 参考：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/rankingsclient-0000001050121670#section19891954194113
-    */
-    submitRankingScore () {
-        this.game.once(huawei.hms.game.API_EVENT_LIST.doRankingsEventCallback, (result: huawei.hms.game.ApiCbResult) => {
-            this.consolePanel.log(result);
-        });
-        let info = {
-            rankingId: "BA67B4279DD91B5D7071BC08F388FC4275DCF0FDEFFD010A85A34B3260E9A63A",
-            score: "88",
-            scoreTips: "A",//分数的自定义单位，只支持[a-zA-Z0-9_-]中的字符。
-        }
-        this.game.doRankingsEvent("submitRankingScore", JSON.stringify(info));
-    }
-
-
-    /**
-     * 提交玩家分数 排行榜的开关状态要为1
-     * 参考：
-    */
-    submitScoreWithResult () {
-        this.game.once(huawei.hms.game.API_EVENT_LIST.doRankingsEventCallback, (result: huawei.hms.game.ApiCbResult) => {
-            this.consolePanel.log(result);
-        });
-        let info = {
-            rankingId: "BA67B4279DD91B5D7071BC08F388FC4275DCF0FDEFFD010A85A34B3260E9A63A",
-            score: "99",
-            scoreTips: "Z",//分数的自定义单位，只支持[a-zA-Z0-9_-]中的字符。
-        }
-        this.game.doRankingsEvent("submitScoreWithResult", JSON.stringify(info));
-    }
-
-    //排行榜2------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    /**
-     * 执行获取排行榜相关信息事件
-     * 参考文档：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/game-leaderboards-0000001050123481
-     * funcName 执行的接口名 支持：  getRankingIntent| getRankingSummary | getCurrentPlayerRankingScore ｜ getPlayerCenteredRankingScores ｜ getMoreRankingScores ｜ getRankingTopScores
-     * jsonData json字符串形式的参数
-     */
-    doGetRankingInfoEvent () {
-        this.ScrollView_main.active = false;
-        this.ScrollView_DoAchievementEvent.active = false;
-        this.ScrollView_DoRankingsEvent.active = false;
-        this.ScrollView_doGetRankingInfoEvent.active = true;//
-        this.ScrollView_doArchiveEvent.active = false;
-    }
+    //排行榜------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
     /**
@@ -648,6 +552,80 @@ export class Game extends Component {
         this.game.doGetRankingInfoEvent("getRankingTopScores", JSON.stringify(info));
     }
 
+    /**
+     * 执行排行榜相关事件
+     * 参考文档：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/game-leaderboards-0000001050123481
+     * 排行榜创建地址：https://developer.huawei.com/consumer/cn/service/josp/agc/index.html#/myApp/108702107/9249519184596018033
+     * funcName 执行的接口名 支持： getRankingSwitchStatus | setRankingSwitchStatus | submitRankingScore ｜ submitScoreWithResult  
+     * jsonData json字符串形式的参数
+    */
+    doRankingsEvent () {
+        this.ScrollView_main.active = false;
+        this.ScrollView_DoAchievementEvent.active = false;
+        this.ScrollView_DoRankingsEvent.active = true; //
+        this.ScrollView_doArchiveEvent.active = false;
+    }
+    /**
+     * 查询玩家在当前排行榜的开关状态
+     * 用户首次登录时排行榜开关状态默认为0，表示玩家未设置在排行榜中公开自己的分数。
+    */
+    getRankingSwitchStatus () {
+        this.game.once(huawei.hms.game.API_EVENT_LIST.doRankingsEventCallback, (result: huawei.hms.game.ApiCbResult) => {
+            this.consolePanel.log(result);
+        });
+        this.game.doRankingsEvent("getRankingSwitchStatus", "{}");
+    }
+
+
+    /**
+     * 设置 排行榜开关 1 打开， 0 关
+    */
+    setRankingSwitchStatus () {
+        this.game.once(huawei.hms.game.API_EVENT_LIST.doRankingsEventCallback, (result: huawei.hms.game.ApiCbResult) => {
+            this.consolePanel.log(result);
+        });
+        let info = {
+            stateValue: 1
+        }
+        this.game.doRankingsEvent("setRankingSwitchStatus", JSON.stringify(info));
+    }
+
+
+    /**
+     * 提交玩家分数 排行榜的开关状态要为1
+     * 参考：https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/rankingsclient-0000001050121670#section19891954194113
+    */
+    submitRankingScore () {
+        this.game.once(huawei.hms.game.API_EVENT_LIST.doRankingsEventCallback, (result: huawei.hms.game.ApiCbResult) => {
+            this.consolePanel.log(result);
+        });
+        let info = {
+            rankingId: "BA67B4279DD91B5D7071BC08F388FC4275DCF0FDEFFD010A85A34B3260E9A63A",
+            score: "80",
+            scoreTips: "A",//分数的自定义单位，只支持[a-zA-Z0-9_-]中的字符。
+        }
+        this.game.doRankingsEvent("submitRankingScore", JSON.stringify(info));
+    }
+
+
+    /**
+     * 提交玩家分数 排行榜的开关状态要为1
+     * 参考：
+    */
+    submitScoreWithResult () {
+        this.game.once(huawei.hms.game.API_EVENT_LIST.doRankingsEventCallback, (result: huawei.hms.game.ApiCbResult) => {
+            this.consolePanel.log(result);
+        });
+        let info = {
+            rankingId: "BA67B4279DD91B5D7071BC08F388FC4275DCF0FDEFFD010A85A34B3260E9A63A",
+            score: "90",
+            scoreTips: "Z",//分数的自定义单位，只支持[a-zA-Z0-9_-]中的字符。
+        }
+        this.game.doRankingsEvent("submitScoreWithResult", JSON.stringify(info));
+    }
+
+
+
 
 
 
@@ -663,7 +641,6 @@ export class Game extends Component {
         this.ScrollView_main.active = false;
         this.ScrollView_DoAchievementEvent.active = false;
         this.ScrollView_DoRankingsEvent.active = false;
-        this.ScrollView_doGetRankingInfoEvent.active = false;
         this.ScrollView_doArchiveEvent.active = true;//
     }
 
