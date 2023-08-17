@@ -48,6 +48,12 @@ Thumbs.db
 # VS Code files
 #//////////////////////////
 
+#//////////////////////////
+# native
+#//////////////////////////
+native/
+
+
 .vscode/
 agconnect-services**.json
 agc**.json
