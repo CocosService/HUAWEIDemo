@@ -51,7 +51,10 @@
 -dontwarn android.hardware.lights.LightsRequest$Builder
 -dontwarn android.hardware.lights.LightsRequest
 -dontwarn android.net.ssl.SSLSockets
--dontwarn android.os.VibratorManager# Cocos Service - For HUAWEI HMS GAME
+-dontwarn android.os.VibratorManager# Cocos Service - For HUAWEI HMS ADS
+-keep class com.huawei.openalliance.ad.** { *; }
+-keep class com.huawei.hms.ads.** { *; }
+# Cocos Service - For HUAWEI HMS GAME
 -ignorewarnings
 -keepattributes *Annotation*
 -keepattributes Exceptions
@@ -61,56 +64,28 @@
 -keep class com.huawei.hianalytics.**{*;}
 -keep class com.huawei.updatesdk.**{*;}
 -keep class com.huawei.hms.**{*;}
-
 -keep interface com.huawei.hms.analytics.type.HAEventType{*;}
 -keep interface com.huawei.hms.analytics.type.HAParamType{*;}
 -keep class com.huawei.hms.analytics.HiAnalyticsInstance{*;}
 -keep class com.huawei.hms.analytics.HiAnalytics{*;}
-
-# Cocos Service - For HUAWEI HMS ADS
--keep class com.huawei.openalliance.ad.** { *; }
--keep class com.huawei.hms.ads.** { *; }
+# Cocos Service - For HUAWEI HMS ACCOUNT
 # Cocos Service - For HUAWEI HMS LOCATION
 -keep class * extends com.huawei.hms.core.aidl.IMessageEntity{ *; }
 -keep public class com.huawei.location.nlp.network.** {*; }
 -keep class com.huawei.wisesecurity.ucs.**{*;}
-# Cocos Service - For HUAWEI HMS IAP
-# Cocos Service - For HUAWEI HMS ACCOUNT
 # Cocos Service - For HUAWEI AGC ServiceAGCAPMS
 -keep class com.huawei.agconnect.**{*;}
 -dontwarn com.huawei.agconnect.**
 -keep class com.hianalytics.android.**{*;}
 -keepattributes Exceptions, Signature, InnerClasses, LineNumberTable
-# Cocos Service - For HUAWEI HMS PUSH
 
-# Cocos Service - For HUAWEI HMS Analytics
+# Cocos Service - For HUAWEI AGC Function
 -keep class com.hianalytics.** { *; }
 -keep class com.huawei.** { *; }
 -keep interface com.huawei.** { *; }
--dontwarn android.telephony.CellSignalStrengthNr
--dontwarn android.telephony.CellSignalStrengthTdscdma
--dontwarn android.telephony.HwTelephonyManager
--dontwarn com.huawei.android.os.BuildEx$VERSION
--dontwarn com.huawei.android.telephony.ServiceStateEx
--dontwarn com.huawei.hianalytics.process.HiAnalyticsConfig$Builder
--dontwarn com.huawei.hianalytics.process.HiAnalyticsConfig
--dontwarn com.huawei.hianalytics.process.HiAnalyticsInstance$Builder
--dontwarn com.huawei.hianalytics.process.HiAnalyticsInstance
--dontwarn com.huawei.hianalytics.process.HiAnalyticsManager
--dontwarn com.huawei.hianalytics.util.HiAnalyticTools
--dontwarn com.huawei.libcore.io.ExternalStorageFile
--dontwarn com.huawei.libcore.io.ExternalStorageFileInputStream
--dontwarn com.huawei.libcore.io.ExternalStorageFileOutputStream
--dontwarn com.huawei.libcore.io.ExternalStorageRandomAccessFile
--dontwarn net.sqlcipher.database.SQLiteOpenHelper
+-dontwarn com.huawei.hms.analytics.connector.ConnectorManager
 -dontwarn org.bouncycastle.crypto.BlockCipher
 -dontwarn org.bouncycastle.crypto.engines.AESEngine
 -dontwarn org.bouncycastle.crypto.prng.SP800SecureRandom
 -dontwarn org.bouncycastle.crypto.prng.SP800SecureRandomBuilder
--dontwarn rx.Scheduler
--dontwarn rx.schedulers.Schedulers
-
-# Cocos Service - For HUAWEI AGC Function
--keepresourcexmlelements **
--keepresources */*
--dontwarn com.huawei.hms.analytics.connector.ConnectorManager
+# Cocos Service - For HUAWEI HMS PUSH

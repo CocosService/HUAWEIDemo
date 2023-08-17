@@ -59,13 +59,7 @@ android {
 
     signingConfigs {
 
-       debug {
-           storeFile file('/Users/hsf/Desktop/_qingwan.keystore/qingwan.keystore')
-           storePassword 'qingwan2020'
-           keyPassword 'qingwan2020'
-           keyAlias 'qingwan'
-       }
-        release {
+       release {
             if (project.hasProperty("RELEASE_STORE_FILE") && !RELEASE_STORE_FILE.isEmpty()) {
                 storeFile file(RELEASE_STORE_FILE)
                 storePassword RELEASE_STORE_PASSWORD

@@ -70,7 +70,7 @@
         },
         {
           "service_id": "302",
-          "enable": true,
+          "enable": false,
           "param": {
             "installationSource": "AppGallery",
             "plugin_version": "2.2.0_6.10.0.302"
@@ -78,7 +78,7 @@
         },
         {
           "service_id": "303",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
@@ -88,7 +88,7 @@
         },
         {
           "service_id": "350",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
@@ -102,27 +102,37 @@
         },
         {
           "service_id": "352",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
           "service_id": "353",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
           "service_id": "354",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
           "service_id": "301",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
           "service_id": "355",
-          "enable": true,
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "308",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "356",
+          "enable": false,
           "param": {}
         }
       ]

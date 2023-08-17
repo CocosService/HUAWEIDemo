@@ -4,11 +4,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
-    <application android:allowBackup="true" android:extractNativeLibs="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:usesCleartextTraffic="true" tools:replace="android:allowBackup">
-        <meta-data android:name="install_channel" android:value="AppGallery"/>
+    <application android:extractNativeLibs="true" android:allowBackup="true" android:label="@string/app_name" android:usesCleartextTraffic="true" android:icon="@mipmap/ic_launcher" tools:replace="android:allowBackup">
+
+        <!-- Tell CocosNativeActivity the name of our .so -->
         <meta-data android:name="android.app.lib_name" android:value="cocos"/>
 
-        <activity android:name="com.cocos.game.AppActivity" android:configChanges="orientation|keyboardHidden|screenSize|screenLayout" android:exported="true" android:label="@string/app_name" android:launchMode="singleTask" android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        <activity android:name="com.cocos.game.AppActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden|screenSize|screenLayout" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" android:launchMode="singleTask" android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
