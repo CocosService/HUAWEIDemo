@@ -1,0 +1,51 @@
+{
+  "__version__": "3.0.7",
+  "game": {
+    "app_id": "689714782",
+    "c_id": "0",
+    "name": "华为 service 服务测试"
+  },
+  "appConfigMaps": [
+    {
+      "app_id": "UNKNOW",
+      "config_id": "427bf7"
+    },
+    {
+      "app_id": "689714782",
+      "config_id": "fa04b5"
+    }
+  ],
+  "configs": [
+    {
+      "app_id": "UNKNOW",
+      "config_id": "427bf7",
+      "config_name": "Default",
+      "config_remarks": "",
+      "services": [
+        {
+          "service_id": "354",
+          "enable": false,
+          "param": {}
+        }
+      ]
+    },
+    {
+      "app_id": "689714782",
+      "config_id": "fa04b5",
+      "config_name": "Default",
+      "config_remarks": "",
+      "services": [
+        {
+          "service_id": "354",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "353",
+          "enable": false,
+          "param": {}
+        }
+      ]
+    }
+  ]
+}

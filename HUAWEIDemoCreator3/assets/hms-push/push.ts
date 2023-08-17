@@ -10,10 +10,10 @@ export class Push extends Component {
     @property({ type: Console })
     consolePanel: Console = null!;
 
-    @property({ type: CCString })
+    @property
     appId: string = "";
 
-    @property({ type: CCString })
+    @property
     subjectId: string = "";
 
 
