@@ -3,7 +3,7 @@ import { Console } from '../prefabs/console';
 const { ccclass, property } = _decorator;
 
 /**
- * 华为推送
+ * 华为推送isRestrictionEnabled
 */
 @ccclass('Push')
 export class Push extends Component {
