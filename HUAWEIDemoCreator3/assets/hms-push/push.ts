@@ -41,27 +41,6 @@ export class Push extends Component {
 
 
     /**
-     * 开始推送
-     * 调用 SDK 的开始或注册推送方法，在成功回调中获取推送 Token。
-    */
-    startPush (): void {
-        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.startPushCallback, (result: huawei.hms.push.ApiCbResult) => {
-            this.consolePanel.log(result);
-        }, this)
-        huawei.hms.push.pushService.startPush(this.appId);
-    }
-
-    /**
-     * 关闭推送
-     * 调用 SDK 的关闭推送方法。
-    */
-    closePush (): void {
-        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.closePushCallback, (result: huawei.hms.push.ApiCbResult) => {
-            this.consolePanel.log(result);
-        }, this)
-        huawei.hms.push.pushService.closePush(this.appId);
-    }
-    /**
      * 设置别名(不支持)
      * 调用 SDK 的设置别名方法。
     */

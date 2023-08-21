@@ -18,15 +18,29 @@ export class Hwmmsdk extends Component {
 
 
     onEnable () {
-        this.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.debugApiResult, (res: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel && this.consolePanel.log("[debug]" + res.toString());
-        });
+        // this.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.debugApiResult, (res: huawei.game.mmsdk.ApiCbResult) => {
+        //     this.consolePanel && this.consolePanel.log("[debug]" + res.toString());
+        // });
     }
 
     onDisable (): void {
-        this.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.debugApiResult);
+        // this.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.debugApiResult);
     }
 
 
+    /**
+     * 申请权限
+    */
+    requestPermissions () {
+        this.mmsdkService.requestPermissions();
+    }
+
+
+    /**
+     * 初始化
+    */
+    init () {
+        this.mmsdkService.initTest();
+    }
 
 }

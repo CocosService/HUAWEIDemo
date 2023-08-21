@@ -47,11 +47,31 @@
         },
         {
           "service_id": "356",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
           "service_id": "301",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "303",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "350",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "312",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "352",
           "enable": false,
           "param": {}
         }

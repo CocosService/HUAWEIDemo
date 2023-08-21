@@ -18,17 +18,17 @@ export class Account extends Component {
 
 
     onEnable () {
-        this.account.on(huawei.hms.account.API_EVENT_LIST.debugApiResult, (res: huawei.hms.account.ApiCbResult) => {
-            if (this.consolePanel) {
-                this.consolePanel.log("[debug]" + res.toString());
-            } else {
-                console.error("console panel == null");
-            }
-        }, this, false);
+        // this.account.on(huawei.hms.account.API_EVENT_LIST.debugApiResult, (res: huawei.hms.account.ApiCbResult) => {
+        //     if (this.consolePanel) {
+        //         this.consolePanel.log("[debug]" + res.toString());
+        //     } else {
+        //         console.error("console panel == null");
+        //     }
+        // }, this, false);
     }
 
     onDisable (): void {
-        this.account.off(huawei.hms.account.API_EVENT_LIST.debugApiResult);
+        // this.account.off(huawei.hms.account.API_EVENT_LIST.debugApiResult);
     }
 
 

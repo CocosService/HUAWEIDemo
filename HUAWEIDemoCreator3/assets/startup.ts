@@ -133,7 +133,7 @@ export class Startup extends Component {
                 return !!(
                     // prettier-ignore
                     // @ts-ignore
-                    huawei?.game?.hwmmsdk?.mmsdkService
+                    huawei?.game?.mmsdk?.mmsdkService
                 );
 
 
