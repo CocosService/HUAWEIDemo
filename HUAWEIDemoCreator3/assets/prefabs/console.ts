@@ -75,8 +75,9 @@ export class Console extends Component {
         if (onBuildItem) onBuildItem({ item, label });
 
         this.getScrollContent()?.addChild(item);
-        this.scrollView.scrollToBottom(0.5);
-
+        this.scheduleOnce(() => {
+            this.scrollView.scrollToBottom(0.5);
+        }, 0.2)
         return { item, str };
     }
 

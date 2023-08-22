@@ -18,13 +18,9 @@ export class Hwmmsdk extends Component {
 
 
     onEnable () {
-        // this.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.debugApiResult, (res: huawei.game.mmsdk.ApiCbResult) => {
-        //     this.consolePanel && this.consolePanel.log("[debug]" + res.toString());
-        // });
     }
 
-    onDisable (): void {
-        // this.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.debugApiResult);
+    onDisable () {
     }
 
 
@@ -32,7 +28,10 @@ export class Hwmmsdk extends Component {
      * 申请权限
     */
     requestPermissions () {
-        this.mmsdkService.requestPermissions();
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.requestPermissionsCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.consolePanel.log(result);
+        })
+        this.mmsdkService.requestPermissions(true, "需要开启权限才能使用此功能", "去开启");
     }
 
 
@@ -40,7 +39,22 @@ export class Hwmmsdk extends Component {
      * 初始化
     */
     init () {
-        this.mmsdkService.initTest();
+        this.consolePanel.log("正在初始化,请稍后...");
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.initCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.consolePanel.log(result);
+        })
+        let info = {
+            openId: "abcd123321asasas",
+            agcAppId: "106022889",
+            agcClientId: "875101003169398784",
+            agcClientSecret: "FA5074F8DBB0A2AC9C10231E53B95FB788EBAE401AFD06473EDA1FB1E0FC0320",
+            agcApiKey: "DAEDANyB5hJ50PQTNRfXKOy9EXhF6xoxjWOSgmpyaU9W3sFWM4B/kgEH3LqDfXwznJg1GiRsUU0QQ5ABrzb0AeMvXJpSEO7btM7a6Q==",
+            gameSecret: "",
+            logEnable: true,
+            logSize: 10240,
+            countryCode: "CN",
+        }
+        this.mmsdkService.init(info);
     }
 
 }
