@@ -76,7 +76,6 @@ to enable the debug mode at the first time'
             moveBackgroundPolicy,
             scheduledTimePolicy
         );
-        this.console.log('setReportPolicies', 'Set ON_MOVE_BACKGROUND_POLICY');
         this.console.log(
             'setReportPolicies',
             `Set ON_SCHEDULED_TIME_POLICY with threshold ${scheduledTimePolicy.threshold}`
@@ -131,8 +130,7 @@ to enable the debug mode at the first time'
         huawei.hms.analytics.analyticsService.once(
             huawei.hms.analytics.HMS_ANALYTICS_EVENT_LISTENER_NAME.GET_AAID,
             (result) => {
-                this.console.log('getAAID');
-                this.printAnalyticsResult(result);
+                this.console.log(result);
             }
         );
     }
@@ -143,8 +141,7 @@ to enable the debug mode at the first time'
             huawei.hms.analytics.HMS_ANALYTICS_EVENT_LISTENER_NAME
                 .GET_USER_PROFILES,
             (result) => {
-                this.console.log('getUserProfiles');
-                this.printAnalyticsResult(result);
+                this.console.log(result);
             }
         );
     }
@@ -179,34 +176,26 @@ to enable the debug mode at the first time'
 
 
 
-
-
     //2023.7.11 add
 
     /**
      * 设置是否限制数据分析能力
     */
-    toggleRestrictionEnabled () {
-        huawei.hms.analytics.analyticsService.setRestrictionEnabled(
-            !huawei.hms.analytics.analyticsService.isRestrictionEnabled()
-        );
+    setRestrictionEnabled () {
+        huawei.hms.analytics.analyticsService.setRestrictionEnabled(true);
         this.console.log(
-            'isRestrictionEnabled',
-            huawei.hms.analytics.analyticsService.isRestrictionEnabled()
+            'isRestrictionEnabled true',
         );
     }
 
 
-    private _curCollectAdsIdEnabled = false;
     /**
      * 设置是否允许采集广告标识符
     */
-    toggleCollectAdsIdEnabled () {
-        this._curCollectAdsIdEnabled = !this._curCollectAdsIdEnabled;
-        huawei.hms.analytics.analyticsService.setCollectAdsIdEnabled(this._curCollectAdsIdEnabled);
+    setCollectAdsIdEnabled () {
+        huawei.hms.analytics.analyticsService.setCollectAdsIdEnabled(true);
         this.console.log(
-            'toggleCollectAdsIdEnabled',
-            this._curCollectAdsIdEnabled
+            'toggleCollectAdsIdEnabled true',
         );
     }
 
@@ -214,13 +203,13 @@ to enable the debug mode at the first time'
      * 获取是否限制数据共享。
      */
     getIsRestrictionShared () {
-        huawei.hms.analytics.analyticsService.isRestrictionShared();
         huawei.hms.analytics.analyticsService.once(huawei.hms.analytics.HMS_ANALYTICS_EVENT_LISTENER_NAME.IS_RESTRICTION_SHARED, (result) => {
             this.console.log(
                 'isRestrictionShared',
                 JSON.stringify(result)
             );
         })
+        huawei.hms.analytics.analyticsService.isRestrictionShared();
     }
 
     private _curIsRestrictionShared = false;
@@ -267,14 +256,13 @@ to enable the debug mode at the first time'
         this.console.log('setChannel:AppGallery');
     }
 
-    private _curSetPushTokenCollectionEnabled = false;
+
     /**
      * 设置是否允许采集pushToken。
     */
     setPushTokenCollectionEnabled () {
-        this._curSetPushTokenCollectionEnabled = !this._curSetPushTokenCollectionEnabled;
-        huawei.hms.analytics.analyticsService.setPushTokenCollectionEnabled(this._curSetPushTokenCollectionEnabled);
-        this.console.log('setPushTokenCollectionEnabled', this._curSetPushTokenCollectionEnabled);
+        huawei.hms.analytics.analyticsService.setPushTokenCollectionEnabled(true);
+        this.console.log('setPushTokenCollectionEnabled true');
     }
 
     private _curSetPropertyCollection = false;
@@ -305,10 +293,5 @@ to enable the debug mode at the first time'
         });
     }
 
-    private printAnalyticsResult (result: huawei.hms.analytics.AnalyticsResult) {
-        this.console.log('code:', result.code);
-        this.console.log('originData:', result.originData);
-        if (result.errMsg) this.console.log('errMsg:', result.errMsg);
-        if (result.data) this.console.log('data:', result.data);
-    }
+
 }

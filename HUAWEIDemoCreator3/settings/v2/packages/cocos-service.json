@@ -47,7 +47,7 @@
         },
         {
           "service_id": "356",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
@@ -82,6 +82,24 @@
         },
         {
           "service_id": "270",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "302",
+          "enable": false,
+          "param": {
+            "installationSource": "AppGallery",
+            "plugin_version": "2.2.0_6.10.0.303"
+          }
+        },
+        {
+          "service_id": "355",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "308",
           "enable": false,
           "param": {}
         }
