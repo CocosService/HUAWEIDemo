@@ -81,28 +81,29 @@ export class APMS extends Component {
     networkMeasure () {
         let url = 'https://api.apiopen.top/api/getPinYin?text=你好啊';
         let networkMeasureId = this.apms.initNetworkMeasure(url, 'GET');
-        this.console.log('start network measure, id : ' + networkMeasureId
-        );
+        this.console.log('start network measure, id : ' + networkMeasureId);
+
         this.console.log('GET: ' + url);
 
         //设置
         this.apms.putNetworkMeasureProperty(networkMeasureId, 'key1', 'value1');
         this.console.log(`1-put-key1 (${networkMeasureId}, 'key1', 'value1');`);
+
         this.apms.putNetworkMeasureProperty(networkMeasureId, 'key2', 'value2');
         this.console.log(`2-put-key2 (${networkMeasureId}, 'key2', 'value2');`);
 
         //获取
-        this.console.log(`3-get-key1 (${this.apms.getNetworkMeasureProperty(networkMeasureId, 'key1')});`
+        this.console.log(`3-get-key1 (${this.apms.getNetworkMeasureProperty(networkMeasureId, 'key1')});`);
 
-        );
-        this.console.log(`4-get-all (${JSON.stringify(
-            this.apms.getNetworkMeasureProperties(networkMeasureId))});`
-        );
+        this.console.log(`4-get-all (${JSON.stringify(this.apms.getNetworkMeasureProperties(networkMeasureId))});`);
+
         this.apms.removeNetworkMeasureProperty(networkMeasureId, 'key1');
         this.console.log(`5-remove-key1 (${networkMeasureId}`);
+
         this.console.log(`6-get-all (${JSON.stringify(
             this.apms.getNetworkMeasureProperties(networkMeasureId))});`
         );
+
         this.apms.startNetworkMeasure(networkMeasureId);
         this.httpGet(url).then((res) => {
             this.apms.setNetworkMeasureStatusCode(networkMeasureId, res.status);
@@ -148,6 +149,22 @@ export class APMS extends Component {
         );
     }
 
+
+    grantApmsLog () {
+        this.apms.grantApmsLog();
+        this.console.log(
+            'grantApmsLog',
+        );
+    }
+
+    denyApmsLog () {
+        this.apms.denyApmsLog();
+        this.console.log(
+            'denyApmsLog',
+        );
+    }
+
+
     flushApmsLog () {
         this.apms.flushApmsLog();
         this.console.log(
@@ -163,27 +180,13 @@ export class APMS extends Component {
     }
 
     fetchApmsLog () {
-        this.apms.fetchApmsLog();
         this.apms.once(
             huawei.agc.apms.API_EVENT_LIST.fetchApmsLogCallback,
             (result) => {
                 this.console.log('fetchApmsLog', result);
             }
         );
-    }
-
-    grantApmsLog () {
-        this.apms.grantApmsLog();
-        this.console.log(
-            'grantApmsLog',
-        );
-    }
-
-    denyApmsLog () {
-        this.apms.denyApmsLog();
-        this.console.log(
-            'denyApmsLog',
-        );
+        this.apms.fetchApmsLog();
     }
 
 

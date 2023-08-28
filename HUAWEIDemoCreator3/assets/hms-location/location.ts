@@ -28,16 +28,8 @@ export class Location extends Component {
 
     //是否有权限
     private hasPermission: boolean = false;
-    // private location: typeof huawei.hms.location.locationService = (typeof huawei === 'undefined' ? null : huawei?.hms?.location?.locationService)!;
-    // private activity: typeof huawei.hms.location.locationActivityService = (typeof huawei === 'undefined' ? null : huawei?.hms?.location?.locationActivityService)!;
-    // private geofence: typeof huawei.hms.location.locationGeofenceService = (typeof huawei === 'undefined' ? null : huawei?.hms?.location?.locationGeofenceService)!;
 
     onEnable () {
-        // 按需求开启 显示 debug 信息
-        // huawei.hms.location.locationService.on(huawei.hms.location.API_EVENT_LIST.debugApiResult, (res: huawei.hms.location.LocationResult) => { this.consolePanel?.log("[debug location]" + res.toString()); }, this, false);
-        // this.activity.on(huawei.hms.location.API_EVENT_LIST.debugApiResult, (res: huawei.hms.location.LocationResult) => { this.consolePanel?.log("[debug activity]" + res.toString()); }, this, false);
-        // this.geofence.on(huawei.hms.location.API_EVENT_LIST.debugApiResult, (res: huawei.hms.location.LocationResult) => { this.consolePanel?.log("[debug geofence]" + res.toString()); }, this, false);
-
         //其他被动事件
         //设置活动识别更新监听 1
         huawei.hms.location.locationActivityService.on(huawei.hms.location.API_EVENT_LIST.HMS_ACTIVITY_UPDATES, (result) => {
@@ -60,20 +52,13 @@ export class Location extends Component {
 
         //请求授权
         this.requestLocationPermission();
-
     }
 
     onDisable () {
-        // 按需求开启 显示 debug 信息
-        // huawei.hms.location.locationService.off(huawei.hms.location.API_EVENT_LIST.debugApiResult);
-        // this.activity.off(huawei.hms.location.API_EVENT_LIST.debugApiResult);
-        // this.geofence.off(huawei.hms.location.API_EVENT_LIST.debugApiResult);
-
         huawei.hms.location.locationService.off(huawei.hms.location.API_EVENT_LIST.HMS_ACTIVITY_UPDATES);
         huawei.hms.location.locationService.off(huawei.hms.location.API_EVENT_LIST.HMS_CONVERSION_UPDATES);
         huawei.hms.location.locationService.off(huawei.hms.location.API_EVENT_LIST.HMS_RECEIVE_GEOFENCE_DATA);
     }
-
 
     update () {
         //测试每秒更新一次位置

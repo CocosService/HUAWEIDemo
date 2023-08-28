@@ -3,17 +3,17 @@ import { Console } from '../prefabs/console';
 const { ccclass, property } = _decorator;
 
 /**
- * 华为推送
+ * 华为推送isRestrictionEnabled
 */
 @ccclass('Push')
 export class Push extends Component {
     @property({ type: Console })
     consolePanel: Console = null!;
 
-    @property({ type: CCString })
+    @property
     appId: string = "";
 
-    @property({ type: CCString })
+    @property
     subjectId: string = "";
 
 
@@ -24,64 +24,52 @@ export class Push extends Component {
 
 
     onEnable () {
-        //debug
-        // huawei.hms.push.pushService.on(huawei.hms.push.API_EVENT_LIST.debugApiResult, (res: huawei.hms.push.ApiCbResult) => {
-        //     if (this.consolePanel) {
-        //         this.consolePanel.log("[debug]" + res.toString());
-        //     } else {
-        //         console.error("console panel == null");
-        //     }
-        // }, this, false);
     }
 
     onDisable (): void {
-        //debug
-        // huawei.hms.push.pushService.off(huawei.hms.push.API_EVENT_LIST.debugApiResult);
     }
 
 
     /**
-     * 开始推送
-     * 调用 SDK 的开始或注册推送方法，在成功回调中获取推送 Token。
+     * 获取接入推送服务所需的Token。
     */
-    startPush (): void {
-        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.startPushCallback, (result: huawei.hms.push.ApiCbResult) => {
+    getToken (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.getTokenCallback, (result: huawei.hms.push.ApiCbResult) => {
             this.consolePanel.log(result);
         }, this)
-        huawei.hms.push.pushService.startPush(this.appId);
+        huawei.hms.push.pushService.getToken(this.appId);
     }
-
     /**
-     * 关闭推送
-     * 调用 SDK 的关闭推送方法。
+     * 删除Token。
     */
-    closePush (): void {
-        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.closePushCallback, (result: huawei.hms.push.ApiCbResult) => {
+    deleteToken (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.deleteTokenCallback, (result: huawei.hms.push.ApiCbResult) => {
             this.consolePanel.log(result);
         }, this)
-        huawei.hms.push.pushService.closePush(this.appId);
+        huawei.hms.push.pushService.deleteToken(this.appId);
     }
     /**
-     * 设置别名(不支持)
-     * 调用 SDK 的设置别名方法。
+     * 获取接入推送服务所需的Token。
     */
-    // setAlias (): void {
-    //     let params = "alias1";
-    //     huawei.hms.push.pushService.setAlias(params);
-    // }
+    getTokenBySubjectId (): void {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.getTokenBySubjectIdCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
+        huawei.hms.push.pushService.getTokenBySubjectId(this.subjectId);
+    }
+
+    deleteTokenBySubjectId () {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.deleteTokenBySubjectIdCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
+        huawei.hms.push.pushService.deleteTokenBySubjectId(this.subjectId);
+    }
+
+
 
     /**
-     * 删除别名(不支持)
-     * 调用 SDK 的删除别名方法。
-    */
-    // delAlias (): void {
-    //     let params = "alias1";
-    //     huawei.hms.push.pushService.delAlias(params);
-    // }
-
-
-    /**
-     * 调用 SDK 的设置标签方法
+     * 异步任务订阅主题
+     * https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/hmsmessaging-0000001050255650#section1222313413551
     */
     setTag (): void {
         huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.setTagCallback, (result: huawei.hms.push.ApiCbResult) => {
@@ -91,7 +79,8 @@ export class Push extends Component {
     }
 
     /**
-     * 删除标签 调用 SDK 的删除标签方法
+     * 异步任务取消订阅主题
+     * https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/hmsmessaging-0000001050255650#section7598115275611
     */
     delTag (): void {
         huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.delTagCallback, (result: huawei.hms.push.ApiCbResult) => {
@@ -102,6 +91,7 @@ export class Push extends Component {
 
     /**
      * 异步任务打开接收通知栏消息开关
+     * 
     */
     turnOnPush (): void {
         huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.turnOnPushCallback, (result: huawei.hms.push.ApiCbResult) => {
@@ -144,16 +134,6 @@ export class Push extends Component {
         huawei.hms.push.pushService.sendMessage(str);
     }
 
-    /**
-     * 异步任务获取ODID
-    */
-    getOdid () {
-        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.getOdidCallback, (result: huawei.hms.push.ApiCbResult) => {
-            this.consolePanel.log(result);
-        }, this)
-        huawei.hms.push.pushService.getOdid();
-    }
-
 
     /**
      * 异步任务获取AAID
@@ -177,6 +157,18 @@ export class Push extends Component {
         huawei.hms.push.pushService.deleteAAID()
     }
 
+
+    /**
+     * 异步任务获取ODID
+    */
+    getOdid () {
+        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.getOdidCallback, (result: huawei.hms.push.ApiCbResult) => {
+            this.consolePanel.log(result);
+        }, this)
+        huawei.hms.push.pushService.getOdid();
+    }
+
+
     /**
      * 获取是否启用自动初始化功能。
     */
@@ -195,43 +187,7 @@ export class Push extends Component {
         this.consolePanel.log("setAutoInitEnabled succeed,value:", this._curAutoInitEnabled);
     }
 
-    /**
-     * 获取接入推送服务所需的Token。
-    */
-    getToken (): void {
-        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.getTokenCallback, (result: huawei.hms.push.ApiCbResult) => {
-            this.consolePanel.log(result);
-        }, this)
-        huawei.hms.push.pushService.getToken(this.appId);
-    }
 
-    /**
-     * 获取接入推送服务所需的Token。
-    */
-    getTokenBySubjectId (): void {
-        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.getTokenBySubjectIdCallback, (result: huawei.hms.push.ApiCbResult) => {
-            this.consolePanel.log(result);
-        }, this)
-        huawei.hms.push.pushService.getTokenBySubjectId(this.subjectId);
-    }
-
-
-    /**
-     * 删除Token。
-    */
-    deleteToken (): void {
-        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.deleteTokenCallback, (result: huawei.hms.push.ApiCbResult) => {
-            this.consolePanel.log(result);
-        }, this)
-        huawei.hms.push.pushService.deleteToken(this.appId);
-    }
-
-    deleteTokenBySubjectId () {
-        huawei.hms.push.pushService.once(huawei.hms.push.API_EVENT_LIST.deleteTokenBySubjectIdCallback, (result: huawei.hms.push.ApiCbResult) => {
-            this.consolePanel.log(result);
-        }, this)
-        huawei.hms.push.pushService.deleteTokenBySubjectId(this.subjectId);
-    }
 
     /**
      * 判断当前终端设备是否支持帐号校验功能。
@@ -263,7 +219,6 @@ export class Push extends Component {
             this.consolePanel.log(result);
         }, this)
         let params = {
-            "type": "CUSTOM_PROFILE",
             "profileId": "PROFILE_ID_001"
         }
         huawei.hms.push.pushService.deleteProfile(JSON.stringify(params));

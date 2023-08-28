@@ -129,6 +129,13 @@ export class Startup extends Component {
                     // @ts-ignore
                     huawei?.hms?.iap?.iapService
                 );
+            case 'hwmmsdk':
+                return !!(
+                    // prettier-ignore
+                    // @ts-ignore
+                    huawei?.game?.mmsdk?.mmsdkService
+                );
+
 
             default:
                 console.error("未处理的场景：" + sceneName);

@@ -7,7 +7,7 @@ temp/
 local/
 build/
 profiles/
-
+native
 #//////////////////////////
 # NPM
 #//////////////////////////
@@ -22,9 +22,11 @@ node_modules/
 # WebStorm
 #//////////////////////////
 .idea/
-/.dir-locals-2.el
 
 #//////////////////////////
-# assets
+# 
 #//////////////////////////
-assets/test/
+native/
+
+settings/
+!settings/v2/
