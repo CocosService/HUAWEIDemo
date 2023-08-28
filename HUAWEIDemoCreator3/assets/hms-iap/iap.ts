@@ -37,21 +37,9 @@ export class Iap extends Component {
         ? null
         : huawei?.hms?.iap?.iapService)!;
 
-
     onEnable () {
-        //debug 按需开启
-        // this.iap.on(huawei.hms.iap.API_EVENT_LIST.debugApiResult, (res: huawei.hms.iap.ApiCbResult) => {
-        //     if (this.consolePanel) {
-        //         this.consolePanel.log("[debug]" + res.toString());
-        //     } else {
-        //         console.error("console panel == null");
-        //     }
-        // }, this, false);
     }
-
     onDisable (): void {
-        //debug 按需开启
-        // this.iap.off(huawei.hms.iap.API_EVENT_LIST.debugApiResult);
     }
 
     //--------------------------------
@@ -127,7 +115,7 @@ export class Iap extends Component {
             this.consolePanel && this.consolePanel.log(res);
             //记录商品信息 消耗用
             if (res.code == huawei.hms.iap.StatusCode.success) {
-                if (res.data.suc == true && res.data.returnCode == 0) {
+                if (res.data.returnCode == 0) {
                     let purchaseData: any = res.data.purchaseData;
                     let inAppPurchaseData: string = purchaseData._rawJsonInfo;
 
@@ -192,14 +180,14 @@ export class Iap extends Component {
         this.iap.once(huawei.hms.iap.API_EVENT_LIST.consumeOwnedPurchaseCallBack, (res: huawei.hms.iap.ApiCbResult) => {
             this.consolePanel && this.consolePanel.log(res);
             if (res.code == huawei.hms.iap.StatusCode.success) {
-                if (res.data.suc == true) {
-                    let index = tempArr.indexOf(select);
-                    if (index != -1) {
-                        tempArr.splice(index, 1);
-                    } else {
-                        console.warn("要移除的信息不存在，要删除的和当前数组数据：", select, tempArr)
-                    }
+
+                let index = tempArr.indexOf(select);
+                if (index != -1) {
+                    tempArr.splice(index, 1);
+                } else {
+                    console.warn("要移除的信息不存在，要删除的和当前数组数据：", select, tempArr)
                 }
+
             }
         });
         this.iap.consumeOwnedPurchase(select);
@@ -247,43 +235,40 @@ export class Iap extends Component {
         this.iap.once(huawei.hms.iap.API_EVENT_LIST.obtainOwnedPurchasesCallBack, (res: huawei.hms.iap.ApiCbResult) => {
             this.consolePanel && this.consolePanel.log(res);
             if (res.code == huawei.hms.iap.StatusCode.success) {
-                if (res.data.suc == true) {
-                    let purchasesArr = res.data.purchasesArr as Array<any>;
-                    if (purchasesArr != null && purchasesArr.length != 0) {
-                        for (let i = 0; i < purchasesArr.length; i++) {
-                            const temp = purchasesArr[i];
-                            // 已支付，未消耗 (仅支持 消耗品 和非消耗品（沙盒环境）)
-                            if (temp.kind == 0 || temp.kind == 1) {
-                                if (
-                                    temp.purchaseState == 0 &&          //-1：初始化 0：已购买 1：已取消 2：已退款 3：待处理
-                                    temp.consumptionState == 0          //0：未消耗 1：已消耗
-                                ) {
-                                    let inAppPurchaseData: string = temp._rawJsonInfo;
-                                    if (priceType == 0) {
-                                        this.itemInfoArr_type_0.push(inAppPurchaseData);
-                                        console.log("刷新本地消耗品信息", this.itemInfoArr_type_0)
-                                    }
-                                    else if (priceType == 1) {
-                                        this.itemInfoArr_type_1.push(inAppPurchaseData);
-                                        console.log("刷新本地非消耗品信息", this.itemInfoArr_type_1)
-                                    }
+                let purchasesArr = res.data.purchasesArr as Array<any>;
+                if (purchasesArr != null && purchasesArr.length != 0) {
+                    for (let i = 0; i < purchasesArr.length; i++) {
+                        const temp = purchasesArr[i];
+                        // 已支付，未消耗 (仅支持 消耗品 和非消耗品（沙盒环境）)
+                        if (temp.kind == 0 || temp.kind == 1) {
+                            if (
+                                temp.purchaseState == 0 &&          //-1：初始化 0：已购买 1：已取消 2：已退款 3：待处理
+                                temp.consumptionState == 0          //0：未消耗 1：已消耗
+                            ) {
+                                let inAppPurchaseData: string = temp._rawJsonInfo;
+                                if (priceType == 0) {
+                                    this.itemInfoArr_type_0.push(inAppPurchaseData);
+                                    console.log("刷新本地消耗品信息", this.itemInfoArr_type_0)
+                                }
+                                else if (priceType == 1) {
+                                    this.itemInfoArr_type_1.push(inAppPurchaseData);
+                                    console.log("刷新本地非消耗品信息", this.itemInfoArr_type_1)
                                 }
                             }
-                            else if (temp.kin == 2) {
-                                //忽略（无法消耗，无需记录）
-                                // if (
-                                //     temp.purchaseState == 0           //-1：初始化 0：已购买 1：已取消 2：已退款 3：待处理
-                                //     // && temp.consumptionState == 0          //0：未消耗 1：已消耗
-                                // ) {
-                                //     let inAppPurchaseData: string = temp._rawJsonInfo;
-                                //     this.itemInfoArr_type_2.push(inAppPurchaseData);
-                                //     console.log("刷新本地订阅品信息", this.itemInfoArr_type_2)
-                                // }
-                            }
-
                         }
-                    }
+                        else if (temp.kin == 2) {
+                            //忽略（无法消耗，无需记录）
+                            // if (
+                            //     temp.purchaseState == 0           //-1：初始化 0：已购买 1：已取消 2：已退款 3：待处理
+                            //     // && temp.consumptionState == 0          //0：未消耗 1：已消耗
+                            // ) {
+                            //     let inAppPurchaseData: string = temp._rawJsonInfo;
+                            //     this.itemInfoArr_type_2.push(inAppPurchaseData);
+                            //     console.log("刷新本地订阅品信息", this.itemInfoArr_type_2)
+                            // }
+                        }
 
+                    }
                 }
             }
         });

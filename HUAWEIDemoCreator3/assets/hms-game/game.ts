@@ -51,24 +51,11 @@ export class Game extends Component {
         : huawei?.hms?.game?.gameService)!;
 
 
-
     onEnable () {
-        // 按需求开启 显示 debug 信息
-        // this.game.on(huawei.hms.game.API_EVENT_LIST.debugApiResult, (res: huawei.hms.game.ApiCbResult) => {
-        //     if (this.consolePanel) {
-        //         this.consolePanel.log("[debug]" + res.toString());
-        //     } else {
-        //         console.error("console panel == null");
-        //     }
-        // }, this, false);
-
         this.closeSonShowMainPanel();
     }
 
-
     onDisable (): void {
-        // 按需求开启 显示 debug 信息
-        // this.game.off(huawei.hms.game.API_EVENT_LIST.debugApiResult);
     }
 
 

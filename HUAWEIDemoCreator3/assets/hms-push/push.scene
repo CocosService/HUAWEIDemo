@@ -2800,7 +2800,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "43PzvQaLdHupPqRI3CTl1x",
+    "fileId": "c0SAFSYgNHaIYrBCWoOe5U",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -2968,7 +2968,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "setAlias",
+    "handler": "getTokenBySubjectId",
     "customEventData": ""
   },
   {
@@ -2979,7 +2979,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_setAlias"
+    "value": "Button_getTokenBySubjectId"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -2992,7 +2992,7 @@
     "value": {
       "__type__": "cc.Vec3",
       "x": -300,
-      "y": 455,
+      "y": 390,
       "z": 0
     }
   },
@@ -3054,7 +3054,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "setAlias"
+    "value": "getTokenBySubjectId"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3104,7 +3104,7 @@
     "propertyPath": [
       "_active"
     ],
-    "value": false
+    "value": true
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3145,7 +3145,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "5d8KT5echA0L2hTB0Jayry",
+    "fileId": "6aN9z9CLlJ/4uMhTS9D2jF",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -3313,7 +3313,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "delAlias",
+    "handler": "deleteTokenBySubjectId",
     "customEventData": ""
   },
   {
@@ -3324,7 +3324,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_delAlias"
+    "value": "Button_deleteTokenBySubjectId"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3336,7 +3336,7 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -300,
+      "x": 170,
       "y": 390,
       "z": 0
     }
@@ -3399,7 +3399,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "delAlias"
+    "value": "deleteTokenBySubjectId"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3449,7 +3449,7 @@
     "propertyPath": [
       "_active"
     ],
-    "value": false
+    "value": true
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3490,7 +3490,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "bd+fAlCStFcb2xrmcFIYJu",
+    "fileId": "dcpGE6nFRPxLJDi7ZqKwxJ",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -3658,7 +3658,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "setTag",
+    "handler": "getAAID",
     "customEventData": ""
   },
   {
@@ -3669,7 +3669,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_setTag"
+    "value": "Button_getAAID"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3682,7 +3682,7 @@
     "value": {
       "__type__": "cc.Vec3",
       "x": -300,
-      "y": 390,
+      "y": 260,
       "z": 0
     }
   },
@@ -3744,7 +3744,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "setTag"
+    "value": "getAAID"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3835,7 +3835,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "07mJcUvelLbaWJ3UjzXBoD",
+    "fileId": "d0X6F/gG1GvrqxBHkrRTy3",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -4003,7 +4003,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "delTag",
+    "handler": "deleteAAID",
     "customEventData": ""
   },
   {
@@ -4014,7 +4014,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_delTag"
+    "value": "Button_deleteAAID"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -4027,7 +4027,7 @@
     "value": {
       "__type__": "cc.Vec3",
       "x": 170,
-      "y": 390,
+      "y": 260,
       "z": 0
     }
   },
@@ -4089,7 +4089,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "delTag"
+    "value": "deleteAAID"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -4180,7 +4180,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "25RD3ksX9ETqj5jlA7Ha6j",
+    "fileId": "43PzvQaLdHupPqRI3CTl1x",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -4348,7 +4348,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "turnOnPush",
+    "handler": "setAlias",
     "customEventData": ""
   },
   {
@@ -4359,7 +4359,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_turnOnPush"
+    "value": "Button_setAlias"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -4372,7 +4372,7 @@
     "value": {
       "__type__": "cc.Vec3",
       "x": -300,
-      "y": 260,
+      "y": 455,
       "z": 0
     }
   },
@@ -4434,7 +4434,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "turnOnPush"
+    "value": "setAlias"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -4484,7 +4484,7 @@
     "propertyPath": [
       "_active"
     ],
-    "value": true
+    "value": false
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -4525,7 +4525,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "dace8tJU5Hz4Oo1FLNPiav",
+    "fileId": "5d8KT5echA0L2hTB0Jayry",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -4693,7 +4693,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "turnOffPush",
+    "handler": "delAlias",
     "customEventData": ""
   },
   {
@@ -4704,7 +4704,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_turnOffPush"
+    "value": "Button_delAlias"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -4716,8 +4716,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 170,
-      "y": 260,
+      "x": -300,
+      "y": 390,
       "z": 0
     }
   },
@@ -4779,7 +4779,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "turnOffPush"
+    "value": "delAlias"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -4829,7 +4829,7 @@
     "propertyPath": [
       "_active"
     ],
-    "value": true
+    "value": false
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -4870,7 +4870,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "8152bIcIhH+IZST2W4Ui8W",
+    "fileId": "bd+fAlCStFcb2xrmcFIYJu",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -5038,7 +5038,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "sendMessage",
+    "handler": "setTag",
     "customEventData": ""
   },
   {
@@ -5049,7 +5049,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_sendMessage"
+    "value": "Button_setTag"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -5124,7 +5124,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "sendMessage"
+    "value": "setTag"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -5215,7 +5215,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "81VHlBsJVBHoSpZAUvACM9",
+    "fileId": "07mJcUvelLbaWJ3UjzXBoD",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -5383,7 +5383,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "getOdid",
+    "handler": "delTag",
     "customEventData": ""
   },
   {
@@ -5394,7 +5394,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_getOdid"
+    "value": "Button_delTag"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -5469,7 +5469,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "getOdid"
+    "value": "delTag"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -5560,7 +5560,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "dcpGE6nFRPxLJDi7ZqKwxJ",
+    "fileId": "25RD3ksX9ETqj5jlA7Ha6j",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -5728,7 +5728,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "getAAID",
+    "handler": "turnOnPush",
     "customEventData": ""
   },
   {
@@ -5739,7 +5739,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_getAAID"
+    "value": "Button_turnOnPush"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -5814,7 +5814,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "getAAID"
+    "value": "turnOnPush"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -5905,7 +5905,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "d0X6F/gG1GvrqxBHkrRTy3",
+    "fileId": "dace8tJU5Hz4Oo1FLNPiav",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -6073,7 +6073,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "deleteAAID",
+    "handler": "turnOffPush",
     "customEventData": ""
   },
   {
@@ -6084,7 +6084,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_deleteAAID"
+    "value": "Button_turnOffPush"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -6159,7 +6159,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "deleteAAID"
+    "value": "turnOffPush"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -6250,7 +6250,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "56cJS1SiFPPYClA90vcnN2",
+    "fileId": "8152bIcIhH+IZST2W4Ui8W",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -6418,7 +6418,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "isAutoInitEnabled",
+    "handler": "sendMessage",
     "customEventData": ""
   },
   {
@@ -6429,7 +6429,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_isAutoInitEnabled"
+    "value": "Button_sendMessage"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -6504,7 +6504,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "isAutoInitEnabled"
+    "value": "sendMessage"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -6595,7 +6595,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "3by0f7POlIHIXWJpar5W76",
+    "fileId": "81VHlBsJVBHoSpZAUvACM9",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -6763,7 +6763,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "setAutoInitEnabled",
+    "handler": "getOdid",
     "customEventData": ""
   },
   {
@@ -6774,7 +6774,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_setAutoInitEnabled"
+    "value": "Button_getOdid"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -6849,7 +6849,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "setAutoInitEnabled"
+    "value": "getOdid"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -6940,7 +6940,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "c0SAFSYgNHaIYrBCWoOe5U",
+    "fileId": "56cJS1SiFPPYClA90vcnN2",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -7108,7 +7108,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "getTokenBySubjectId",
+    "handler": "isAutoInitEnabled",
     "customEventData": ""
   },
   {
@@ -7119,7 +7119,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_getTokenBySubjectId"
+    "value": "Button_isAutoInitEnabled"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -7194,7 +7194,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "getTokenBySubjectId"
+    "value": "isAutoInitEnabled"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -7285,7 +7285,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "6aN9z9CLlJ/4uMhTS9D2jF",
+    "fileId": "3by0f7POlIHIXWJpar5W76",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -7453,7 +7453,7 @@
     },
     "component": "",
     "_componentId": "3bd13pVZI1Cw6rsd25GuVbb",
-    "handler": "deleteTokenBySubjectId",
+    "handler": "setAutoInitEnabled",
     "customEventData": ""
   },
   {
@@ -7464,7 +7464,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "Button_deleteTokenBySubjectId"
+    "value": "Button_setAutoInitEnabled"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -7539,7 +7539,7 @@
     "propertyPath": [
       "_string"
     ],
-    "value": "deleteTokenBySubjectId"
+    "value": "setAutoInitEnabled"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
