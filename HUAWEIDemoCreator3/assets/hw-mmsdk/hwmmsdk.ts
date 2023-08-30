@@ -1,5 +1,6 @@
-import { _decorator, Component, loader, director, CCString, EventTarget, EditBox, Node, Button, Label } from 'cc';
+import { _decorator, Component, loader, director, CCString, EventTarget, EditBox, Node, Button, Label, instantiate, Prefab } from 'cc';
 import { Console } from '../prefabs/console';
+import { AudioMsgBar } from './audio_msg_bar';
 const { ccclass, property } = _decorator;
 
 /**
@@ -8,7 +9,7 @@ const { ccclass, property } = _decorator;
 @ccclass('Hwmmsdk')
 export class Hwmmsdk extends Component {
     @property({ type: Console })
-    consolePanel: Console = null!;
+    console: Console = null!;
 
     @property(Node)
     startBtnArr: Node = null;
@@ -45,6 +46,13 @@ export class Hwmmsdk extends Component {
     @property(Button)
     notMutePlayerBtn: Button = null;
 
+    //临时语音消息id
+    private _curAudioMsgIndex = 0;
+    @property(Prefab)
+    audioMsgBarPrefab: Prefab = null;
+    @property(Node)
+    audioMsgBarParentNode: Node = null;
+
 
 
     //模拟用户A/B
@@ -66,10 +74,51 @@ export class Hwmmsdk extends Component {
     onEnable () {
         this.lbIsHomeowner.string = "房主信息：无"
         this.enterStartBtnPanel();
+        //其他玩家加入房间 小队房间/国战房间
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onPlayerOnlineCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("有其他用户加入房间，信息如下");
+            this.console.log(result);
+        })
+        //有其他玩家离开房间
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onPlayerOfflineCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("有其他用户离开房间，信息如下");
+            this.console.log(result);
+        })
+
+        //开启/关闭玩家自身麦克风成功后，房间内其他玩家通过次接口收到信息
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onRemoteMicroStateChangedCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("有其他用户开关麦克风，信息如下");
+            this.console.log(result);
+        })
+        //房主身份 禁言/解禁指定玩家 或 禁言/解禁全部玩家
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onForbiddenByOwnerCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("房主 禁言/解禁指定玩家或全部玩家，信息如下");
+            this.console.log(result);
+        })
+        //消息接收
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onRecvMsgCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("有其他用户发送了文本消息，信息如下");
+            this.console.log(result);
+        })
+        //检测发言用户
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onSpeakersDetectionCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("获得当前发言玩家,信息如下");
+            this.console.log(result);
+        })
+        // huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onSpeakersDetectionExCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+        //     this.console.log("获得当前发言玩家信息如下");
+        //     this.console.log(result);
+        // })
     }
 
     onDisable () {
-
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onPlayerOnlineCallback);
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onPlayerOfflineCallback);
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onRemoteMicroStateChangedCallback);
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onForbiddenByOwnerCallback);
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onRecvMsgCallback);
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onSpeakersDetectionCallback);
+        // huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onSpeakersDetectionExCallback);
     }
 
 
@@ -78,7 +127,7 @@ export class Hwmmsdk extends Component {
     */
     requestPermissions () {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.requestPermissionsCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         this.mmsdkService.requestPermissions(true, "需要开启权限才能使用此功能", "去开启");
     }
@@ -103,25 +152,30 @@ export class Hwmmsdk extends Component {
     */
     private _init () {
         if (this._selfOpenId == null) {
-            this.consolePanel.log("请先点击按钮选择是用户A 还是用户B");
+            this.console.log("请先点击按钮选择是用户A 还是用户B");
             return;
         }
-        this.consolePanel.log("正在初始化,请稍后,请勿重复点击...");
+        this.console.log("正在初始化,请稍后,请勿重复点击...");
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.initCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log("以用户 " + this._selfOpenId + " 初始化完毕,结果如下");
+            this.console.log(result);
             if (result.code == huawei.game.mmsdk.StatusCode.success) {
                 //禁用初始化按钮
-                this.selectUserAInitBtn.enabled = false;
-                this.selectUserBInitBtn.enabled = false;
+                this.selectUserAInitBtn.node.active = false;
+                this.selectUserBInitBtn.node.active = false;
                 //修改一下某些界面的按钮的字
                 //禁言用户-
-                this.forbidPlayerBtn.node.getComponentInChildren(Label).string = "禁言用户" + (this._selfOpenId == "A" ? "B" : "A");
+                this.forbidPlayerBtn.node.getComponentInChildren(Label).string = "（仅房主）禁言用户" + (this._selfOpenId == "A" ? "B" : "A");
                 //解禁用户-
-                this.notForbidPlayerBtn.node.getComponentInChildren(Label).string = "解禁用户" + (this._selfOpenId == "A" ? "B" : "A");
+                this.notForbidPlayerBtn.node.getComponentInChildren(Label).string = "（仅房主）解禁用户" + (this._selfOpenId == "A" ? "B" : "A");
+
                 //屏蔽玩家-语音
                 this.mutePlayerBtn.node.getComponentInChildren(Label).string = "屏蔽玩家" + (this._selfOpenId == "A" ? "B" : "A") + "语音";
                 //取消屏蔽玩家-语音
                 this.notMutePlayerBtn.node.getComponentInChildren(Label).string = "取消屏蔽玩家" + (this._selfOpenId == "A" ? "B" : "A") + "语音";
+
+                //关闭监听发言玩家
+                this.disableSpeakersDetection(false);
             }
         })
         let info = {
@@ -177,11 +231,11 @@ export class Hwmmsdk extends Component {
     */
     public destroyEngine () {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onDestroyCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
             if (result.code == huawei.game.mmsdk.StatusCode.success) {
                 //再次启用初始化按钮
-                this.selectUserAInitBtn.enabled = true;
-                this.selectUserBInitBtn.enabled = true;
+                this.selectUserAInitBtn.node.active = true;
+                this.selectUserBInitBtn.node.active = true;
             }
         })
         huawei.game.mmsdk.mmsdkService.destroy();
@@ -196,7 +250,7 @@ export class Hwmmsdk extends Component {
      */
     public joinTeamRoom (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onJoinTeamRoomCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
             //主动获取一次房间信息
             if (result.code == huawei.game.mmsdk.StatusCode.success) {
                 this.getRoom(false);
@@ -212,7 +266,7 @@ export class Hwmmsdk extends Component {
     //指挥官
     private joinNationalRoom_1 (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onJoinNationalRoomCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.joinNationalRoom(this.nationalRoomId, 1);
     }
@@ -220,7 +274,7 @@ export class Hwmmsdk extends Component {
     //群众
     private joinNationalRoom_2 (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onJoinNationalRoomCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.joinNationalRoom(this.nationalRoomId, 2);
     }
@@ -233,7 +287,7 @@ export class Hwmmsdk extends Component {
      */
     private _switchRoom (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onSwitchRoomCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.switchRoom("xxxxxxxx");
     }
@@ -246,7 +300,7 @@ export class Hwmmsdk extends Component {
      */
     private _transferOwner (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onTransferOwnerCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.transferOwner("xxxxxxxx", "xxxxxxxx");
     }
@@ -257,11 +311,11 @@ export class Hwmmsdk extends Component {
     public getRoom (showLogToPanel: boolean = true): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.getRoomCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
             if (showLogToPanel) {
-                this.consolePanel.log(result);
+                this.console.log(result);
             }
             //设置ui房主房主信息
             if (result.code == huawei.game.mmsdk.StatusCode.success) {
-                this.lbIsHomeowner.string = "房主信息" + (result.data.ownerId == this._selfOpenId ? "是房主" : "不是房主") + ` (ownerId = ${result.data.ownerId})`;
+                this.lbIsHomeowner.string = "房主信息:" + (result.data.ownerId == this._selfOpenId ? "是房主" : "不是房主") + ` (ownerId = ${result.data.ownerId})`;
             }
         })
         huawei.game.mmsdk.mmsdkService.getRoom(this._teamRoomId);
@@ -275,7 +329,9 @@ export class Hwmmsdk extends Component {
      */
     public leaveRoom (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onLeaveRoomCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
+            //获取一下房间信息
+            this.getRoom(false);
         })
         huawei.game.mmsdk.mmsdkService.leaveRoom(this._teamRoomId, null);
     }
@@ -285,14 +341,14 @@ export class Hwmmsdk extends Component {
      * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gamemme-enablemic-android-0000001197485354
      */
     public enableMic (): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onRemoteMicroStateChangedCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.enableMicCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.enableMic(true);
     }
     public disableMic (): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onRemoteMicroStateChangedCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.enableMicCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.enableMic(false);
     }
@@ -310,7 +366,7 @@ export class Hwmmsdk extends Component {
     //禁言
     public forbidPlayer (roomId: string, openId: string, isForbidden: boolean): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onForbidPlayerCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         let tarOpenId = this._selfOpenId == "A" ? "B" : "A";
         huawei.game.mmsdk.mmsdkService.forbidPlayer(this._teamRoomId, tarOpenId, true);
@@ -318,7 +374,7 @@ export class Hwmmsdk extends Component {
     //解禁
     public notForbidPlayer (roomId: string, openId: string, isForbidden: boolean): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onForbidPlayerCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         let tarOpenId = this._selfOpenId == "A" ? "B" : "A";
         huawei.game.mmsdk.mmsdkService.forbidPlayer(this._teamRoomId, tarOpenId, false);
@@ -335,14 +391,14 @@ export class Hwmmsdk extends Component {
     //禁言全部
     public forbidAllPlayers (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onForbidAllPlayersCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.forbidAllPlayers(this._teamRoomId, true);
     }
     //解禁全部
     public notForbidAllPlayers (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onForbidAllPlayersCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.forbidAllPlayers(this._teamRoomId, false);
     }
@@ -359,7 +415,7 @@ export class Hwmmsdk extends Component {
     //屏蔽
     public mutePlayer (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onMutePlayerCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         let tarOpenId = this._selfOpenId == "A" ? "B" : "A";
         huawei.game.mmsdk.mmsdkService.mutePlayer(this._teamRoomId, tarOpenId, true);
@@ -367,7 +423,7 @@ export class Hwmmsdk extends Component {
     //取消屏蔽
     public notmutePlayer (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onMutePlayerCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         let tarOpenId = this._selfOpenId == "A" ? "B" : "A";
         huawei.game.mmsdk.mmsdkService.mutePlayer(this._teamRoomId, tarOpenId, false);
@@ -384,7 +440,7 @@ export class Hwmmsdk extends Component {
     //屏蔽
     public muteAllPlayers (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onMuteAllPlayersCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         let tarOpenId = this._selfOpenId == "A" ? "B" : "A";
         huawei.game.mmsdk.mmsdkService.muteAllPlayers(this._teamRoomId, true);
@@ -393,7 +449,7 @@ export class Hwmmsdk extends Component {
     //取消屏蔽
     public notMuteAllPlayers (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onMuteAllPlayersCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         let tarOpenId = this._selfOpenId == "A" ? "B" : "A";
         huawei.game.mmsdk.mmsdkService.muteAllPlayers(this._teamRoomId, false);
@@ -409,13 +465,17 @@ export class Hwmmsdk extends Component {
      *  interval 当前发言玩家列表回调的时间间隔,有效值范围为[100, 10000],单位: 毫秒,当传入0时,即关闭音量回调
      */
     public enableSpeakersDetection (): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onSpeakersDetectionCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
-        })
         huawei.game.mmsdk.mmsdkService.enableSpeakersDetection(this._teamRoomId, 1000);
+        this.console.log("已开启监听发言玩家列表变化");
     }
 
+    public disableSpeakersDetection (showLogToPanel: boolean = true): void {
+        huawei.game.mmsdk.mmsdkService.enableSpeakersDetection(this._teamRoomId, 0);
+        if (showLogToPanel) {
+            this.console.log("已关闭监听发言玩家列表变化");
+        }
 
+    }
 
     //IM聊天-文本消息-群组管理---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -427,7 +487,7 @@ export class Hwmmsdk extends Component {
      */
     public joinGroupChannel (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onJoinChannelCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.joinGroupChannel(this.groupChannelId);
     }
@@ -440,7 +500,7 @@ export class Hwmmsdk extends Component {
      */
     public leaveChannel (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onLeaveChannelCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.leaveChannel(this.groupChannelId);
     }
@@ -453,7 +513,7 @@ export class Hwmmsdk extends Component {
      */
     public getChannelInfo (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.getChannelInfoCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.getChannelInfo(this.groupChannelId);
     }
@@ -467,8 +527,8 @@ export class Hwmmsdk extends Component {
      *  type    1表示单聊, 2表示群聊
      */
     public sendTextMsg (): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.getChannelInfoCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onSendMsgCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
         })
         let msg = "这是一条测试消息，现在时间为：" + this.getNowDate();
         huawei.game.mmsdk.mmsdkService.sendTextMsg(this.groupChannelId, msg, 2);
@@ -494,7 +554,7 @@ export class Hwmmsdk extends Component {
      */
     public startRecordAudioMsg (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.startRecordAudioMsgCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
             if (result.code == huawei.game.mmsdk.StatusCode.success) {
                 console.log("startRecordAudioMsg filePath:" + result.data?.filePath);
             }
@@ -510,7 +570,7 @@ export class Hwmmsdk extends Component {
     */
     public stopRecordAudioMsg (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onRecordAudioMsgCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
             if (result.code == huawei.game.mmsdk.StatusCode.success) {
                 console.log("stopRecordAudioMsg filePath" + result.data?.filePath);
                 console.log("stopRecordAudioMsg code" + result.data?.code);
@@ -522,6 +582,7 @@ export class Hwmmsdk extends Component {
         huawei.game.mmsdk.mmsdkService.stopRecordAudioMsg();
     }
 
+
     /**
      * 上传音频文件到游戏多媒体服务器
      *
@@ -530,78 +591,49 @@ export class Hwmmsdk extends Component {
      */
     public uploadAudioMsgFile (): void {
         if (this.curRecordAudioFilePath == null) {
-            this.consolePanel.error("请先录制语音，完成后再进行上传");
+            this.console.error("请先录制语音，完成后再进行上传");
             return;
         }
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onUploadAudioMsgFileCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
+            //加到本地列表
+            if (result.code == huawei.game.mmsdk.StatusCode.success) {
+                if (result.data.code == 0) {
+                    this._curAudioMsgIndex++;
+
+                    let filePath = result.data.filePath;
+                    let fileId = result.data.fileId;
+                    let code = result.data.code;
+                    let msg = result.data.msg;
+                    let nodeBar = instantiate(this.audioMsgBarPrefab);
+                    this.audioMsgBarParentNode.addChild(nodeBar);
+
+                    let sc = nodeBar.getComponent(AudioMsgBar);
+                    sc.init(this.console, this._curAudioMsgIndex, filePath, fileId);
+                }
+            }
         })
         huawei.game.mmsdk.mmsdkService.uploadAudioMsgFile(this.curRecordAudioFilePath, 5000);
     }
 
-    /**
-     * 播放语音消息 - 下载文件
-     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gamemme-record-play-audio-msg-android-0000001550814805#section124701481487
-     *
-     * @param filePath  文件下载的存储地址。
-     * @param fileId    待下载文件唯一标识，即文件ID。
-     * @param msTimeOut 超时时间，单位：ms，取值范围[3000, 7000]。
-     */
-    private _downloadAudioMsgFile (fileId: string, filePath: string, msTimeOut: number): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onDownloadAudioMsgFileCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
-        })
-        huawei.game.mmsdk.mmsdkService.downloadAudioMsgFile(fileId, filePath, msTimeOut);
-    }
-    /**
-     * 播放语音消息 - 播放音频
-     *
-     * @param filePath:获取音频文件信息的文件路径
-     */
-    private _playAudioMsg (filePath: string): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onPlayAudioMsgCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
-        })
-        huawei.game.mmsdk.mmsdkService.playAudioMsg(filePath);
-    }
-
-    /**
-     * 播放语音消息 - 停止音频
-     *
-     * @param filePath:获取音频文件信息的文件路径
-     */
-    private _stopPlayAudioMsg (filePath: string): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onPlayAudioMsgCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
-        })
-        huawei.game.mmsdk.mmsdkService.stopPlayAudioMsg();
-    }
-
-    /**
-     * 获取文件信息，前提：下载完毕
-     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-model-audiomsgfileinfo-android-0000001499283292#section1515222884713
-     *
-     * @param filePath:获取音频文件信息的文件路径
-     */
-    public _getAudioMsgFileInfo (filePath: string): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.getAudioMsgFileInfoCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
-        })
-        huawei.game.mmsdk.mmsdkService.getAudioMsgFileInfo(filePath);
-    }
 
 
     //IM聊天-语音消息-语音转文本
 
     /**
      * 开始录音
+     * 注意：如果语音小于10秒则录音时中间有停顿则会自动转换为文本无需主动调用 stopRecordAudioToText
      * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gamemme-voicetotext-android-0000001256141451#section124212225298
      *
      * @param language 语言编码 只支持zh和en_US两种
      */
     public startRecordAudioToText (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.startRecordAudioToTextCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            // this.consolePanel.log(result);
+            this.console.log("正在录音,请说话...")
+        })
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onVoiceToTextCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.startRecordAudioToText("zh");
     }
@@ -609,9 +641,9 @@ export class Hwmmsdk extends Component {
     /**
      * 停止录音 语音内容将自动转写成文本内容
      */
-    public stopRecordAudioToText (): void {
+    private _stopRecordAudioToText (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onVoiceToTextCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.consolePanel.log(result);
+            this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.stopRecordAudioToText();
     }
