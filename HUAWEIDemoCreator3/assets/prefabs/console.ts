@@ -27,6 +27,8 @@ export class Console extends Component {
         args.push("\n");
         const { item, str } = this.addItem(null, ...args);
         if (item) log(str);
+
+        console.log(str);
     }
 
     error (...args: any[]) {
@@ -37,6 +39,8 @@ export class Console extends Component {
             label.color = color(255, 0, 0);
         }, ...args);
         if (item) error(str);
+
+        console.error(str);
     }
 
     clear () {

@@ -29,7 +29,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 57
+      "__id__": 58
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -60,7 +60,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 58
+      "__id__": 59
     },
     "_id": "7c6fc3e5-11bf-4022-8c48-5d2548763dfe"
   },
@@ -1171,6 +1171,9 @@
       },
       {
         "__id__": 56
+      },
+      {
+        "__id__": 57
       }
     ],
     "buttonLoadScene": {
@@ -1244,6 +1247,10 @@
     "sceneName": "hwmmsdk"
   },
   {
+    "__type__": "SceneListItem",
+    "sceneName": "hwgobe"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": null,
     "asset": null,
@@ -1254,25 +1261,25 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 59
-    },
-    "shadows": {
       "__id__": 60
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 61
     },
-    "fog": {
+    "_skybox": {
       "__id__": 62
     },
-    "octree": {
+    "fog": {
       "__id__": 63
     },
-    "skin": {
+    "octree": {
       "__id__": 64
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 65
+    },
+    "lightProbeInfo": {
+      "__id__": 66
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
