@@ -1,4 +1,4 @@
-import { _decorator, Component, director, EditBox, Node } from 'cc';
+import { _decorator, Component, director, EditBox, Label, Node } from 'cc';
 import { isInited } from './gobe_util';
 import { global, LockType } from './hw_gobe_global_data';
 import { Console } from '../../prefabs/console';
@@ -15,9 +15,29 @@ export class GobeCreateRoom extends Component {
     @property(EditBox)
     roomName: EditBox = null;
 
-    private isPrivate = 1;              //1 私有 0 公开
+    @property(Label)
+    lbPublicState: Label;
 
-    private isLock = LockType.UnLocked; //
+    @property(Label)
+    lbLockState: Label;
+
+    private isPrivate = 1;                  //1 私有 0 公开
+    private isLock = LockType.UnLocked;     //
+
+
+    protected onEnable (): void {
+        this._updatelbPublicState();
+        this._updatelbLockState();
+    }
+
+
+    private _updatelbPublicState () {
+        this.lbPublicState.string = "公开状态：" + (this.isPrivate == 1 ? "私有" : "公开");
+    }
+
+    private _updatelbLockState () {
+        this.lbPublicState.string = "锁定状态：" + (this.isLock == LockType.Locked ? "锁定" : "未锁");
+    }
 
 
     /**
@@ -25,6 +45,7 @@ export class GobeCreateRoom extends Component {
     */
     setRoomIsPublic () {
         this.isPrivate = 0;
+        this._updatelbPublicState();
     }
 
     /**
@@ -32,6 +53,7 @@ export class GobeCreateRoom extends Component {
     */
     setRoomIsPrivate () {
         this.isPrivate = 1;
+        this._updatelbPublicState();
     }
 
     /**
@@ -39,12 +61,14 @@ export class GobeCreateRoom extends Component {
     */
     setRoomIsLock () {
         this.isLock = LockType.Locked;
+        this._updatelbLockState();
     }
     /**
      * 设为不锁定
     */
     setRoomNotLock () {
         this.isLock = LockType.UnLocked;
+        this._updatelbLockState();
     }
 
     /**

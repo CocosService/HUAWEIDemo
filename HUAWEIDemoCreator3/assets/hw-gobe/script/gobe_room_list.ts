@@ -14,10 +14,6 @@ export class GobeRoomList extends Component {
     @property({ type: Console })
     console: Console = null!;
 
-
-    @property(EditBox)
-    roomIdEditBox: EditBox = null;
-
     @property(EditBox)
     roomCodeEditBox: EditBox = null;
 
@@ -29,35 +25,6 @@ export class GobeRoomList extends Component {
     start () {
         // this.initSchedule();
     }
-
-    /**
-     * 加入根据id
-    */
-    public async joinRoomByRoomId () {
-        let target: string = null;
-        console.log('房间Code' + this.roomIdEditBox.string);
-        target = this.roomIdEditBox.string;
-        if (target == null || target.length == 0) {
-            console.error(`请输入正确的房间ID`);
-            return;
-        }
-        // let customPlayerProperties = roomStatus == "1" ? "watcher" : "";
-        let customPlayerProperties = "";
-        this.lockSubmit = true;
-        console.log(`正在加入房间，房间ID：${target}`);
-        await global.client.joinRoom(target,
-            { customPlayerStatus: 0, customPlayerProperties: customPlayerProperties }).then((room) => {
-                console.log("加入房间成功");
-                global.room = room;
-                global.player = room.player;
-                this.lockSubmit = false;
-                this._loadRoomScene();
-            }).catch((e) => {
-                this.lockSubmit = false;
-                console.log("提示", "加入房间失败", e);
-            });
-    }
-
 
     /**
      * 加入根据code
@@ -178,9 +145,7 @@ export class GobeRoomList extends Component {
     }
 
     _freshEdit (data: RoomInfo) {
-        this.roomIdEditBox.string = data.roomId;
         this.roomCodeEditBox.string = data.roomCode;
-        // this.entryRoomStatusEdit.string = data.roomStatus.toString();
     }
 
 }

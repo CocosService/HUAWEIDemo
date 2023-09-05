@@ -2,12 +2,12 @@
   "ver": "1.1.45",
   "importer": "prefab",
   "imported": true,
-  "uuid": "a2912acd-f395-4516-8807-91cea6797654",
+  "uuid": "d8b7e11e-9299-4da4-b543-a9273dfb2fac",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "roomItem"
+    "syncNodeName": "record_item"
   }
 }

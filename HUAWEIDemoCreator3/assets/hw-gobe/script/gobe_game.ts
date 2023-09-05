@@ -1,11 +1,11 @@
 import { _decorator, color, Component, director, find, instantiate, Label, Node, Prefab, Sprite } from 'cc';
-import { clearFrames, cloudsList, CmdType, ColliderEvent, colliderEventMap, destroyedBulletSet, Direction, frameSyncPlayerInitList, frameSyncPlayerList, GameSceneType, pushFrames, resetFrameSyncPlayerList } from './frame_sync';
+import { clearFrames, CmdType, Direction, frameSyncPlayerInitList, frameSyncPlayerList, GameSceneType, pushFrames, resetFrameSyncPlayerList } from './frame_sync';
 import { global, RoomType } from './hw_gobe_global_data';
 import { FrameSyncView } from './frame_sync_view';
-import { CloudData } from './cloud_list';
 import config from './config';
 import { sleep } from './gobe_util';
 import { Console } from '../../prefabs/console';
+import { RecvFrameMessage } from '../../cs-huawei/hwgobe/GOBE/GOBE';
 const { ccclass, property } = _decorator;
 let framesId = 0;
 @ccclass('GobeGame')
@@ -24,23 +24,10 @@ export class GobeGame extends Component {
     @property(FrameSyncView)
     public frameSyncView: FrameSyncView = null;
 
-    // 子弹预制件
-    @property(Prefab)
-    bulletPrefab: Prefab = null;
-
-    @property(Sprite)
-    circle: Sprite = null
-
-
     @property(Node)
     gameOverPanel: Node = null;
     @property(Label)
     gameOverPanelTip: Label = null;
-    // 云朵初始帧
-    public randomFrame = 100;
-
-    // 出现云朵的频次
-    public frequency = 50;
 
     // 机器人定时任务
     public robotIntervalTask = null;
@@ -65,8 +52,6 @@ export class GobeGame extends Component {
             this.initRobotSchedule();
             // 房主定时同步roomInfo中的customRoomProperties任务
             this.initSyncRoomPropSchedule();
-            // 开启碰撞缓存事件检测
-            this.processColliderCache();
         }
     }
 
@@ -114,7 +99,6 @@ export class GobeGame extends Component {
         this.frameSyncView.onLeftButtonClick = () => this.sendPlaneFlyFrame(Direction.left);
         this.frameSyncView.onRightButtonClick = () => this.sendPlaneFlyFrame(Direction.right);
         this.frameSyncView.onStopFrameButtonClick = () => this.stopGame();
-        this.frameSyncView.onFireButtonClick = () => this.sendBulletFlyFrame();
         this.frameSyncView.onLeaveButtonClick = () => this.watcherLeaveRoom();
         this.frameSyncView.setButtons(global.gameSceneType, global.playerId === global.room.ownerId);
     }
@@ -180,10 +164,6 @@ export class GobeGame extends Component {
             });
             let data = {
                 type: 'InitGame',
-                planeSize: global.planeSize,          // 飞机尺寸，圆形，半径为15像素
-                planeHp: global.planeMaxHp,           // 飞机生命值
-                bulletSize: global.bulletSize,        // 子弹尺寸，圆形，半径为4像素
-                bulletSpeed: global.bulletStepPixel,  // 子弹步长
                 playerArr: playerInfoArr
             }
             this.console.log('-----reportPlayerInfo----' + JSON.stringify(data));
@@ -200,31 +180,6 @@ export class GobeGame extends Component {
             this.console.log('----syncRoomInfo---' + frameData);
             global.room.sendFrame(frameData);
         }
-    }
-
-    processColliderCache () {
-        this.colliderEventTask = setInterval(() => {
-            // let needRollback = false;
-            let values: ColliderEvent[] = [];
-            colliderEventMap.forEach((value, key) => {
-                values.push(value);
-            })
-            for (let i = 0; i < values.length; i++) {
-                // 碰撞事件存在时间超过2秒，说明前后端对该事件的认定不一致，需要回滚
-                if (Date.now() - values[i].timeStamp >= global.clearColliderCacheInterval) {
-                    let frameId = global.curHandleFrameId > global.rollbackFrameCount ?
-                        global.curHandleFrameId - global.rollbackFrameCount : 1;
-                    this.console.log('-----重置帧ID为' + (frameId));
-                    colliderEventMap.clear();
-                    destroyedBulletSet.forEach((bulletId) => {
-                        this.frameSyncView.gameCanvas.destroyBullet(bulletId.toString());
-                    });
-                    destroyedBulletSet.clear();
-                    global.room.resetRoomFrameId(frameId);
-                    break;
-                }
-            }
-        }, 200);
     }
 
     onRequestFrameError (err) {
@@ -381,63 +336,12 @@ export class GobeGame extends Component {
                 x,
                 y,
                 direction: dir,
-                hp: player.hp
             });
-            this.console.log('----sendPlaneFlyFrame---' + frameData);
+            this.console.log('sendPlaneFlyFrame:' + frameData);
             global.room.sendFrame(frameData);
         }
         catch (e) {
             this.console.log('sendPlaneFlyFrame err: ' + e);
-        }
-    }
-
-    /**
-     * 攻击指令发送
-     */
-    sendBulletFlyFrame () {
-        try {
-            // 当前玩家信息
-            let player = frameSyncPlayerList.players.find(p => p.playerId == global.playerId);
-            if (!player) {
-                return;
-            }
-            // 如果飞机在飞行边界，且机头朝向边界，不能发射子弹
-            if (!this.planeCanFlyOrFire(player.x, player.y, player.direction)) {
-                return;
-            }
-            global.bulletId++;
-            // 子弹在飞机头前方一段距离生成。
-            let x = player.x;
-            let y = player.y;
-            let divergeSize = global.bulletInitOffset;
-            switch (player.direction) {
-                case Direction.up: // 向上
-                    y = (player.y + divergeSize) > global.bgMaxY ? global.bgMaxY : player.y + divergeSize;
-                    break;
-                case Direction.down: // 向下
-                    y = (player.y - divergeSize) < global.bgMinY ? global.bgMinY : player.y - divergeSize;
-                    break;
-                case Direction.left: // 向左
-                    x = (player.x - divergeSize) < global.bgMinX ? global.bgMinX : player.x - divergeSize;
-                    break;
-                case Direction.right: // 向右
-                    x = (player.x + divergeSize) > global.bgMaxX ? global.bgMaxX : player.x + divergeSize;
-                    break;
-                // no default
-            }
-            let frameData: string = JSON.stringify({
-                cmd: CmdType.bulletFly,
-                playerId: global.playerId,
-                bulletId: global.playerId + '_' + global.bulletId,
-                x,
-                y,
-                direction: player.direction
-            });
-            this.console.log('----sendBulletFlyFrame---' + frameData);
-            global.room.sendFrame(frameData);
-        }
-        catch (e) {
-            this.console.log('sendFireToServer err: ' + e);
         }
     }
 
@@ -484,8 +388,9 @@ export class GobeGame extends Component {
     setRoomView () {
         const roomInfo = global.room;
         // 设置文本标签
-        this.gameIdLabel.string = roomInfo.roomId;
-        this.playerIdLabel.string = global.playerId;
+        this.gameIdLabel.string = "房间ID:" + roomInfo.roomId;
+        this.playerIdLabel.string = "玩家Id:" + global.playerId;
+
         // 房间人数变化，重新计算帧
         if (roomInfo.players.length !== frameSyncPlayerList.players.length) {
             this.frameSyncView.reCalcFrameState();
@@ -494,8 +399,9 @@ export class GobeGame extends Component {
 
     // 设置回放场景
     setRecordRoomView () {
-        this.gameIdLabel.string = global.recordRoomInfo.roomId;
-        this.playerIdLabel.string = global.playerId;
+        this.gameIdLabel.string = "房间ID:" + global.recordRoomInfo.roomId;
+        this.playerIdLabel.string = "玩家Id:" + global.playerId;
+
         this.frameSyncView.setButtons(GameSceneType.FOR_RECORD);
         this.frameSyncView.onQuitButtonClick = () => this.quitRecord();
     }
@@ -529,44 +435,15 @@ export class GobeGame extends Component {
         }
     }
 
-    // 获取随机云朵
-    private getRandomCloud (currentRoomFrameId: number, seed: number) {
-        if ((currentRoomFrameId >= this.randomFrame) && (currentRoomFrameId % this.frequency === 0)) {
-            // 申请随机数，解析随机数，加入云朵
-            // @ts-ignore
-            const random = GOBE.RandomUtils(Math.floor(seed)).getNumber();
-            let speed = Math.floor(random * 100);
-            let y = Math.floor(random * 10000 - speed * 100);
-            let x = Math.floor(random * 1000000 - speed * 10000 - y * 100);
-            const cloud: CloudData = {
-                x: x % 17, y: y % 5 + 5, offset: 0, speed: speed + 70
-            };
-            /*this.console.log("seed值:" + seed + " 随机帧id:" + currentRoomFrameId + " 随机数序列:" +
-                random + " 云朵数据:" + JSON.stringify(cloud));*/
-            cloudsList.clouds.push(cloud);
-            this.randomFrame += this.frequency;
-        }
-    }
 
     /**
      * 接收帧处理
      * @param frame
      * @private
      */
-    private receiveFrameHandle (frame) {
+    private receiveFrameHandle (frame: RecvFrameMessage) {
+        // console.log("收到帧数据:", frame);
         framesId = frame.currentRoomFrameId;
-        if (framesId % 150 == 0) {
-            // 显示圆圈，持续5秒后消失
-            if (this.circle.node.active == true) {
-                this.circle.node.active = false;
-            } else {
-                this.circle.node.active = true;
-                this.circle.color = color(237, 247, 7, 255);
-            }
-        }
-        // 获取随机云朵
-        let seed = (frame.ext) ? frame.ext.seed : null;
-        this.getRandomCloud(framesId, seed);
         // 处理帧内容
         if (frame.frameInfo && frame.frameInfo.length > 0) {
             if (frame.frameInfo[0].playerId !== "0") {
@@ -660,10 +537,14 @@ export class GobeGame extends Component {
                 this.gameOverPanelTip.string = "正在结算。。。"
             }
         } else {
-            this.leaveRoom();
-            global.gameSceneType = GameSceneType.FOR_NULL;
-            director.loadScene("gobe_hall");
-            this.node.destroy();
+            this.leaveRoom(() => {
+                global.gameSceneType = GameSceneType.FOR_NULL;
+                director.loadScene("gobe_hall");
+            }, () => {
+                global.gameSceneType = GameSceneType.FOR_NULL;
+                director.loadScene("gobe_hall");
+            });
+
         }
     }
 
@@ -684,35 +565,34 @@ export class GobeGame extends Component {
     }
 
 
-
-    private unready () {
-        global.player.updateCustomStatus(0);
-    }
-
-    private leaveRoom () {
+    private leaveRoom (sucCb: Function = null, failCb: Function = null) {
         this.console.log(`正在退出房间`);
-        global.client.leaveRoom().then(() => {
-            // 退出房间成功
-            this.console.log("退出房间成功");
-            global.roomType = RoomType.NULL;
-        }).catch((e) => {
-            // 退出房间失败
-            this.console.log("提示", "退出房间失败", e);
-        });
+        global.client.leaveRoom()
+            .then(() => {
+                // 退出房间成功
+                this.console.log("退出房间成功");
+                global.roomType = RoomType.NULL;
+                sucCb && sucCb();
+            }).catch((e) => {
+                // 退出房间失败
+                this.console.log("提示", "退出房间失败", e);
+                failCb && failCb();
+            });
     }
 
     public watcherLeaveRoom () {
         this.console.log(`正在退出观战房间`);
-        global.client.leaveRoom().then(() => {
-            this.console.log("退出观战房间成功");
-            global.roomType = RoomType.NULL;
-            global.player.updateCustomProperties("clear");
-            global.gameSceneType = GameSceneType.FOR_NULL;
-            director.loadScene("gobe_hall");
-        }).catch((e) => {
-            // 退出房间失败
-            this.console.log("提示", "退出房间失败", e);
-        });
+        global.client.leaveRoom()
+            .then(() => {
+                this.console.log("退出观战房间成功");
+                global.roomType = RoomType.NULL;
+                global.player.updateCustomProperties("clear");
+                global.gameSceneType = GameSceneType.FOR_NULL;
+                director.loadScene("gobe_hall");
+            }).catch((e) => {
+                // 退出房间失败
+                this.console.log("提示", "退出房间失败", e);
+            });
     }
 
     /*
@@ -733,10 +613,11 @@ export class GobeGame extends Component {
         this.console.log("重连成功");
         if (playerInfo.playerId === global.playerId) {
             this.console.log("重连加入玩家id:" + playerInfo.playerId);
+            //获取房间最新信息
             global.room.update().then((room) => {
-                let isInRoom = this.isInRoom(room);
+                let isInRoom = this.selfIsInRoom(room);
                 if (isInRoom) {
-                    this.console.log("Reloading.close(); TODO")
+                    this.console.log("TODO")
                 } else {
                     global.gameSceneType = GameSceneType.FOR_NULL;
                     director.loadScene("gobe_hall");
@@ -749,24 +630,24 @@ export class GobeGame extends Component {
     }
 
     async reConnect () {
-        if (global.isTeamMode) {
-            global.gameSceneType = GameSceneType.FOR_NULL;
-            director.loadScene("gobe_hall");
-        } else {
-            // 没有超过重连时间，就进行重连操作
-            while (!global.isConnected) {
-                // 1秒重连一次，防止并发过大游戏直接卡死
-                await sleep(1000).then();
-                global.room.reconnect().then(() => {
-                    this.console.log("reconnect success");
-                }).catch((error) => {
-                    this.console.log("reconnect err");
-                });
-            }
+        // if (global.isTeamMode) {
+        //     global.gameSceneType = GameSceneType.FOR_NULL;
+        //     director.loadScene("gobe_hall");
+        // } else {
+        // 没有超过重连时间，就进行重连操作
+        while (!global.isConnected) {
+            // 1秒重连一次，防止并发过大游戏直接卡死
+            await sleep(1000).then();
+            global.room.reconnect().then(() => {
+                this.console.log("reconnect success");
+            }).catch((error) => {
+                this.console.log("reconnect err");
+            });
         }
+        // }
     }
 
-    isInRoom (room: GOBE.Room): boolean {
+    selfIsInRoom (room: GOBE.Room): boolean {
         const players: GOBE.PlayerInfo[] = room.players;
         if (players) {
             for (let i = 0; i < players.length; ++i) {

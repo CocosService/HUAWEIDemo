@@ -2,15 +2,6 @@ import { sys } from "cc";
 import config from "./config";
 import { RoomType, global } from "./hw_gobe_global_data";
 
-export interface BulletData {
-    playerId: string,
-    bulletId: number,
-    x: number,
-    y: number,
-    direction: number,
-    needDestroy: boolean,
-}
-
 /**
  * 随机产生 openId
  */
@@ -32,6 +23,74 @@ function randomStr () {
 }
 
 
+/**
+ * 通过文件的arrayBuffer获取文件的sha256值
+ * @param arrayBuffer
+ */
+export async function getFileHash (arrayBuffer: ArrayBuffer) {
+    // Blob转ArrayBuffer
+    // const arrayBuffer = await blob.arrayBuffer();
+    // 计算消息的哈希值
+    const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+    // 将缓冲区转换为字节数组
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    // 将字节数组转换为十六进制字符串 (hashHex)
+    return hashArray.map((b) => {
+        //.padStart(2, '0')
+        let str = b.toString(16);
+        let addCount = 2 - str.length;
+        if (addCount > 0) {
+            for (let i = 0; i < addCount; i++) {
+                str = "0" + str;
+            }
+        }
+        return str;
+    }).join('');
+}
+
+
+export function download (remoteUrl: string) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = async function (e) {
+            if (xhr.readyState != 4) {
+                return;
+            }
+            if (xhr.status == 200) {
+                const response = xhr.response;
+                if (response) {
+                    /*const blob = new Blob([response], {
+                        type: 'application/zip,charset-UTF-8',
+                    });*/
+
+                    /*// H5解决方案
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = decodeURI(fileName);
+                    link.click();
+                    URL.revokeObjectURL(url);*/
+                    resolve(response);
+                }
+                else {
+                    reject({
+                        status: xhr.status,
+                        statusText: xhr.statusText,
+                    });
+                }
+            }
+        };
+
+        xhr.onerror = function (e) {
+            console.log('----下载出错----' + e);
+            reject(e);
+        };
+
+        xhr.open('GET', remoteUrl, true);
+        xhr.responseType = 'arraybuffer';
+        xhr.send();
+    });
+}
 
 /**
  * 判断 MGOBE SDK 是否初始化完成

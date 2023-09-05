@@ -35,7 +35,6 @@ export class GobeRoom extends Component {
     @property(Button)
     delRoomBtn: Button;
 
-
     @property(Button)
     enableReadyBtn: Button;
     @property(Button)
@@ -46,14 +45,11 @@ export class GobeRoom extends Component {
     @property(Button)
     setRoomNotLockBtn: Button;
 
-
     @property(Node)
     loadingTip: Node = null;
     @property(Label)
     isLockText: Label = null;
-
     isLock = LockType.UnLocked;
-
     // 是否是加载状态
     isLoadingStatus = false;
 
@@ -70,8 +66,7 @@ export class GobeRoom extends Component {
     private _onStartFrameSyncEve = () => this.onStartFrameSync();
     private _onRecvFromServerEve = (receiveFromServerInfo) => this.onReceiveFromGameServer(receiveFromServerInfo);
 
-
-    start () {
+    async start () {
         if (global.room.isSyncing) {
             this.onDirectStartFrameSync();
         }
@@ -86,20 +81,25 @@ export class GobeRoom extends Component {
         // SDK 开始帧同步
         global.room.onStartFrameSync(this._onStartFrameSyncEve);
         global.room.onRecvFromServer(this._onRecvFromServerEve);
+
+        //ui
+        this.initRoomView();
     }
 
     protected onDestroy (): void {
-        global.room.onJoin.off(this._onJoinEve);
-        global.room.onLeave.off(this._onLeaveEve);
-        global.room.onDismiss.off(this._onDismissEve);
-        global.room.onUpdateCustomStatus.off(this._onUpdateCustomStatusEve);
-        global.room.onUpdateCustomProperties.off(this._onUpdateCustomPropertiesEve);
-        global.room.onRoomPropertiesChange.off(this._onRoomPropertiesChangeEve)
-        global.room.onDisconnect.off(this._onDisconnectEve); // 断连监听
-        global.room.onConnect.off(this._onConnectEve);
-        // SDK 开始帧同步
-        global.room.onStartFrameSync.off(this._onStartFrameSyncEve);
-        global.room.onRecvFromServer.off(this._onRecvFromServerEve);
+        if (global.room) {
+            global.room.onJoin.off(this._onJoinEve);
+            global.room.onLeave.off(this._onLeaveEve);
+            global.room.onDismiss.off(this._onDismissEve);
+            global.room.onUpdateCustomStatus.off(this._onUpdateCustomStatusEve);
+            global.room.onUpdateCustomProperties.off(this._onUpdateCustomPropertiesEve);
+            global.room.onRoomPropertiesChange.off(this._onRoomPropertiesChangeEve)
+            global.room.onDisconnect.off(this._onDisconnectEve); // 断连监听
+            global.room.onConnect.off(this._onConnectEve);
+            // SDK 开始帧同步
+            global.room.onStartFrameSync.off(this._onStartFrameSyncEve);
+            global.room.onRecvFromServer.off(this._onRecvFromServerEve);
+        }
     }
 
 
@@ -165,25 +165,10 @@ export class GobeRoom extends Component {
     }
 
 
-    /**
-     * 解散房间
-    */
-    delRoom () {
-        this.console.log(`正在解散房间`);
-        global.client.dismissRoom().then((client) => {
-            // 退出房间成功
-            this.console.log("解散房间成功");
-            global.roomType = RoomType.NULL;
-            global.client = client;
-            director.loadScene("gobe_hall");
-        }).catch((e) => {
-            // 退出房间失败
-            this.console.log("提示", "解散房间失败", e);
-        });
-    }
 
     /**
-     * 踢人
+     * 踢人（移除房间内玩家）
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gameobe-removeplayer-js-0000001242443357
     */
     removeOtherPla () {
         let playerId = "";
@@ -203,7 +188,8 @@ export class GobeRoom extends Component {
     }
 
     /**
-     * 退出房间
+     * 离开房间
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gameobe-leaveroom-js-0000001185489262
     */
     exitRoom () {
         this.console.log(`正在退出房间`);
@@ -218,6 +204,25 @@ export class GobeRoom extends Component {
             this.console.log("提示", "退出房间失败", e);
         });
     }
+
+
+    /**
+     * 解散房间
+    */
+    delRoom () {
+        this.console.log(`正在解散房间`);
+        global.client.dismissRoom().then((client) => {
+            // 退出房间成功
+            this.console.log("解散房间成功");
+            global.roomType = RoomType.NULL;
+            global.client = client;
+            director.loadScene("gobe_hall");
+        }).catch((e) => {
+            // 退出房间失败
+            this.console.log("提示", "解散房间失败", e);
+        });
+    }
+
 
     /**
      * 准备就绪
@@ -252,14 +257,16 @@ export class GobeRoom extends Component {
                 if (hasUserNotReady) {
                     this.console.log("提示", "还有玩家未准备，请稍后！");
                 } else {
+                    //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gameobe-sync-js-0000001185000956
                     // 全部加载完毕则开始帧同步
-                    global.room.startFrameSync().then(() => {
-                        // 开始帧同步成功
-                        this.console.log("开始帧同步成功");
-                    }).catch((e) => {
-                        // 开始帧同步失败
-                        this.console.log("提示", "开始帧同步失败", e);
-                    });
+                    global.room.startFrameSync()
+                        .then(() => {
+                            // 开始帧同步成功
+                            this.console.log("开始帧同步成功");
+                        }).catch((e) => {
+                            // 开始帧同步失败
+                            this.console.log("提示", "开始帧同步失败", e);
+                        });
                 }
             });
     }
@@ -276,18 +283,25 @@ export class GobeRoom extends Component {
     }
 
 
+    //房主 移除房间内指定玩家
+    //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gameobe-removeplayer-js-0000001242443357
     onLeaving (playerInfo: PlayerInfo) {
-        this.console.log("有用户离开房间");
+        this.console.log("房主 移除房间内指定玩家：" + playerInfo.playerId);
+        //刷新房间显示
         if (global.playerId != playerInfo.playerId) {
             this.initRoomView();
-        } else {
+        }
+        //自己被踢下线
+        else {
             global.roomType = RoomType.NULL;
             director.loadScene("gobe_hall");
         }
     }
 
+    //房主 解散房间
     onDismiss () {
-        this.console.log("被踢出房间")
+        this.console.log("房间被解散")
+        global.room.removeAllListeners();
         global.room = null;
         global.roomType = RoomType.NULL;
         director.loadScene("gobe_hall");
@@ -470,12 +484,12 @@ export class GobeRoom extends Component {
 
     // 初始化默认按钮
     initDefaultBtn (selfIsOwner: boolean, playerCount: number, ownerIsReady: boolean, notOwnerIsReady: boolean) {
+        //开始游戏
+        this.setStartBtn(selfIsOwner);
         // 房间只有一人时，肯定为房主
         if (playerCount === 1) {
             this.enableReadyBtn.node.active = !ownerIsReady;
             this.cancelReadyBtn.node.active = ownerIsReady;
-            // 房主有开始按钮，但人没齐时不注册监听，不响应
-            this.setStartBtn(false);
             // 一开始只有房主，默认不显示踢人按钮
             this.setKickBtn(false);
             // 房主才有解散按钮，只在按钮存在即可解散，即有响应
@@ -495,13 +509,10 @@ export class GobeRoom extends Component {
                 this.setRoomNotLockBtn.node.active = true;
                 // 加载状态时，非房主肯定是已准备状态
                 if (this.isLoadingStatus) {
-                    this.setStartBtn(false);
                     this.setKickBtn(false);
                     this.setDismissBtn(false);
                     this.setExitRoomBtn(false);
                 } else {
-                    // 非加载状态时，要看非房主的准备状态
-                    this.setStartBtn(notOwnerIsReady);
                     this.setKickBtn(true);
                     this.setDismissBtn(true);
                     this.setExitRoomBtn(true);
@@ -513,7 +524,6 @@ export class GobeRoom extends Component {
                 // 非房主不显示是否锁定房间
                 this.setRoomIsLockBtn.node.active = false;
                 this.setRoomNotLockBtn.node.active = false;
-                this.setStartBtn(false);
                 this.setKickBtn(false);
                 this.setDismissBtn(false);
                 this.setExitRoomBtn(!notOwnerIsReady);

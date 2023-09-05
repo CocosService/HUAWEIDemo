@@ -30,6 +30,15 @@ export class GobeMatch extends Component {
         director.loadScene("gobe_room_list");
     }
 
+
+    /**
+     * 返回
+    */
+    onGoBackClick () {
+        director.loadScene("gobe_hall");
+    }
+
+
     /**
      * 快速匹配
     */
@@ -44,10 +53,6 @@ export class GobeMatch extends Component {
         this.isInMatch = true;
 
         let customRoomProp = {
-            planeSize: global.planeSize,          // 飞机尺寸，圆形，半径为15像素
-            planeHp: global.planeMaxHp,           // 飞机最大生命值
-            bulletSize: global.bulletSize,        // 子弹尺寸，圆形，半径为4像素
-            bulletSpeed: global.bulletStepPixel,  // 子弹速度，400像素每秒
             bgMaxX: global.bgMaxX,                // 飞行背景x最大值
             bgMaxY: global.bgMaxY                 // 飞行背景y最大值
         }
@@ -73,7 +78,6 @@ export class GobeMatch extends Component {
                 director.loadScene("gobe_room");
             })
             .catch((e) => {
-
                 this.isInMatch = false;
                 this.console.log("提示", "房间匹配失败", e);
             });

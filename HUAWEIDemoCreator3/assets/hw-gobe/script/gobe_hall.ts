@@ -3,6 +3,7 @@ import { Console } from '../../prefabs/console';
 import { HwGobeGlobalData, LockType, RoomType, global } from './hw_gobe_global_data';
 import config from './config';
 import { getCustomPlayerProperties, getPlayerMatchParams } from './gobe_util';
+import { GobeRecordList } from './gobe_record_list';
 const { ccclass, property } = _decorator;
 
 /**
@@ -14,11 +15,18 @@ export class GobeHall extends Component {
     @property({ type: Console })
     console: Console = null!;
 
+    @property({ type: GobeRecordList })
+    recordListPanel: GobeRecordList = null!;
+
+
     isInMatch: boolean = false;
 
     private _onMatchEve = (onMatchResponse) => this._onMatch(onMatchResponse)
 
 
+    onEnable (): void {
+        this.recordListPanel.node.active = false;
+    }
     onDestroy (): void {
         global.client.onMatch.clear();
     }
@@ -34,7 +42,10 @@ export class GobeHall extends Component {
             director.loadScene("gobe_room");
         } else {
             this.console.log("在线匹配失败", res);
-            //是否是已经在匹配中
+            //是否是已经在匹配中//"101106 player already in one room"
+            if (res.rtnCode == 101106) {
+
+            }
         }
         this.isInMatch = false;
     }
@@ -127,21 +138,7 @@ export class GobeHall extends Component {
      * “战绩回放”按钮点击事件
      */
     onRecordList () {
-        this.console.log("`正在查询战绩列表`");
-        global.client.queryRecordList(0, 10)
-            .then((res) => {
-                if (res.recordInfos.length > 0) {
-                    global.recordInfos = res.recordInfos;
-                    for (let i = 0; i < global.recordInfos.length; i++) {
-                        global.recordPlayerIdMap.set(global.recordInfos[i].recordId, global.recordInfos[i].playerIds);
-                    }
-                }
-                this.console.log(`查询战绩列表成功`, JSON.stringify(res));
-            })
-            .catch((err) => {
-                global.recordInfos = [];
-                this.console.log(`查询战绩列表失败 err:`, err);
-            });
+        this.recordListPanel.node.active = true;
     }
 
 

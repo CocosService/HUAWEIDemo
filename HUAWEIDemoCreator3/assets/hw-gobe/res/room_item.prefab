@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "roomItem",
+    "_name": "room_item",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "roomItem",
+    "_name": "room_item",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,

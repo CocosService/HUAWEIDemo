@@ -2,7 +2,6 @@ import { _decorator, Button, Component, director, instantiate, Label, Node, Pref
 import { global, LockType, RoomType } from './hw_gobe_global_data';
 import { GameSceneType } from './frame_sync';
 import { setRoomType, sleep } from './gobe_util';
-//@ts-ignore
 import { PlayerInfo, RecvFromServerInfo, RoomInfo, UpdateCustomPropertiesResponse, UpdateCustomStatusResponse } from '../../cs-huawei/hwgobe/GOBE/GOBE';
 const { ccclass, property } = _decorator;
 

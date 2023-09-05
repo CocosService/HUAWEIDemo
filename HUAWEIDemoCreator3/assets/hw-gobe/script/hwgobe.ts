@@ -17,9 +17,9 @@ export class HwGOBE extends Component {
     cerPath: Asset = null;
 
     onEnable () {
-        GOBE.Logger.level = GOBE.LogLevel.INFO;
+        // GOBE.Logger.level = GOBE.LogLevel.INFO;
         profiler.hideStats();
-        console.log("this.cerPath.nativeUrl:" + this.cerPath.nativeUrl);
+        console.log("this.cerPath.nativeUrl:" + this.cerPath?.nativeUrl);
     }
     onDisable () {
     }
@@ -88,23 +88,27 @@ export class HwGOBE extends Component {
                 global.client.joinRoom(global.client.lastRoomId,
                     { customPlayerStatus: 0, customPlayerProperties: "" })
                     .then((room) => {
-                        this.console.log("加入历史房间成功");
+                        this.console.log("加入历史房间成功", room);
                         global.room = room;
                         global.player = room.player;
-                        this.console.log('玩家id ：' + global.player.playerId + '  房主id ：' + global.room.ownerId);
+                        this.console.log('joinRoom 玩家id ：' + global.player.playerId + '  房主id ：' + global.room.ownerId + "customRoomProperties:", global.room.customRoomProperties);
                         // 重置帧id
-                        let roomProp = JSON.parse(global.room.customRoomProperties);
-                        if (roomProp.curFrameId) {
-                            room.resetRoomFrameId(roomProp.curFrameId);
-                        }
-                        if (roomProp.roomType) {
-                            global.roomType = roomProp.roomType;
-                            director.loadScene("gobe_room");
+                        try {
+                            let roomProp = JSON.parse(global.room.customRoomProperties);
+                            if (roomProp.curFrameId) {
+                                room.resetRoomFrameId(roomProp.curFrameId);
+                            }
+                            if (roomProp.roomType) {
+                                global.roomType = roomProp.roomType;
+                                director.loadScene("gobe_room");
+                            }
+                        } catch (error) {
+                            console.error("joinRoom error:", error);
                         }
                     }).catch((e) => {
                         this.console.log('加入房间失败，roomId： ' + global.client.lastRoomId, e);
                         global.client.leaveRoom().then(() => {
-                            this.console.log("leaveRoom success");
+                            console.log("leaveRoom success");
                             global.roomType = RoomType.NULL;
                         });
                         director.loadScene("gobe_hall");
@@ -114,8 +118,6 @@ export class HwGOBE extends Component {
                 global.roomType = RoomType.NULL;
                 director.loadScene("gobe_hall");
             }
-
-            GOBE.Logger.level = GOBE.LogLevel.INFO;
             this.console.log('init success');
         } else {
             this.console.log('init failed');

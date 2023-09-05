@@ -1,14 +1,6 @@
-import { CloudList } from "./cloud_list";
 import { PlayerData, PlayerList } from "./PlayerList";
 import { global } from "./hw_gobe_global_data";
 export let frames: GOBE.ServerFrameMessage[] = [];
-// 碰撞体tag
-export enum CollideTag {
-    plane = 0,
-    bullet = 1,
-    circle = 2,
-}
-
 
 // key：方向， value：角度
 export enum Direction {
@@ -21,9 +13,6 @@ export enum Direction {
 // 操作指令类型
 export enum CmdType {
     planeFly = 0,              // 飞机飞行
-    bulletFly = 1,             // 子弹移动
-    bulletDestroy = 2,         // 子弹销毁
-    collide = 3,               // 碰撞
     syncRoomInfo = 4,          // 房主同步房间信息
 }
 
@@ -32,23 +21,11 @@ export enum Team {
     yellow = "1"
 }
 
-export const cloudsList: CloudList = {
-    clouds: []
-};
 
 export const frameSyncPlayerList: PlayerList = {
     players: []
 };
 
-// 碰撞事件
-export interface ColliderEvent {
-    playerId: string;
-    bulletId: string;
-    timeStamp: number;
-}
-
-export const colliderEventMap = new Map<string, ColliderEvent>();
-export const destroyedBulletSet = new Set();
 
 // 记录玩家初始化的位置，以便飞机被子弹击中后回到初始化位置
 export const frameSyncPlayerInitList: PlayerList = {
@@ -63,13 +40,11 @@ export function pushFrames (frame: GOBE.ServerFrameMessage) {
     frames.push(frame);
 }
 
-export function setPlayerData (playerId: string, x: number, y: number, hp: number, isShoot: boolean, dir: Direction, teamId: string, robotName?: string) {
+export function setPlayerData (playerId: string, x: number, y: number, dir: Direction, teamId: string, robotName?: string) {
     const player: PlayerData = {
         playerId,
         x,
         y,
-        hp,
-        isShoot,
         direction: dir,
         teamId,
         robotName,
@@ -83,7 +58,6 @@ export function updatePlayerData (playerId: string, x: number, y: number, hp: nu
     if (playerData) {
         playerData.x = x;
         playerData.y = y;
-        playerData.hp = hp;
         playerData.direction = dir;
     }
     // console.log('-----frameSyncPlayerList.players----------' + JSON.stringify(frameSyncPlayerList.players));
@@ -102,8 +76,6 @@ export function resetFrameSyncPlayerList () {
                 global.room.ownerId,
                 global.redPlayer1StartPos.x,
                 global.redPlayer1StartPos.y,
-                global.planeHp,
-                false,
                 Direction.right,
                 null,
                 player.robotName
@@ -113,8 +85,6 @@ export function resetFrameSyncPlayerList () {
                 player.playerId,
                 global.yellowPlayer1StartPos.x,
                 global.yellowPlayer1StartPos.y,
-                global.planeHp,
-                false,
                 Direction.left,
                 null,
                 player.robotName
@@ -135,7 +105,7 @@ function roomMatch (roomInfo) {
         }
         if (roomProp?.frameSyncPlayerArr) {
             let item = roomProp.frameSyncPlayerArr.find(item => item.playerId === p.playerId);
-            setPlayerData(item.playerId, item.x, item.y, item.hp, item.isShoot, item.direction, null, item.robotName);
+            setPlayerData(item.playerId, item.x, item.y, item.direction, null, item.robotName);
         }
         else {
             // 如果是房主(红色)
@@ -144,8 +114,6 @@ function roomMatch (roomInfo) {
                     roomInfo.ownerId,
                     global.redPlayer1StartPos.x,
                     global.redPlayer1StartPos.y,
-                    global.planeHp,
-                    false,
                     Direction.right,
                     null,
                     p.robotName
@@ -155,8 +123,6 @@ function roomMatch (roomInfo) {
                     p.playerId,
                     global.yellowPlayer1StartPos.x,
                     global.yellowPlayer1StartPos.y,
-                    global.planeHp,
-                    false,
                     Direction.left,
                     null,
                     p.robotName
@@ -165,6 +131,7 @@ function roomMatch (roomInfo) {
         }
     });
 }
+
 
 function teamMatch (redTeamId: string, roomInfo) {
     // 组队匹配
@@ -177,7 +144,7 @@ function teamMatch (redTeamId: string, roomInfo) {
     roomInfo.players.forEach((p) => {
         if (roomProp?.frameSyncPlayerArr) {
             let item = roomProp.frameSyncPlayerArr.find(item => item.playerId === p.playerId);
-            setPlayerData(item.playerId, item.x, item.y, item.hp, item.isShoot, item.direction, null, item.robotName);
+            setPlayerData(item.playerId, item.x, item.y, item.direction, null, item.robotName);
         } else {
             if (redTeamId === p.teamId) {
                 // 红队
@@ -185,8 +152,6 @@ function teamMatch (redTeamId: string, roomInfo) {
                     p.playerId,
                     global.redPlayer1StartPos.x,
                     redPosY,
-                    global.planeHp,
-                    false,
                     Direction.right,
                     Team.red,
                     p.robotName
@@ -198,8 +163,6 @@ function teamMatch (redTeamId: string, roomInfo) {
                     p.playerId,
                     global.yellowPlayer1StartPos.x,
                     yellowPosY,
-                    global.planeHp,
-                    false,
                     Direction.left,
                     Team.yellow,
                     p.robotName
@@ -209,6 +172,7 @@ function teamMatch (redTeamId: string, roomInfo) {
         }
     });
 }
+
 
 function getRedTeamId (roomInfo) {
     let redTeamId = null;
@@ -221,6 +185,7 @@ function getRedTeamId (roomInfo) {
     });
     return redTeamId;
 }
+
 
 export function setDefaultFrameState () {
     let roomInfo;
@@ -239,9 +204,10 @@ export function setDefaultFrameState () {
         global.isTeamMode = false;
         roomMatch(roomInfo);
     }
+    console.warn("global.isTeamMode:" + global.isTeamMode);
 }
 
-//  游戏场景作用类型
+//游戏场景作用类型
 export enum GameSceneType {
     FOR_NULL = 0,
     FOR_GAME = 1,

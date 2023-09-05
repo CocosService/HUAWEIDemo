@@ -2,15 +2,16 @@
   "ver": "4.0.23",
   "importer": "javascript",
   "imported": true,
-  "uuid": "fbacd566-8641-445d-88e7-2c76f5ed418d",
+  "uuid": "dc8447e6-e8fc-4f25-afb0-56d31a612bc9",
   "files": [
     ".js"
   ],
   "subMetas": {},
   "userData": {
     "isPlugin": true,
-    "loadPluginInWeb": true,
+    "loadPluginInWeb": false,
     "loadPluginInNative": true,
-    "loadPluginInEditor": true
+    "loadPluginInEditor": false,
+    "simulateGlobals": []
   }
 }
