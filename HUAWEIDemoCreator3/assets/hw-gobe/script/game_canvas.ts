@@ -1,6 +1,5 @@
 import { _decorator, Button, Component, director, instantiate, Label, Node, NodePool, Prefab } from 'cc';
-import { CmdType, frameSyncPlayerInitList, frameSyncPlayerList, GameSceneType, setDefaultFrameState, updatePlayerData } from './frame_sync';
-import { global, RoomType } from './hw_gobe_global_data';
+import { global } from './hw_gobe_global_data';
 import { PlayerData } from './PlayerList';
 import { Player } from './player';
 
@@ -12,41 +11,45 @@ export class GameCanvas extends Component {
     @property(Prefab)
     playerPrefab: Prefab = null;
 
-    public players: Node[] = [];
-    public tileSize = 40;
-    public maxX = 19; // x轴最大值
 
-
-    setPlayers (playerArr: PlayerData[]) {
-        if (!Array.isArray(playerArr)) {
-            playerArr = [];
+    /**
+     * 刷新player节点
+    */
+    refreshPlayers (newPlayerDataArr: PlayerData[]) {
+        if (!Array.isArray(newPlayerDataArr)) {
+            newPlayerDataArr = [];
         }
-        for (let i = 0; i < this.players.length; i++) {
-            const element = this.players[i];
+
+        //销毁旧的
+        for (let i = 0; i < global.playerArr.length; i++) {
+            const element = global.playerArr[i];
             element.destroy();
         }
-        this.players = [];
-
-        for (let i = this.players.length; i < playerArr.length; i++) {
-            let player = instantiate(this.playerPrefab);
-            this.players.push(player);
-        }
         global.playerArr = [];
-        playerArr.forEach((player, i) => {
-            if (this.players[i]) {
-                const playerView = this.players[i].getComponent(Player);
-                playerView.node.parent = this.node;
-                playerView.initPlayer(player);
-                //缓存
-                global.playerArr.push(playerView);
-            }
+
+        //创建新角色
+        newPlayerDataArr.forEach((player, i) => {
+            let playerNode = instantiate(this.playerPrefab);
+            const playerView = playerNode.getComponent(Player);
+            playerView.node.parent = this.node;
+            playerView.initPlayer(player);
+            //缓存
+            global.playerArr.push(playerView);
         });
     }
 
-    convertPosition (mapX: number, mapY: number) {
-        const x = mapX * this.tileSize + this.tileSize / 2;
-        const y = mapY * this.tileSize + this.tileSize / 2;
-        return { x, y };
+    /**
+     * 更新已有的player的数据
+    */
+    updatePlayerData (playerDatas: PlayerData[]) {
+        let allPlayerView = global.playerArr;
+        for (let i = 0; i < allPlayerView.length; i++) {
+            //实体
+            const playerView: Player = allPlayerView[i];
+            //数据
+            let playerData = playerDatas.find((p) => p.playerId == playerView.playerId);
+            //刷新
+            playerView.updatePlayer(playerData);
+        }
     }
-
 }

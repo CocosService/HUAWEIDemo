@@ -3,6 +3,7 @@ import { RecordInfo } from '../../cs-huawei/hwgobe/GOBE/GOBE';
 import { download, getFileHash } from './gobe_util';
 import { global } from './hw_gobe_global_data';
 import { CmdType, frameSyncPlayerInitList, frameSyncPlayerList, GameSceneType } from './frame_sync';
+import { Console } from '../../prefabs/console';
 const { ccclass, property } = _decorator;
 
 @ccclass('GobeRecordItem')
@@ -16,24 +17,20 @@ export class GobeRecordItem extends Component {
     @property(Label)
     recordTime: Label = null;
 
-    @property(Node)
-    downLoadBtn: Node = null;
-    @property(Node)
-    viweBtn: Node = null;
+    @property({ type: Console })
+    _console: Console = null!;
 
 
-    protected onEnable (): void {
-
-    }
-
-    public init (info: RecordInfo) {
+    public init (info: RecordInfo, console: Console) {
         this._info = info;
+        this._console = console;
         this.recordId.string = "id:" + info.recordId;
         this.recordTime.string = "时间戳：" + info.createTime;
     }
 
     //查看
     onViewBtnClick () {
+        global.recordRoomInfo = null;
         if (this._info.url) {
             let remoteUrl = this._info.url;
             let fileSha256 = this._info.fileSha256;
@@ -45,7 +42,7 @@ export class GobeRecordItem extends Component {
                     if (cc.sys.isBrowser) {
                         const sha256 = await getFileHash(res);
                         result = sha256 == fileSha256;
-                        console.log(`文件完整性校验成功,sha256: ${sha256}`);
+                        this._console.log(`文件完整性校验成功,sha256: ${sha256}`);
                     }
                     else {
                         result = true;
@@ -84,7 +81,6 @@ export class GobeRecordItem extends Component {
                                                     if (obj.cmd == CmdType.syncRoomInfo) {
                                                         frameSyncPlayerInitList.players = obj.roomInfo.players;
                                                         frameSyncPlayerList.players = obj.roomInfo.players;
-                                                        global.roomType = obj.roomInfo.roomType;
                                                         global.recordRoomInfo = obj.roomInfo;
                                                         hasFindSyncRoomInfo = true;
                                                         break;
@@ -98,26 +94,24 @@ export class GobeRecordItem extends Component {
                                     }
                                     global.unhandleFrames.push(frame);
                                 }
-
                                 //是否完整
                                 if (global.recordRoomInfo == null) {
-                                    console.warn("当前的数据无实际操作内容，请选择其他对战记录")
+                                    this._console.log("此对战记录无实际操作内容，请选择其它记录进行查看");
                                 } else {
-                                    director.loadScene("gobe_game");
+                                    director.loadScene("gobe_room");
                                 }
                             });
                         });
                     }
                     else {
-                        console.log(`sha256校验不一致，recordId：${this._info.recordId}`);
+                        this._console.log(`sha256校验不一致，recordId：${this._info.recordId}`);
                     }
                 })
                 .catch((err) => {
-                    console.error(`下载失败 error：`, err);
+                    this._console.log(`下载失败,请重试 error：`, err);
                 });
         }
     }
-
 
 }
 

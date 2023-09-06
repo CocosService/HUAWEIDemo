@@ -17,22 +17,27 @@ export class Player extends Component {
     otherAngleNode: Node = null;
 
 
-    // 组件需要记录玩家id，后面有用
-    playerId: string;
+    //记录玩家id
+    public playerId: string;
+
+
+
+    /**
+     * 初始化 player
+    */
     public initPlayer (playerData: PlayerData) {
         this.node.name = playerData.playerId;
         this.playerId = playerData.playerId;
 
         if ((playerData.teamId == null && playerData.playerId === global.playerId) ||
-            (playerData.teamId != null && playerData.teamId === Team.red)
+            (playerData.teamId != null && playerData.teamId === Team.A)
         ) {
             this.selfAngleNode.active = true;
             this.selfAngleNode.angle = playerData.direction;
             this.otherAngleNode.active = false;
-
         }
         if ((playerData.teamId == null && playerData.playerId !== global.playerId) ||
-            (playerData.teamId != null && playerData.teamId === Team.yellow)) {
+            (playerData.teamId != null && playerData.teamId === Team.B)) {
             this.selfAngleNode.active = false;
             this.otherAngleNode.active = true;
             this.otherAngleNode.angle = playerData.direction;
@@ -49,6 +54,18 @@ export class Player extends Component {
             }
         }
         this.node.setPosition(playerData.x, playerData.y, 0);
+    }
+
+    /**
+     * 更新数据
+    */
+    public updatePlayer (playerData: PlayerData) {
+        this.node.setPosition(playerData.x, playerData.y, 0);
+        if (this.selfAngleNode.active == true) {
+            this.selfAngleNode.angle = playerData.direction
+        } else {
+            this.otherAngleNode.angle = playerData.direction
+        }
     }
 }
 

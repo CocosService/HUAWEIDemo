@@ -1,6 +1,5 @@
 import { _decorator, Button, Component, input, Label, Node, Prefab } from 'cc';
-import { CmdType, frames, frameSyncPlayerInitList, frameSyncPlayerList, GameSceneType, setDefaultFrameState, updatePlayerData } from './frame_sync';
-import { global, RoomType } from './hw_gobe_global_data';
+import { CmdType, frames, frameSyncPlayerInitList, frameSyncPlayerList, GameSceneType, updatePlayerData } from './frame_sync';
 import { GameCanvas } from './game_canvas';
 
 const { ccclass, property } = _decorator;
@@ -24,30 +23,25 @@ export class FrameSyncView extends Component {
     rightButton: Button = null;
 
     @property(Button)
-    watcherLeaveButton: Button = null;
-
-    @property(Button)
     recordLeaveBtnButton: Button = null;
 
     @property(GameCanvas)
     gameCanvas: GameCanvas = null;
 
-    public onStopFrameButtonClick: () => any = null;
-    public onUpButtonClick: () => any = null;
-    public onDownButtonClick: () => any = null;
-    public onLeftButtonClick: () => any = null;
-    public onRightButtonClick: () => any = null;
-    public onLeaveButtonClick: () => any = null;
-    public onQuitButtonClick: () => any = null;
+    public onStopFrameButtonClickEve: () => any = null;
+    public onUpButtonClickEve: () => any = null;
+    public onDownButtonClickEve: () => any = null;
+    public onLeftButtonClickEve: () => any = null;
+    public onRightButtonClickEve: () => any = null;
+    public onRecordLeaveButtonClick: () => any = null;
 
     removeAllListener () {
-        this.onStopFrameButtonClick = null;
-        this.onUpButtonClick = null;
-        this.onDownButtonClick = null;
-        this.onLeftButtonClick = null;
-        this.onRightButtonClick = null;
-        this.onLeaveButtonClick = null;
-        this.onQuitButtonClick = null;
+        this.onStopFrameButtonClickEve = null;
+        this.onUpButtonClickEve = null;
+        this.onDownButtonClickEve = null;
+        this.onLeftButtonClickEve = null;
+        this.onRightButtonClickEve = null;
+        this.onRecordLeaveButtonClick = null;
     }
 
 
@@ -56,14 +50,6 @@ export class FrameSyncView extends Component {
         this.stopFrameButton.node.active = isEnabled;
     }
 
-    setWatcherButtons (isEnabled: boolean) {
-        this.upButton.node.active = isEnabled;
-        this.downButton.node.active = isEnabled;
-        this.leftButton.node.active = isEnabled;
-        this.rightButton.node.active = isEnabled;
-        this.watcherLeaveButton.node.active = !isEnabled;
-        this.recordLeaveBtnButton.node.active = !isEnabled;
-    }
 
     setButtons (type: GameSceneType, isOwner = false) {
         this.upButton.node.active = type == GameSceneType.FOR_GAME;
@@ -71,55 +57,52 @@ export class FrameSyncView extends Component {
         this.leftButton.node.active = type == GameSceneType.FOR_GAME;
         this.rightButton.node.active = type == GameSceneType.FOR_GAME;
         this.stopFrameButton.node.active = type == GameSceneType.FOR_GAME && isOwner;
-        this.watcherLeaveButton.node.active = type == GameSceneType.FOR_WATCHER;
         this.recordLeaveBtnButton.node.active = type == GameSceneType.FOR_RECORD;
     }
 
+
     start () {
-        this.reCalcFrameState();
+        frames.forEach(frame => {
+            this.runFrame(frame);
+        });
     }
 
-    update (dt) {
-        // 绘制玩家
-        this.gameCanvas.setPlayers(frameSyncPlayerList.players);
+    /**
+     * 更新player节点 实体
+    */
+    updatePlayerNode () {
+        this.gameCanvas.refreshPlayers(frameSyncPlayerList.players);
     }
 
     onStopFrameBtnClick () {
-        this.stopFrameButton.interactable && this.onStopFrameButtonClick && this.onStopFrameButtonClick();
-    }
-
-    onWatcherLeaveBtnClick () {
-        this.watcherLeaveButton.interactable && this.onLeaveButtonClick && this.onLeaveButtonClick();
+        this.onStopFrameButtonClickEve && this.onStopFrameButtonClickEve();
     }
 
     onRecordLeaveBtnClick () {
-        this.watcherLeaveButton.interactable && this.onQuitButtonClick && this.onQuitButtonClick();
+        this.onRecordLeaveButtonClick && this.onRecordLeaveButtonClick();
     }
 
     onUpButtonTouchStart () {
-        this.upButton.interactable && this.onUpButtonClick && this.onUpButtonClick();
+        this.onUpButtonClickEve && this.onUpButtonClickEve();
     }
 
     onDownButtonTouchStart () {
-        this.downButton.interactable && this.onDownButtonClick && this.onDownButtonClick();
+        this.onDownButtonClickEve && this.onDownButtonClickEve();
     }
 
     onLeftButtonTouchStart () {
-        this.leftButton.interactable && this.onLeftButtonClick && this.onLeftButtonClick();
+        this.onLeftButtonClickEve && this.onLeftButtonClickEve();
     }
 
     onRightButtonTouchStart () {
-        this.rightButton.interactable && this.onRightButtonClick && this.onRightButtonClick();
+        this.onRightButtonClickEve && this.onRightButtonClickEve();
     }
 
 
     /**
-     * 计算帧
+     * 运行帧
     */
-    calcFrame (frame: GOBE.ServerFrameMessage) {
-        if (frame.currentRoomFrameId === 1) {
-            setDefaultFrameState();
-        }
+    runFrame (frame: GOBE.ServerFrameMessage) {
         if (frame.frameInfo && frame.frameInfo.length > 0) {
             frame.frameInfo.forEach(frameItem => {
                 let frameData: string[] = frameItem.data;
@@ -130,6 +113,7 @@ export class FrameSyncView extends Component {
                             case CmdType.planeFly:
                                 // console.log('------receive planeFly frame----' + JSON.stringify(obj));
                                 updatePlayerData(obj.playerId, obj.x, obj.y, obj.hp, obj.direction);
+                                this.gameCanvas.updatePlayerData(frameSyncPlayerList.players);
                                 break;
                             // no default
                         }
@@ -146,10 +130,5 @@ export class FrameSyncView extends Component {
         }
     }
 
-    reCalcFrameState () {
-        setDefaultFrameState();
-        frames.forEach(frame => {
-            this.calcFrame(frame);
-        });
-    }
+
 }

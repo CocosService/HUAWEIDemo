@@ -72,9 +72,6 @@ const gameServer: GOBERTS.GameServer = {
             case 'InitGame':
                 handleInitGame(gameData, args);
                 break;
-            case 'Progress':
-                handleProgress(gameData, args);
-                break;
             case 'GameEnd':
                 handleGameEnd(gameData, args, msg.srcPlayer).then().catch();
                 break;
@@ -83,6 +80,7 @@ const gameServer: GOBERTS.GameServer = {
                 break;
         }
     },
+
     onRoomPropertiesChange (msg: GOBERTS.UpdateRoomInfo, args: GOBERTS.ActionArgs): void {
         // do something
     },
@@ -172,19 +170,7 @@ async function handleGameEnd (gameData: any, args: GOBERTS.ActionArgs, playerId:
     }
 }
 
-/**
- * 处理加载进度
- * @param gameData
- * @param args
- */
-function handleProgress (gameData: any, args: GOBERTS.ActionArgs) {
-    // 广播游戏进度
-    args.SDK.sendData(JSON.stringify(gameData))
-        .then()
-        .catch(err => {
-            args.SDK.log.error('sendProgressData ERROR' + err);
-        });
-}
+
 
 export const gobeDeveloperCode = {
     gameServer: gameServer,

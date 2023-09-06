@@ -31,7 +31,7 @@ export class GobeRecordList extends Component {
                         let itemNode = instantiate(this.itemPrefab);
                         this.itemParent.addChild(itemNode);
                         let ctrl = itemNode.getComponent(GobeRecordItem);
-                        ctrl.init(info);
+                        ctrl.init(info, this.console);
                     }
                 }
                 this.console.log(`查询战绩列表成功`, JSON.stringify(res));

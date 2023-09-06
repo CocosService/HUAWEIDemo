@@ -36,7 +36,7 @@ export class GobeCreateRoom extends Component {
     }
 
     private _updatelbLockState () {
-        this.lbPublicState.string = "锁定状态：" + (this.isLock == LockType.Locked ? "锁定" : "未锁");
+        this.lbLockState.string = "锁定状态：" + (this.isLock == LockType.Locked ? "锁定" : "未锁");
     }
 
 

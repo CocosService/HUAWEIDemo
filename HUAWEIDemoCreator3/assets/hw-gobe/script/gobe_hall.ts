@@ -1,6 +1,6 @@
 import { _decorator, Component, loader, director, CCString, EventTarget, EditBox, Node, Button, Label, instantiate, Prefab, AssetManager, Asset, profiler } from 'cc';
 import { Console } from '../../prefabs/console';
-import { HwGobeGlobalData, LockType, RoomType, global } from './hw_gobe_global_data';
+import { HwGobeGlobalData, LockType, global } from './hw_gobe_global_data';
 import config from './config';
 import { getCustomPlayerProperties, getPlayerMatchParams } from './gobe_util';
 import { GobeRecordList } from './gobe_record_list';

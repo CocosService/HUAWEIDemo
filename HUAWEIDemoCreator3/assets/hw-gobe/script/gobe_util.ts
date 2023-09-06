@@ -1,6 +1,6 @@
 import { sys } from "cc";
 import config from "./config";
-import { RoomType, global } from "./hw_gobe_global_data";
+import { global } from "./hw_gobe_global_data";
 
 /**
  * 随机产生 openId
