@@ -44,7 +44,7 @@ export class GobeHall extends Component {
             this.console.log("在线匹配失败", res);
             //是否是已经在匹配中//"101106 player already in one room"
             if (res.rtnCode == 101106) {
-
+                this.console.error("101106 TODO")
             }
         }
         this.isInMatch = false;
@@ -54,6 +54,7 @@ export class GobeHall extends Component {
      * 离开
      */
     onExitBtn () {
+        this.onCancelMatch(false);
         director.loadScene("hwgobe");
     }
 
@@ -117,22 +118,17 @@ export class GobeHall extends Component {
     /**
      * 取消快速匹配
      */
-    public onCancelMatch () {
-        if (this.isInMatch == false) {
-            this.console.error("匹配状态下，才可以取消匹配");
-            return;
-        }
+    public onCancelMatch (showLog: boolean = true) {
         this.isInMatch = false;
         //清除匹配事件
         global.client.onMatch.clear();
         global.client.cancelMatch()
             .then(() => {
-                this.console.log('取消匹配成功');
+                showLog && this.console.log('取消匹配成功');
             }).catch(() => {
-                this.console.log('取消匹配失败');
+                showLog && this.console.log('取消匹配失败');
             })
     }
-
 
     /**
      * “战绩回放”按钮点击事件

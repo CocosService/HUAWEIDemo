@@ -2,7 +2,8 @@ import {
     Direction,
     GameBasicInfo,
     GameCmdInfo,
-    GameData, GameEndInfo,
+    GameData,
+    GameEndInfo,
     GameInitInfo,
     Plane,
     PlaneInitInfo

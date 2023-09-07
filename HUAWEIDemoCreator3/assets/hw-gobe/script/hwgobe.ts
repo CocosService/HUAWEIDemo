@@ -1,4 +1,4 @@
-import { _decorator, Component, loader, director, CCString, EventTarget, EditBox, Node, Button, Label, instantiate, Prefab, AssetManager, Asset, profiler, sys } from 'cc';
+import { _decorator, Component, loader, director, CCString, EventTarget, EditBox, Node, Button, Label, instantiate, Prefab, AssetManager, Asset, profiler, sys, error } from 'cc';
 import { Console } from '../../prefabs/console';
 import { HwGobeGlobalData, global } from './hw_gobe_global_data';
 import config from './config';
@@ -24,6 +24,7 @@ export class HwGOBE extends Component {
     onDisable () {
     }
 
+
     //openId = A
     public initSDKWithOpenIdA () {
         this._initSDK("A");
@@ -39,7 +40,7 @@ export class HwGOBE extends Component {
     */
     private _initSDK (openId: string = null) {
         if (isInited()) {
-            this.console.log("SDK 已经初始化，无需重复操作");
+            director.loadScene("gobe_hall");
             return;
         }
 
@@ -51,6 +52,7 @@ export class HwGOBE extends Component {
             // accessToken: this.accessTokenEdit.string,
             appVersion: '1.10.111',
         };
+
         if (sys.Platform.ANDROID === sys.platform) {
             if (this.cerPath == null) {
                 this.console.error("请把 cs-huawei/hwgobe/GOBE/endpoint-cert.cer 文件挂载到 hwgobe 场景的 Canvas 脚本的 cerPath 上");
@@ -71,28 +73,44 @@ export class HwGOBE extends Component {
             this.console.error(error);
             return;
         }
-        global.client.onInitResult((resultCode) => this.onInitResult(resultCode));
+        global.client.onInitResult((resultCode) => {
+            if (resultCode === GOBE.ErrorCode.COMMON_OK) {
+                global.playerId = global.client.playerId;
+                if (global.client.lastRoomId) {
+                    //尝试进入上一次的房间
+                    global.client.joinRoom(global.client.lastRoomId,
+                        { customPlayerStatus: 0, customPlayerProperties: "" })
+                        .then((room) => {
+                            console.log("加入旧房间成功");
+                            global.room = room;
+                            global.player = room.player;
+                            // 重置帧id
+                            //customRoomProperties 在游戏结束时会设置为 ""
+                            if (global.room.customRoomProperties && global.room.customRoomProperties.length > 0) {
+                                //标志需要重置房间帧同步起始帧id
+                                global.needResetRoomFrameId = true;
+                            }
+                            director.loadScene("gobe_room");
+                        }).catch((e) => {
+                            console.log("加入旧房间失败", e);
+                            //离开上次房间
+                            global.client.leaveRoom().then(() => {
+                                console.log("leaveRoom success");
+                            });
+                        });
+                }
+                director.loadScene("gobe_hall");
+            } else {
+                console.log('init failed');
+            }
+        });
+
         this.console.log("正在初始化");
         global.client.init()
             .catch((e) => {
-                // 鉴权失败
-                this.console.log("提示", "初始化失败，请重新刷新页面", e);
+                this.console.log("初始化失败，请重新刷新页面", e);
             });
     }
 
-    // 初始化监听回调
-    onInitResult (resultCode: number) {
-        if (resultCode === GOBE.ErrorCode.COMMON_OK) {
-            global.playerId = global.client.playerId;
-            if (global.client.lastRoomId) {
-                //离开上次房间
-                global.client.leaveRoom().then(() => {
-                    console.log("leaveRoom success");
-                });
-            }
-            director.loadScene("gobe_hall");
-        } else {
-            this.console.log('init failed');
-        }
-    }
+
 }

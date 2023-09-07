@@ -1,5 +1,5 @@
 import { _decorator, Button, Component, input, Label, Node, Prefab } from 'cc';
-import { CmdType, frames, frameSyncPlayerInitList, frameSyncPlayerList, GameSceneType, updatePlayerData } from './frame_sync';
+import { CmdType, frames, frameSyncPlayerList, GameSceneType, updatePlayerData } from './frame_sync';
 import { GameCanvas } from './game_canvas';
 
 const { ccclass, property } = _decorator;
@@ -23,7 +23,10 @@ export class FrameSyncView extends Component {
     rightButton: Button = null;
 
     @property(Button)
-    recordLeaveBtnButton: Button = null;
+    recordLeaveButton: Button = null;
+
+    @property(Button)
+    exitRoomButton: Button = null;
 
     @property(GameCanvas)
     gameCanvas: GameCanvas = null;
@@ -34,6 +37,9 @@ export class FrameSyncView extends Component {
     public onLeftButtonClickEve: () => any = null;
     public onRightButtonClickEve: () => any = null;
     public onRecordLeaveButtonClick: () => any = null;
+    public onLeaveRoomButtonClick: () => any = null;
+
+
 
     removeAllListener () {
         this.onStopFrameButtonClickEve = null;
@@ -42,6 +48,7 @@ export class FrameSyncView extends Component {
         this.onLeftButtonClickEve = null;
         this.onRightButtonClickEve = null;
         this.onRecordLeaveButtonClick = null;
+        this.onLeaveRoomButtonClick = null;
     }
 
 
@@ -57,7 +64,8 @@ export class FrameSyncView extends Component {
         this.leftButton.node.active = type == GameSceneType.FOR_GAME;
         this.rightButton.node.active = type == GameSceneType.FOR_GAME;
         this.stopFrameButton.node.active = type == GameSceneType.FOR_GAME && isOwner;
-        this.recordLeaveBtnButton.node.active = type == GameSceneType.FOR_RECORD;
+        this.recordLeaveButton.node.active = type == GameSceneType.FOR_RECORD;
+        this.exitRoomButton.node.active = type == GameSceneType.FOR_GAME && !isOwner;
     }
 
 
@@ -81,6 +89,11 @@ export class FrameSyncView extends Component {
     onRecordLeaveBtnClick () {
         this.onRecordLeaveButtonClick && this.onRecordLeaveButtonClick();
     }
+
+    onExitRoomButtonClick () {
+        this.onLeaveRoomButtonClick && this.onLeaveRoomButtonClick();
+    }
+
 
     onUpButtonTouchStart () {
         this.onUpButtonClickEve && this.onUpButtonClickEve();
@@ -120,13 +133,6 @@ export class FrameSyncView extends Component {
                     });
                 }
             });
-        }
-    }
-
-    // 处理实时消息
-    processServerInfo (serverInfo: GOBE.RecvFromServerInfo) {
-        if (serverInfo.msg) {
-            console.log('----收到实时消息----' + serverInfo.msg);
         }
     }
 

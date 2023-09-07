@@ -1,5 +1,5 @@
 import { PlayerData, PlayerList } from "./PlayerList";
-import { global } from "./hw_gobe_global_data";
+
 export let frames: GOBE.ServerFrameMessage[] = [];
 
 // key：方向， value：角度
@@ -17,8 +17,8 @@ export enum CmdType {
 }
 
 export enum Team {
-    A = "0",
-    B = "1"
+    A = "A",
+    B = "B"
 }
 
 
@@ -26,11 +26,6 @@ export const frameSyncPlayerList: PlayerList = {
     players: []
 };
 
-
-// 记录玩家初始化的位置，以便飞机被子弹击中后回到初始化位置
-export const frameSyncPlayerInitList: PlayerList = {
-    players: []
-};
 
 export function clearFrames () {
     frames = [];
@@ -43,17 +38,15 @@ export function pushFrames (frame: GOBE.ServerFrameMessage) {
 /**
  * 添加player
 */
-export function addPlayerFromData (playerId: string, x: number, y: number, dir: Direction, teamId: string, robotName?: string) {
+export function addPlayerFromData (playerId: string, x: number, y: number, dir: Direction, teamId: string) {
     const player: PlayerData = {
         playerId,
         x,
         y,
         direction: dir,
         teamId,
-        robotName,
     };
     frameSyncPlayerList.players.push(player);
-    frameSyncPlayerInitList.players.push(player);
 }
 
 /**

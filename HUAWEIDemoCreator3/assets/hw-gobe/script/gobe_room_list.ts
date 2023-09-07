@@ -50,7 +50,7 @@ export class GobeRoomList extends Component {
                 this._loadRoomScene();
             }).catch((e) => {
                 this._lockSubmit = false;
-                this.console.log("提示", "加入房间失败", e);
+                this.console.log("加入房间失败", e);
             });
     }
 

@@ -79,7 +79,7 @@ export class GobeMatch extends Component {
             })
             .catch((e) => {
                 this.isInMatch = false;
-                this.console.log("提示", "房间匹配失败", e);
+                this.console.log("房间匹配失败", e);
             });
     }
 }

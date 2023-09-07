@@ -37,7 +37,6 @@ const gameServer: GOBERTS.GameServer = {
     },
     onRecvFrame (msg: GOBERTS.RecvFrameMessage | GOBERTS.RecvFrameMessage[], args: GOBERTS.ActionArgs): void {
         let frameMessages: GOBERTS.RecvFrameMessage[] = Array.isArray(msg) ? msg : [msg];
-
         frameMessages.forEach(gameFrame => {
             // 若为空帧则不处理
             if (!gameFrame.frameInfo || gameFrame.frameInfo.length < 1) {
@@ -51,7 +50,7 @@ const gameServer: GOBERTS.GameServer = {
                         // 获取当前房间的游戏信息
                         let game = gameManage.getGame(args.roomId);
                         if (game === undefined) {
-                            // args.SDK.log.error('onRecvFrame, game not exist, roomId:' + args.roomId);
+                            args.SDK.log.error('onRecvFrame, game not exist, roomId:' + args.roomId);
                             return;
                         }
                         switch (gameCmd.cmd) {
@@ -66,6 +65,8 @@ const gameServer: GOBERTS.GameServer = {
             })
         })
     },
+
+
     onRecvFromClientV2 (msg: GOBERTS.RecvFromClientInfo, args: GOBERTS.ActionArgs): void {
         let gameData = JSON.parse(msg.msg);
         switch (gameData.type) {

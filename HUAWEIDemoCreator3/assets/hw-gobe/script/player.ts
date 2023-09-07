@@ -1,5 +1,5 @@
 import { _decorator, Component, Label, Node, ProgressBar, Sprite } from 'cc';
-import { Team, frameSyncPlayerList, frameSyncPlayerInitList } from './frame_sync';
+import { Team } from './frame_sync';
 import { PlayerData } from './PlayerList';
 import { global } from './hw_gobe_global_data';
 const { ccclass, property } = _decorator;
@@ -46,12 +46,7 @@ export class Player extends Component {
             this.label.string = '我';
         }
         else {
-            if (playerData.robotName) {
-                this.label.string = playerData.robotName;
-            }
-            else {
-                this.label.string = playerData.playerId;
-            }
+            this.label.string = playerData.playerId;
         }
         this.node.setPosition(playerData.x, playerData.y, 0);
     }

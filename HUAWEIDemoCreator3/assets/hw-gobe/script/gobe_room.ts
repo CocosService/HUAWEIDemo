@@ -49,15 +49,16 @@ export class GobeRoom extends Component {
         if (global.gameSceneType == GameSceneType.FOR_RECORD) {
             this._curRoomState = FightRoomState.Fight;
         } else {
+            global.gameSceneType = GameSceneType.FOR_GAME;
             this._curRoomState = FightRoomState.Ready;
         }
         if (global.room.isSyncing) {
-            console.warn("房间已经处于帧同步模式 TODO");
+            console.log("房间已经处于帧同步模式");
+            this._curRoomState = FightRoomState.Fight;
         }
 
         //根据房间状态显示对应的面板
-        this.readyPanel.node.active = this._curRoomState == FightRoomState.Ready;
-        this.fightPanel.node.active = this._curRoomState == FightRoomState.Fight;
+        this._updatePanelShowState();
 
         if (global.room) {
             global.room.onJoin(this._onJoin);
@@ -73,7 +74,25 @@ export class GobeRoom extends Component {
             global.room.onRecvFrame(this._onRecvFrame);
             global.room.onStopFrameSync(this._onStopFrameSync);
             global.room.onRequestFrameError(this._onRequestFrameError);
+
+            //重置房间帧同步起始帧id
+            if (global.needResetRoomFrameId == true) {
+                global.needResetRoomFrameId = false;
+                let roomProp = JSON.parse(global.room.customRoomProperties);
+                if (roomProp.curFrameId) {
+                    global.room.resetRoomFrameId(roomProp.curFrameId);
+                }
+            }
         }
+    }
+
+    /**
+     * 根据房间状态 更新面板显示
+    */
+    private _updatePanelShowState () {
+        this.readyPanel.node.active = (this._curRoomState == FightRoomState.Ready);
+        this.fightPanel.node.active = (this._curRoomState == FightRoomState.Fight);
+        this.gameOverPanel.active = (this._curRoomState == FightRoomState.GameOver);
     }
 
 
@@ -98,6 +117,7 @@ export class GobeRoom extends Component {
         }
     }
 
+
     /**
      * 游戏结束离开
     */
@@ -105,8 +125,6 @@ export class GobeRoom extends Component {
         global.gameSceneType = GameSceneType.FOR_NULL;
         director.loadScene("gobe_hall");
     }
-
-
 
     onConnect (playerInfo: GOBE.PlayerInfo) {
         if (this._curRoomState == FightRoomState.Ready) {
@@ -152,7 +170,7 @@ export class GobeRoom extends Component {
         if (this._curRoomState == FightRoomState.Ready) {
             this.readyPanel.onRoomPropertiesChange(roomInfo);
         } else {
-            console.error("onRoomPropertiesChange curRoomState error");
+            this.fightPanel.onRoomPropertiesChange(roomInfo);
         }
     }
 
@@ -166,19 +184,42 @@ export class GobeRoom extends Component {
 
     //开始帧同步
     onStartFrameSync () {
-        this._curRoomState == FightRoomState.Fight
-        //根据房间状态显示对应的面板
-        this.readyPanel.node.active = false;
-        this.fightPanel.node.active = true;
+        this._curRoomState = FightRoomState.Fight;
+        this.readyPanel.setEnterGameWaitPanel(true);
+        this.scheduleOnce(() => {
+            this.readyPanel.setEnterGameWaitPanel(false);
+            //根据房间状态显示对应的面板
+            this._updatePanelShowState();
+        }, 2)
     }
 
-    onRecvFromServer (serverInfo: GOBE.RecvFromServerInfo) {
-        if (this._curRoomState == FightRoomState.Ready) {
-            this.readyPanel.onRecvFromServer(serverInfo);
+    //收到实时服务器消息广播监听。
+    //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gameobe-room-js-0000001192950624#section13162043144510
+    onRecvFromServer (data: GOBE.RecvFromServerInfo) {
+        this.console.log('onReceiveFromServer:' + JSON.stringify(data));
+        //解析数据
+        let res = JSON.parse(data.msg);
+        if (res.type === "GameEnd") {
+            this.console.log("游戏结束");
+            this._curRoomState = FightRoomState.GameOver;
+            //重置场景类型
+            global.gameSceneType = GameSceneType.FOR_NULL;
+            //根据房间状态显示对应的面板
+            this._updatePanelShowState();
+            //离开房间
+            global.client.leaveRoom()
+                .then(() => {
+                    this.console.log("退出房间成功");
+                }).catch((e) => {
+                    this.console.log("退出房间失败", e);
+                });
         } else {
-            this.fightPanel.onRecvFromServer(serverInfo);
+            console.warn("TODO onRecvFromServer res.type:" + res.type);
         }
     }
+
+
+
 
     onRecvFrame (frame: any) {
         if (this._curRoomState == FightRoomState.Ready) {

@@ -21,8 +21,8 @@ export class GobeRecordList extends Component {
         global.recordInfos = [];
         global.recordPlayerIdMap.clear();
 
-        this.console.log("`正在查询战绩列表`");
-        global.client.queryRecordList(0, 10)
+        this.console.log("正在查询战绩列表(最近3条)");
+        global.client.queryRecordList(0, 3)
             .then((res) => {
                 if (res.recordInfos.length > 0) {
                     global.recordInfos = res.recordInfos;

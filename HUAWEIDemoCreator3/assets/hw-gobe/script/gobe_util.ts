@@ -48,6 +48,23 @@ export async function getFileHash (arrayBuffer: ArrayBuffer) {
     }).join('');
 }
 
+/**
+ * 把时间转换为年月日时分秒 yyyy-MM-dd HH:mm:ss    2023-01-12 23:59:59
+*/
+
+export function getTimestampYMDHMS (timestamp: number) {
+    let time = new Date(timestamp)
+    return getDateYMDHMS(time);
+}
+export function getDateYMDHMS (time: Date) {
+    let year = time.getFullYear()
+    const month = (time.getMonth() + 1).toString();
+    const date = (time.getDate()).toString();
+    const hours = (time.getHours()).toString();
+    const minute = (time.getMinutes()).toString();
+    const second = (time.getSeconds()).toString();
+    return year + '-' + month + '-' + date + ' ' + hours + ':' + minute + ':' + second
+}
 
 export function download (remoteUrl: string) {
     return new Promise((resolve, reject) => {
@@ -118,21 +135,6 @@ export function mockTeamNumber () {
 }
 export function getPlayerMatchParams () {
     return { 'level': 2 };
-}
-
-
-export function setRoomType (roomType: RoomType) {
-    global.roomType = roomType;
-    if (global.room && global.room.ownerId === global.room.playerId) {
-        let roomProp;
-        if (global.client.room.customRoomProperties) {
-            roomProp = JSON.parse(global.client.room.customRoomProperties);
-            roomProp.roomType = roomType;
-        } else {
-            roomProp = { roomType: roomType };
-        }
-        global.room.updateRoomProperties({ customRoomProperties: JSON.stringify(roomProp) });
-    }
 }
 
 /**

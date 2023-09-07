@@ -1,8 +1,8 @@
 import { _decorator, Component, director, Label, Node } from 'cc';
 import { RecordInfo } from '../../cs-huawei/hwgobe/GOBE/GOBE';
-import { download, getFileHash } from './gobe_util';
+import { download, getFileHash, getTimestampYMDHMS } from './gobe_util';
 import { global } from './hw_gobe_global_data';
-import { CmdType, frameSyncPlayerInitList, frameSyncPlayerList, GameSceneType } from './frame_sync';
+import { CmdType, frameSyncPlayerList, GameSceneType } from './frame_sync';
 import { Console } from '../../prefabs/console';
 const { ccclass, property } = _decorator;
 
@@ -25,7 +25,7 @@ export class GobeRecordItem extends Component {
         this._info = info;
         this._console = console;
         this.recordId.string = "id:" + info.recordId;
-        this.recordTime.string = "时间戳：" + info.createTime;
+        this.recordTime.string = "时间戳：" + getTimestampYMDHMS(Number(info.createTime));
     }
 
     //查看
@@ -79,7 +79,6 @@ export class GobeRecordItem extends Component {
                                                 for (let k = 0; k < frameData.length; k++) {
                                                     let obj = JSON.parse(frameData[k]);
                                                     if (obj.cmd == CmdType.syncRoomInfo) {
-                                                        frameSyncPlayerInitList.players = obj.roomInfo.players;
                                                         frameSyncPlayerList.players = obj.roomInfo.players;
                                                         global.recordRoomInfo = obj.roomInfo;
                                                         hasFindSyncRoomInfo = true;

@@ -6,7 +6,8 @@ import { Player } from "./player";
 */
 export enum FightRoomState {
     Ready = 0,
-    Fight = 0,
+    Fight = 1,
+    GameOver = 2,
 }
 
 /**
@@ -25,18 +26,14 @@ export class HwGobeGlobalData {
     public client: GOBE.Client = null;
     public matchRule: string = '0';                                 // 匹配规则 0-菜鸟区，1-高手区
     public roomInfos: GOBE.RoomInfo[] = null;
-    public roomId: string = null;
-    public group: GOBE.Group = null;
-    public playerArr: Player[] = [];
+    public playerNodeArr: Player[] = [];
 
     public playerName: string = "";
-    public unhandleFrames: GOBE.RecvFrameMessage[] = [];            //未处理的帧
-    public unProcessedServerInfo: GOBE.RecvFromServerInfo[] = [];   //未处理的实时消息
+    public unhandleFrames: GOBE.RecvFrameMessage[] = [];            // 未处理的帧
+    public unProcessedServerInfo: GOBE.RecvFromServerInfo[] = [];   // 未处理的实时消息
     public curHandleFrameId: number = 0;                            // 当前处理到的帧id
 
     public isConnected: boolean = false;                            // 长链是否是连接状态，默认false
-    public clearColliderCacheInterval = 2000;                       //清理碰撞缓存周期，2s
-    public rollbackFrameCount = 100;                                // 回退帧数量
     public isRequestFrameStatus = false;                            // 当前是否为补帧状态
 
     // 回放相关
@@ -47,14 +44,15 @@ export class HwGobeGlobalData {
     public recordRoomInfo = null;                                   // 当前回放记录的房间基本信息
     public planeStepPixel: number = 20;                             // 飞机每步移动像素
 
-    public bgMaxX: number = 1000 - 50;                              // 飞行背景x最大值
     public bgMinX: number = 50;                                     // 飞行背景x最小值
-    public bgMaxY: number = 690 - 50;                               // 飞行背景y最大值
+    public bgMaxX: number = 1000 - 50;                              // 飞行背景x最大值
+
     public bgMinY: number = 50;                                     // 飞行背景y最小值
+    public bgMaxY: number = 690 - 50;                               // 飞行背景y最大值
 
-    public redPlayer1StartPos = { x: 55, y: 630 };                  // 红色方一号玩家起始位置
-    public yellowPlayer1StartPos = { x: 940, y: 60 };               // 黄色方一号玩家起始位置
+    public TeamAPlayer1StartPos = { x: this.bgMinX, y: this.bgMaxY };                   // 队伍A一号玩家起始位置
+    public TeamBPlayer1StartPos = { x: this.bgMaxX, y: this.bgMinY };                   // 队伍B一号玩家起始位置
 
-    public playerYStartOffset = 40;                                 // 同一方飞机Y轴起始偏移量
+    public needResetRoomFrameId: boolean = false;                                       // 标志需要重置房间帧同步起始帧id
 }
 export const global = new HwGobeGlobalData();

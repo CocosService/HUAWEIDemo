@@ -21,8 +21,8 @@ export class GobeCreateRoom extends Component {
     @property(Label)
     lbLockState: Label;
 
-    private isPrivate = 1;                  //1 私有 0 公开
-    private isLock = LockType.UnLocked;     //
+    private isPrivate = 0;                  //1 私有 0 公开
+    private isLock = LockType.UnLocked;     //是否锁定
 
 
     protected onEnable (): void {
@@ -88,7 +88,7 @@ export class GobeCreateRoom extends Component {
                 matchParams: {
                     'matchRule': global.matchRule,
                 },
-                customRoomProperties: '',
+                customRoomProperties: "",
                 isLock: this.isLock
             },
             { customPlayerStatus: 0, customPlayerProperties: "111" }).then((room) => {
@@ -99,7 +99,7 @@ export class GobeCreateRoom extends Component {
                 director.loadScene("gobe_room");
             }).catch((e) => {
                 // 创建房间失败
-                this.console.log("提示", "创建房间失败", e);
+                this.console.log("创建房间失败", e);
             });
     }
 

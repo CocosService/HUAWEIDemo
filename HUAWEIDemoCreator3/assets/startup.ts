@@ -20,19 +20,28 @@ export class Startup extends Component {
 
     start () {
         profiler.hideStats();
-        for (const sceneListItem of this.sceneList) {
-            if (!this.checkServiceAvailable(sceneListItem.sceneName)) continue;
-
-            const buttonLoadScene = instantiate(this.buttonLoadScene);
-            const script = buttonLoadScene.getComponent(
-                'ButtonLoadScene'
-            ) as ButtonLoadScene;
-            script.init(sceneListItem.sceneName);
-            this.scrollContent.addChild(buttonLoadScene);
+        for (let i = 0; i < this.sceneList.length; i++) {
+            const sceneListItem = this.sceneList[i];
+            if (this.checkServiceAvailable(sceneListItem.sceneName)) {
+                const buttonLoadScene = instantiate(this.buttonLoadScene);
+                const script = buttonLoadScene.getComponent(
+                    'ButtonLoadScene'
+                ) as ButtonLoadScene;
+                script.init(sceneListItem.sceneName);
+                this.scrollContent.addChild(buttonLoadScene);
+            }
         }
     }
 
     private checkServiceAvailable (sceneName: string): boolean {
+
+        if (sceneName == "hwgobe") {
+            // @ts-ignore
+            return typeof GOBE !== 'undefined';
+        }
+
+
+        // @ts-ignore
         if (typeof huawei === 'undefined') {
             return false;
         }
@@ -133,12 +142,6 @@ export class Startup extends Component {
                     // prettier-ignore
                     // @ts-ignore
                     huawei?.game?.mmsdk?.mmsdkService
-                );
-            case "hwgobe":
-                return !!(
-                    // prettier-ignore
-                    // @ts-ignore
-                    huawei?.agc?.gobe?.gobeService
                 );
             default:
                 console.error("未处理的场景：" + sceneName);

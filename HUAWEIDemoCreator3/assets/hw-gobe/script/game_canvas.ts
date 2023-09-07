@@ -19,13 +19,13 @@ export class GameCanvas extends Component {
         if (!Array.isArray(newPlayerDataArr)) {
             newPlayerDataArr = [];
         }
-
         //销毁旧的
-        for (let i = 0; i < global.playerArr.length; i++) {
-            const element = global.playerArr[i];
-            element.destroy();
-        }
-        global.playerArr = [];
+        global.playerNodeArr.forEach((player, i) => {
+            player.destroy();
+        })
+        global.playerNodeArr = [];
+
+        this.node.removeAllChildren();
 
         //创建新角色
         newPlayerDataArr.forEach((player, i) => {
@@ -34,7 +34,7 @@ export class GameCanvas extends Component {
             playerView.node.parent = this.node;
             playerView.initPlayer(player);
             //缓存
-            global.playerArr.push(playerView);
+            global.playerNodeArr.push(playerView);
         });
     }
 
@@ -42,7 +42,7 @@ export class GameCanvas extends Component {
      * 更新已有的player的数据
     */
     updatePlayerData (playerDatas: PlayerData[]) {
-        let allPlayerView = global.playerArr;
+        let allPlayerView = global.playerNodeArr;
         for (let i = 0; i < allPlayerView.length; i++) {
             //实体
             const playerView: Player = allPlayerView[i];

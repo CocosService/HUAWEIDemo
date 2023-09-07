@@ -1,7 +1,6 @@
 import { _decorator, Button, Component, director, instantiate, Label, Node, Prefab, ProgressBar } from 'cc';
 import { global } from './hw_gobe_global_data';
 import { GameSceneType } from './frame_sync';
-import { setRoomType, sleep } from './gobe_util';
 //@ts-ignore
 import { PlayerInfo, RecvFromServerInfo, RoomInfo, UpdateCustomPropertiesResponse, UpdateCustomStatusResponse } from '../../cs-huawei/hwgobe/GOBE/GOBE';
 import { RoomUserItem } from './room_user_item';
@@ -26,6 +25,9 @@ export class GobeFightReady extends Component {
     @property(RoomUserItem)
     otherPlayer: RoomUserItem = null;
 
+    @property(Node)
+    enterGameWaitPanel: Node = null;
+
     @property(Button)
     startGameBtn: Button;
     @property(Button)
@@ -38,6 +40,7 @@ export class GobeFightReady extends Component {
 
 
     onEnable () {
+        this.setEnterGameWaitPanel(false);
         this._updateRoomView();
     }
 
@@ -46,7 +49,7 @@ export class GobeFightReady extends Component {
 
 
     // 设置开始按钮
-    private _setStartBtn (active: boolean,) {
+    private _setStartBtn (active: boolean) {
         this.startGameBtn.node.active = active;
     }
 
@@ -56,7 +59,7 @@ export class GobeFightReady extends Component {
     }
 
     // 设置踢人按钮
-    private _setKickBtn (active: boolean) {
+    private _setRemoveOtherPlaBtn (active: boolean) {
         this.removeOtherPlaBtn.node.active = active;
     }
 
@@ -65,6 +68,12 @@ export class GobeFightReady extends Component {
         this.delRoomBtn.node.active = active;
     }
 
+    /**
+     * 设置进入游戏的等待提示
+    */
+    setEnterGameWaitPanel (showPanel: boolean) {
+        this.enterGameWaitPanel.active = showPanel;
+    }
 
     //按钮----------------
 
@@ -86,7 +95,7 @@ export class GobeFightReady extends Component {
             this._updateRoomView();
         }).catch((e) => {
             // 踢人失败
-            this.console.log("提示", "踢人失败", e);
+            this.console.log("踢人失败", e);
         });
     }
 
@@ -103,7 +112,7 @@ export class GobeFightReady extends Component {
             director.loadScene("gobe_hall");
         }).catch((e) => {
             // 退出房间失败
-            this.console.log("提示", "退出房间失败", e);
+            this.console.log("退出房间失败", e);
         });
     }
 
@@ -120,7 +129,7 @@ export class GobeFightReady extends Component {
             director.loadScene("gobe_hall");
         }).catch((e) => {
             // 退出房间失败
-            this.console.log("提示", "解散房间失败", e);
+            this.console.log("解散房间失败", e);
         });
     }
 
@@ -134,10 +143,10 @@ export class GobeFightReady extends Component {
         global.room.startFrameSync()
             .then(() => {
                 // 开始帧同步成功
-                this.console.log("开始帧同步成功");
+                this.console.log("startGame 开始帧同步成功");
             }).catch((e) => {
                 // 开始帧同步失败
-                this.console.log("提示", "开始帧同步失败", e);
+                this.console.log("startGame 开始帧同步失败", e);
             });
     }
 
@@ -155,11 +164,11 @@ export class GobeFightReady extends Component {
     }
 
 
-    //房主 移除房间内指定玩家 离开房间监听
+    //房主 移除房间内指定玩家 自己主动离开 房间监听
     //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gameobe-removeplayer-js-0000001242443357
     //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gameobe-room-js-0000001192950624#section2284318513
     onLeave (playerInfo: PlayerInfo) {
-        this.console.log("房主 移除房间内指定玩家：" + playerInfo.playerId);
+        this.console.log("有人离开房间：" + playerInfo.playerId);
         //刷新房间显示
         if (global.playerId != playerInfo.playerId) {
             this._updateRoomView();
@@ -206,23 +215,15 @@ export class GobeFightReady extends Component {
 
     //异常断开连接监听
     //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gameobe-room-js-0000001192950624#section388281874
-    async onDisconnect (playerInfo: PlayerInfo) {
+    onDisconnect (playerInfo: PlayerInfo) {
         //是否是自己
         if (playerInfo.playerId === global.playerId) {
             global.isConnected = false;
-            this.console.log("自己掉线,playerId : " + playerInfo.playerId);
-            director.loadScene("gobe_hall");
+            this.console.log("自己掉线");
         } else {
             this.console.log("房间内其他玩家掉线，playerInfo : ", playerInfo);
-            this._updateRoomView()
         }
-    }
-
-
-    //收到实时服务器消息广播监听。
-    //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gameobe-room-js-0000001192950624#section13162043144510
-    onRecvFromServer (data: RecvFromServerInfo) {
-        console.warn(data);
+        this._updateRoomView()
     }
 
 
@@ -259,12 +260,12 @@ export class GobeFightReady extends Component {
 
                 //设置按钮状态
                 let playerCount = roomInfo.players.length;
-                //开始游戏
-                this._setStartBtn(selfIsOwner);
+                //开始游戏按钮
+                this._setStartBtn(selfIsOwner && playerCount == 2);
                 // 房间只有一人时，肯定为房主
                 if (playerCount === 1) {
                     // 一开始只有房主，默认不显示踢人按钮
-                    this._setKickBtn(false);
+                    this._setRemoveOtherPlaBtn(false);
                     // 房主才有解散按钮，只在按钮存在即可解散，即有响应
                     this._setDismissBtn(true)
                     // 房主和非房主均有离开按钮
@@ -272,12 +273,12 @@ export class GobeFightReady extends Component {
                 } else {
                     // 房间有两人时，得看是初始化房主还是非房主的界面
                     if (selfIsOwner) {
-                        this._setKickBtn(true);
+                        this._setRemoveOtherPlaBtn(true);
                         this._setDismissBtn(true);
                         this._setExitRoomBtn(true);
                     } else {
                         // 非房主
-                        this._setKickBtn(false);
+                        this._setRemoveOtherPlaBtn(false);
                         this._setDismissBtn(false);
                         this._setExitRoomBtn(true);//TODO
                     }
