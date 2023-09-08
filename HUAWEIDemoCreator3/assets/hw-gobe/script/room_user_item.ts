@@ -31,6 +31,9 @@ export class RoomUserItem extends Component {
     //设置mask
     private _setMaskState (show: boolean) {
         this.noUserMask.active = show;
+        if (show) {
+            this.userName.string = "";
+        }
     }
 }
 

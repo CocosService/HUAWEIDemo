@@ -36,6 +36,8 @@ export class GobeFight extends Component {
         }
         //游戏模式
         else {
+            console.log("是否处于帧同步：" + global.room.isSyncing);
+
             // 设置文本标签
             this.gameIdLabel.string = "房间ID:" + global.room.roomId;
             this.playerIdLabel.string = "玩家Id:" + global.playerId;
@@ -70,22 +72,44 @@ export class GobeFight extends Component {
                     global.room.updateRoomProperties({ customRoomProperties: JSON.stringify(roomProperties) });
                 }, 1000);
             }
+
+            //判断房间人数是否不满足游戏. 是否就1个人，退出房间
+            if (global.room.players.length <= 1) {
+                this.console.log('当前房间人数不满足游戏，即将离开房间');
+                this.scheduleOnce(() => {
+                    global.client.leaveRoom()
+                        .then(() => {
+                            this.console.log("onJoin room.players.length <= 1 leaveRoom success");
+                        });
+                    director.loadScene("gobe_hall");
+                }, 2)
+            }
         }
 
         //初始化角色
         this._initPlayerData();
         //更新到view
         this.frameSyncView.updatePlayerNode();
-        //上报数据
-        this._reportPlayerInfo();
-        console.log("是否处于帧同步：" + global.room.isSyncing);
+
+        //上报数据 仅游戏模式
+        if (global.gameSceneType == GameSceneType.FOR_GAME) {
+            this._reportPlayerInfo();
+        }
     }
+
+
+
 
     onDisable () {
         //移除ui按钮监听
         this.frameSyncView.removeAllListener();
         //清除记录的帧
         clearFrames();
+        //清除定时任务
+        if (this.syncRoomPropTask) {
+            clearInterval(this.syncRoomPropTask);
+            this.syncRoomPropTask = null;
+        }
     }
 
 
@@ -99,16 +123,16 @@ export class GobeFight extends Component {
     //请求补帧失败监听
     //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gameobe-room-js-0000001192950624#section059433420611
     onRequestFrameError (err: GOBE.GOBEError) {
+        console.error('请求补帧失败,err', err);
+        this.console.log(global.client.room.update().then((room) => { this.console.log("room:", room) }))
         if (err.code === 10002) {
             // 补帧失败，重置帧ID后重新补帧
             let roomProp = JSON.parse(global.room.customRoomProperties);
             if (roomProp.curFrameId) {
                 global.room.resetRoomFrameId(roomProp.curFrameId);
-                this.console.log('请求补帧失败,重置frameId:' + roomProp.curFrameId);
             }
         }
     }
-
 
 
 
@@ -116,7 +140,8 @@ export class GobeFight extends Component {
     private _sendPlaneFlyFrame (dir: Direction) {
         //简单判断，如果帧池内太多处于追帧情况 则暂停发送命令
         if (global.isRequestFrameStatus || global.unhandleFrames.length >= 10) {
-            this.console.log("当前正在追帧,请稍后再操作" + (global.unhandleFrames.length >= 10) ? ("剩余帧数：" + global.unhandleFrames.length) : "");
+            let add = global.unhandleFrames.length >= 10 ? (" 剩余帧数：" + global.unhandleFrames.length) : "";
+            this.console.log("当前正在追帧,请稍后再操作" + add);
             return;
         }
         try {
@@ -155,7 +180,7 @@ export class GobeFight extends Component {
             global.room.sendFrame(frameData);
         }
         catch (e) {
-            this.console.log('sendPlaneFlyFrame err: ' + e);
+            this.console.log('sendPlaneFlyFrame err: ', e);
         }
     }
 
@@ -186,6 +211,7 @@ export class GobeFight extends Component {
                 //停止同步玩家信息
                 if (this.syncRoomPropTask) {
                     clearInterval(this.syncRoomPropTask);
+                    this.syncRoomPropTask = null;
                 }
             }).catch((e) => {
                 // 停止帧同步失败
@@ -214,38 +240,6 @@ export class GobeFight extends Component {
             });
     }
 
-    //重新连接
-    onConnect (playerInfo: GOBE.PlayerInfo) {
-        if (playerInfo.playerId === global.playerId) {
-            global.isConnected = true;
-            this.console.log("自己上线成功");
-        } else {
-            this.console.log("房间内其他玩家上线了，playerId:" + playerInfo.playerId);
-        }
-    }
-
-    //断线
-    async onDisconnect (playerInfo: GOBE.PlayerInfo) {
-        if (playerInfo.playerId === global.playerId) {
-            global.isConnected = false;
-            this.console.log("自己掉线");
-
-            // 进行重连操作
-            while (!global.isConnected) {
-                global.room.reconnect()
-                    .then(() => {
-                        this.console.log("reconnect success");
-                    })
-                    .catch((error) => {
-                        this.console.log("reconnect err");
-                    });
-                // n秒重连一次
-                await sleep(3000);
-            }
-        } else {
-            this.console.log("有其他玩家掉线");
-        }
-    }
 
     // 接收（帧同步）帧广播消息
     onRecvFrame (frame: GOBE.RecvFrameMessage) {
@@ -311,7 +305,7 @@ export class GobeFight extends Component {
         global.client.room.sendToServer(JSON.stringify({
             playerId: global.client.playerId,
             type: "GameEnd",
-            value: Math.random() > 0.5 ? 1 : 0
+            value: 0
         }));
     }
 
@@ -335,15 +329,18 @@ export class GobeFight extends Component {
 
         //如果房间只有自己了则也要离开房间
         if (players.length == 1) {
-            global.gameSceneType = GameSceneType.FOR_NULL;
-            global.client.leaveRoom()
-                .then(() => {
-                    this.console.log("离开房间成功");
-                    director.loadScene("gobe_hall");
-                }).catch((e) => {
-                    this.console.log("离开退出房间失败", e);
-                    director.loadScene("gobe_hall");
-                });
+            this.console.log("当前房间人数太少，不满足对战条件，即将离开房间");
+            this.scheduleOnce(() => {
+                global.gameSceneType = GameSceneType.FOR_NULL;
+                global.client.leaveRoom()
+                    .then(() => {
+                        this.console.log("离开房间成功");
+                        director.loadScene("gobe_hall");
+                    }).catch((e) => {
+                        this.console.log("离开退出房间失败", e);
+                        director.loadScene("gobe_hall");
+                    });
+            }, 2)
         }
     }
 
@@ -369,14 +366,18 @@ export class GobeFight extends Component {
      * 初始化player
     */
     private _initPlayerData () {
-        let roomInfo = null;
+        let roomInfo: GOBE.Room = null;
         if (global.gameSceneType == GameSceneType.FOR_RECORD) {
             roomInfo = global.recordRoomInfo;
         }
         else {
             roomInfo = global.room;
         }
+
+        //先重置 在 addPlayerFromData 内会添加
         frameSyncPlayerList.players = [];
+
+
         let hasTeamId = null;
         roomInfo.players.forEach((p) => {
             if (roomInfo.ownerId === p.playerId) {
@@ -395,9 +396,13 @@ export class GobeFight extends Component {
         //队伍匹配
         if (hasTeamId) {
             roomInfo.players.forEach((p) => {
-                if (roomProp?.frameSyncPlayerArr) {
+                if (roomProp?.frameSyncPlayerArr && roomProp?.frameSyncPlayerArr.length > 0) {
                     let item = roomProp.frameSyncPlayerArr.find(item => item.playerId === p.playerId);
-                    addPlayerFromData(item.playerId, item.x, item.y, item.direction, null);
+                    if (item) {
+                        addPlayerFromData(item.playerId, item.x, item.y, item.direction, null);
+                    } else {
+                        this.console.error("roomProp.frameSyncPlayerArr.find null, addPlayer error")
+                    }
                 } else {
                     if (hasTeamId === p.teamId) {
                         addPlayerFromData(
@@ -422,9 +427,14 @@ export class GobeFight extends Component {
         //房间匹配
         else {
             roomInfo.players.forEach((p) => {
-                if (roomProp?.frameSyncPlayerArr) {
+                if (roomProp?.frameSyncPlayerArr && roomProp?.frameSyncPlayerArr.length > 0) {
                     let item = roomProp.frameSyncPlayerArr.find(item => item.playerId === p.playerId);
-                    addPlayerFromData(item.playerId, item.x, item.y, item.direction, null);
+                    if (item) {
+                        addPlayerFromData(item.playerId, item.x, item.y, item.direction, null);
+                    }
+                    else {
+                        this.console.error("roomProp.frameSyncPlayerArr.find null, addPlayer error")
+                    }
                 }
                 else {
                     if (roomInfo.ownerId == p.playerId) {
@@ -483,43 +493,7 @@ export class GobeFight extends Component {
         global.room.sendFrame(frameData);
     }
 
-    /**
-     * 有玩家加入房间，做相关游戏逻辑处理
-     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gameobe-room-js-0000001192950624#section11321164309
-    */
-    onJoin (playerInfo: GOBE.PlayerInfo) {
-        if (playerInfo.playerId === global.playerId) {
-            this.console.log("重连加入玩家id:" + playerInfo.playerId);
-            //获取房间最新信息
-            global.room.update()
-                .then((room) => {
-                    let isInRoom = this._getSelfIsInRoom(room);
-                    //离开
-                    if (isInRoom == false) {
-                        global.gameSceneType = GameSceneType.FOR_NULL;
-                        director.loadScene("gobe_hall");
-                    }
-                }).catch((e) => {
-                    this.console.log("update err: " + e);
-                    director.loadScene("gobe_hall");
-                });
-        }
-    }
 
 
-    /**
-     * 获取自己是否在房间内
-    */
-    private _getSelfIsInRoom (room: GOBE.Room): boolean {
-        const players: GOBE.PlayerInfo[] = room.players;
-        if (players) {
-            for (let i = 0; i < players.length; ++i) {
-                if (players[i].playerId === global.playerId) {
-                    return true;
-                }
-            }
-        }
-        return false
-    }
 }
 

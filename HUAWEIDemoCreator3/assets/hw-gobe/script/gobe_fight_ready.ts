@@ -5,6 +5,7 @@ import { GameSceneType } from './frame_sync';
 import { PlayerInfo, RecvFromServerInfo, RoomInfo, UpdateCustomPropertiesResponse, UpdateCustomStatusResponse } from '../../cs-huawei/hwgobe/GOBE/GOBE';
 import { RoomUserItem } from './room_user_item';
 import { Console } from '../../prefabs/console';
+import { sleep } from './gobe_util';
 const { ccclass, property } = _decorator;
 
 @ccclass('GobeFightReady')
@@ -133,33 +134,35 @@ export class GobeFightReady extends Component {
         });
     }
 
+
     /**
      * 开始游戏
     */
     startGame () {
-        this.console.log(`开始游戏`);
-        //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gameobe-sync-js-0000001185000956
-        //开始帧同步
-        global.room.startFrameSync()
-            .then(() => {
-                // 开始帧同步成功
-                this.console.log("startGame 开始帧同步成功");
-            }).catch((e) => {
-                // 开始帧同步失败
-                this.console.log("startGame 开始帧同步失败", e);
-            });
+        if (global.room.isSyncing == false) {
+            this.console.log(`开始游戏`);
+            //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gameobe-sync-js-0000001185000956
+            //开始帧同步
+            global.room.startFrameSync()
+                .then(() => {
+                    // 开始帧同步成功
+                    this.console.log("startGame 开始帧同步成功");
+                }).catch((e) => {
+                    // 开始帧同步失败
+                    this.console.log("startGame 开始帧同步失败", e);
+                });
+        } else {
+            this.console.log("请勿重复点击");
+        }
     }
 
 
 
     //事件----------------
 
-    /**
-     * 加入房间监听
-     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gameobe-room-js-0000001192950624#section11321164309
-    */
+
     onJoin (playerInfo: PlayerInfo) {
-        this.console.log("有用户加入房间");
+        this.console.log("有用户加入房间 刷新room");
         this._updateRoomView()
     }
 
@@ -201,31 +204,6 @@ export class GobeFightReady extends Component {
         this.console.log('onRoomPropertiesChange ' + JSON.stringify(roomInfo));
     }
 
-    //websocket连接建立监听
-    //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gameobe-room-js-0000001192950624#section4981161272516
-    onConnect (playerInfo: PlayerInfo) {
-        if (playerInfo.playerId === global.playerId) {
-            global.isConnected = true;
-            this.console.log("自己上线了");
-        } else {
-            this.console.log("房间内其他玩家上线了，playerId:" + playerInfo.playerId);
-        }
-        this._updateRoomView()
-    }
-
-    //异常断开连接监听
-    //https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gameobe-room-js-0000001192950624#section388281874
-    onDisconnect (playerInfo: PlayerInfo) {
-        //是否是自己
-        if (playerInfo.playerId === global.playerId) {
-            global.isConnected = false;
-            this.console.log("自己掉线");
-        } else {
-            this.console.log("房间内其他玩家掉线，playerInfo : ", playerInfo);
-        }
-        this._updateRoomView()
-    }
-
 
     /**
      * 更新房间消息
@@ -236,30 +214,29 @@ export class GobeFightReady extends Component {
             return;
         }
         global.room.update()
-            .then(() => {
-                const roomInfo = global.room;
-                const selfIsOwner = roomInfo.ownerId === global.playerId;
+            .then((room) => {
+                const selfIsOwner = global.room.ownerId === global.playerId;
 
                 //顶部信息
                 this.isOwnerEditBox.string = "是否是房间主：" + (selfIsOwner ? "是" : "否");
-                this.roomNameEditBox.string = "房间名：" + (roomInfo.roomName || "");
-                this.roomIdEditBox.string = "房间id：" + (roomInfo.roomId || "");
+                this.roomNameEditBox.string = "房间名：" + (global.room.roomName || "");
+                this.roomIdEditBox.string = "房间id：" + (global.room.roomId || "");
 
                 //刷新 item ui
                 //先重置（必要）
                 this.selfPlayer.setUserInfo(null, false);
                 this.otherPlayer.setUserInfo(null, false);
 
-                roomInfo.players.forEach((player: PlayerInfo) => {
+                global.room.players.forEach((player: PlayerInfo) => {
                     if (player.playerId === global.playerId) {
-                        this.selfPlayer.setUserInfo(player, roomInfo.ownerId === player.playerId);
+                        this.selfPlayer.setUserInfo(player, global.room.ownerId === player.playerId);
                     } else {
-                        this.otherPlayer.setUserInfo(player, roomInfo.ownerId === player.playerId);
+                        this.otherPlayer.setUserInfo(player, global.room.ownerId === player.playerId);
                     }
                 });
 
                 //设置按钮状态
-                let playerCount = roomInfo.players.length;
+                let playerCount = global.room.players.length;
                 //开始游戏按钮
                 this._setStartBtn(selfIsOwner && playerCount == 2);
                 // 房间只有一人时，肯定为房主

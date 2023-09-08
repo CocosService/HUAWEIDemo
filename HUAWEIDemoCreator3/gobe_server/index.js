@@ -66,7 +66,7 @@ class Game {
     /**
      * 初始化飞机
      */
-    initPlane(planeInitInfo) {
+    addPlane(planeInitInfo) {
         let plane = {
             playerId: planeInitInfo.playerId,
             x: planeInitInfo.position.x,
@@ -74,6 +74,7 @@ class Game {
             direction: this.transferDir(planeInitInfo.direction),
         };
         this.planeInfo.set(planeInitInfo.playerId, plane);
+        return plane;
     }
     /**
      * 更新飞机信息
@@ -177,7 +178,7 @@ const gameServer = {
                         // 获取当前房间的游戏信息
                         let game = gameManage.getGame(args.roomId);
                         if (game === undefined) {
-                            // args.SDK.log.error('onRecvFrame, game not exist, roomId:' + args.roomId);
+                            args.SDK.log.error('onRecvFrame, game not exist, roomId:' + args.roomId);
                             return;
                         }
                         switch (gameCmd.cmd) {
@@ -195,9 +196,6 @@ const gameServer = {
         switch (gameData.type) {
             case 'InitGame':
                 handleInitGame(gameData, args);
-                break;
-            case 'Progress':
-                handleProgress(gameData, args);
                 break;
             case 'GameEnd':
                 handleGameEnd(gameData, args, msg.srcPlayer).then().catch();
@@ -241,7 +239,7 @@ function handleInitGame(gameData, args) {
     let gameInitInfo = gameData;
     let game = new Game(gameInitInfo, args.SDK.log, 30, args.roomId);
     for (let i = 0; i < gameInitInfo.playerArr.length; i++) {
-        game.initPlane(gameInitInfo.playerArr[i]);
+        game.addPlane(gameInitInfo.playerArr[i]);
     }
     gameManage.saveGame(args.roomId, game);
     game.startFrameClock(args);
@@ -253,6 +251,7 @@ function handleInitGame(gameData, args) {
  * @param playerId
  */
 function handleGameEnd(gameData, args, playerId) {
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         // 游戏结束  设置缓存
         args.SDK.log.info('handleGameEnd begin, playerId: ' + playerId);
@@ -261,54 +260,38 @@ function handleGameEnd(gameData, args, playerId) {
             args.SDK.log.error('handleGameEnd game not exist' + args.roomId);
             return;
         }
-        let endInfo = {};
+        let endInfo = { type: "GameEnd", result: -1, gameEndCount: 0 };
         if (game.gameEnd.isSend) {
             return;
         }
-        if (game.gameEnd.count === 0) {
-            game.gameEnd.count = 1;
-            game.gameEnd.value = gameData.value;
+        //数量递增
+        game.gameEnd.count++;
+        if (game.gameEnd.count === 1) {
             // 3秒后未收到所有玩家消息，则认为异常
             setTimeout(() => {
-                var _a, _b;
+                var _a, _b, _c;
                 if (!((_a = game.gameEnd) === null || _a === void 0 ? void 0 : _a.isSend) && ((_b = game.gameEnd) === null || _b === void 0 ? void 0 : _b.count) !== game.planeInfo.size) {
-                    endInfo = { type: "GameEnd", result: 1 };
-                    args.SDK.sendData(JSON.stringify(endInfo)).then().catch(err => {
+                    endInfo.result = 0;
+                    endInfo.gameEndCount = (_c = game.gameEnd) === null || _c === void 0 ? void 0 : _c.count;
+                    game.gameEnd.isSend = true;
+                    args.SDK.sendData(JSON.stringify(endInfo))
+                        .then()
+                        .catch(err => {
                         args.SDK.log.error('roomId:' + args.roomId + 'handleGameEnd send GameEndData error:' + err);
                     });
                 }
             }, 3000);
         }
-        else {
-            game.gameEnd.count++;
-            if (game.gameEnd.value !== gameData.value) {
-                game.gameEnd.isSend = true;
-                endInfo = { type: "GameEnd", result: 1 };
-                args.SDK.sendData(JSON.stringify(endInfo)).then().catch(err => {
-                    args.SDK.log.error('roomId:' + args.roomId + 'handleGameEnd send GameEndData error:' + err);
-                });
-            }
-            else if (game.gameEnd.count === game.planeInfo.size) {
-                game.gameEnd.isSend = true;
-                endInfo = { type: "GameEnd", result: 0 };
-                args.SDK.sendData(JSON.stringify(endInfo)).then().catch(err => {
-                    args.SDK.log.error('roomId:' + args.roomId + 'handleGameEnd send GameEndData error:' + err);
-                });
-            }
+        else if (((_a = game.gameEnd) === null || _a === void 0 ? void 0 : _a.count) === game.planeInfo.size) {
+            endInfo.result = 1;
+            endInfo.gameEndCount = (_b = game.gameEnd) === null || _b === void 0 ? void 0 : _b.count;
+            game.gameEnd.isSend = true;
+            args.SDK.sendData(JSON.stringify(endInfo))
+                .then()
+                .catch(err => {
+                args.SDK.log.error('roomId:' + args.roomId + 'handleGameEnd send GameEndData error:' + err);
+            });
         }
-    });
-}
-/**
- * 处理加载进度
- * @param gameData
- * @param args
- */
-function handleProgress(gameData, args) {
-    // 广播游戏进度
-    args.SDK.sendData(JSON.stringify(gameData))
-        .then()
-        .catch(err => {
-        args.SDK.log.error('sendProgressData ERROR' + err);
     });
 }
 const gobeDeveloperCode = {

@@ -18,13 +18,24 @@ export class GobeHall extends Component {
     @property({ type: GobeRecordList })
     recordListPanel: GobeRecordList = null!;
 
+    @property({ type: Node })
+    cancelFastMatchPlayerBtn: Node = null!;
 
-    isInMatch: boolean = false;
+
+    private _isInMatch: boolean = false;
+    private get isInMatch (): boolean {
+        return this._isInMatch;
+    }
+    private set isInMatch (val: boolean) {
+        this._isInMatch = val;
+        this.cancelFastMatchPlayerBtn.active = val;
+    }
 
     private _onMatchEve = (onMatchResponse) => this._onMatch(onMatchResponse)
 
 
     onEnable (): void {
+        this.isInMatch = false;
         this.recordListPanel.node.active = false;
     }
     onDestroy (): void {
@@ -119,6 +130,10 @@ export class GobeHall extends Component {
      * 取消快速匹配
      */
     public onCancelMatch (showLog: boolean = true) {
+        if (!this.isInMatch) {
+            this.console.log("当前未在匹配");
+            return;
+        }
         this.isInMatch = false;
         //清除匹配事件
         global.client.onMatch.clear();

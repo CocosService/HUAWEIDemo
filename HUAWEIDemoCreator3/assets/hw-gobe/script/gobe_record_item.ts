@@ -78,9 +78,9 @@ export class GobeRecordItem extends Component {
                                             if (frameData && frameData.length > 0) {
                                                 for (let k = 0; k < frameData.length; k++) {
                                                     let obj = JSON.parse(frameData[k]);
-                                                    if (obj.cmd == CmdType.syncRoomInfo) {
-                                                        frameSyncPlayerList.players = obj.roomInfo.players;
+                                                    if (obj.cmd == CmdType.syncRoomInfo && obj.roomInfo.players != null && obj.roomInfo.players.length >= 2) {
                                                         global.recordRoomInfo = obj.roomInfo;
+                                                        frameSyncPlayerList.players = obj.roomInfo.players;
                                                         hasFindSyncRoomInfo = true;
                                                         break;
                                                     }

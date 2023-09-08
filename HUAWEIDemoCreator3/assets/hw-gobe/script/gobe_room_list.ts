@@ -23,6 +23,10 @@ export class GobeRoomList extends Component {
     private _lockSubmit: boolean = false;
 
 
+    protected onEnable (): void {
+        this.freshIdleRoomListBtn();
+    }
+
     /**
      * 加入根据code
     */

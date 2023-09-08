@@ -99,7 +99,7 @@ export function download (remoteUrl: string) {
         };
 
         xhr.onerror = function (e) {
-            console.log('----下载出错----' + e);
+            console.log('----下载出错----', e);
             reject(e);
         };
 

@@ -117,7 +117,7 @@ function handleInitGame (gameData: any, args: GOBERTS.ActionArgs) {
     let gameInitInfo = <GameInitInfo>gameData;
     let game = new Game(gameInitInfo, args.SDK.log, 30, args.roomId);
     for (let i = 0; i < gameInitInfo.playerArr.length; i++) {
-        game.initPlane(gameInitInfo.playerArr[i]);
+        game.addPlane(gameInitInfo.playerArr[i]);
     }
     gameManage.saveGame(args.roomId, game);
     game.startFrameClock(args);
@@ -137,37 +137,37 @@ async function handleGameEnd (gameData: any, args: GOBERTS.ActionArgs, playerId:
         args.SDK.log.error('handleGameEnd game not exist' + args.roomId);
         return;
     }
-    let endInfo = {};
+    let endInfo = { type: "GameEnd", result: -1, gameEndCount: 0 };
     if (game.gameEnd.isSend) {
         return;
     }
-    if (game.gameEnd.count === 0) {
-        game.gameEnd.count = 1;
-        game.gameEnd.value = gameData.value;
+
+    //数量递增
+    game.gameEnd.count++;
+
+    if (game.gameEnd.count === 1) {
         // 3秒后未收到所有玩家消息，则认为异常
         setTimeout(() => {
             if (!game.gameEnd?.isSend && game.gameEnd?.count !== game.planeInfo.size) {
-                endInfo = { type: "GameEnd", result: 1 };
-                args.SDK.sendData(JSON.stringify(endInfo)).then().catch(err => {
-                    args.SDK.log.error('roomId:' + args.roomId + 'handleGameEnd send GameEndData error:' + err);
-                });
+                endInfo.result = 0;
+                endInfo.gameEndCount = game.gameEnd?.count;
+                game.gameEnd.isSend = true;
+                args.SDK.sendData(JSON.stringify(endInfo))
+                    .then()
+                    .catch(err => {
+                        args.SDK.log.error('roomId:' + args.roomId + 'handleGameEnd send GameEndData error:' + err);
+                    });
             }
         }, 3000);
-    } else {
-        game.gameEnd.count++;
-        if (game.gameEnd.value !== gameData.value) {
-            game.gameEnd.isSend = true;
-            endInfo = { type: "GameEnd", result: 1 };
-            args.SDK.sendData(JSON.stringify(endInfo)).then().catch(err => {
+    } else if (game.gameEnd?.count === game.planeInfo.size) {
+        endInfo.result = 1;
+        endInfo.gameEndCount = game.gameEnd?.count;
+        game.gameEnd.isSend = true;
+        args.SDK.sendData(JSON.stringify(endInfo))
+            .then()
+            .catch(err => {
                 args.SDK.log.error('roomId:' + args.roomId + 'handleGameEnd send GameEndData error:' + err);
             });
-        } else if (game.gameEnd.count === game.planeInfo.size) {
-            game.gameEnd.isSend = true;
-            endInfo = { type: "GameEnd", result: 0 };
-            args.SDK.sendData(JSON.stringify(endInfo)).then().catch(err => {
-                args.SDK.log.error('roomId:' + args.roomId + 'handleGameEnd send GameEndData error:' + err);
-            });
-        }
     }
 }
 

@@ -50,9 +50,10 @@ export class HwGobeGlobalData {
     public bgMinY: number = 50;                                     // 飞行背景y最小值
     public bgMaxY: number = 690 - 50;                               // 飞行背景y最大值
 
-    public TeamAPlayer1StartPos = { x: this.bgMinX, y: this.bgMaxY };                   // 队伍A一号玩家起始位置
-    public TeamBPlayer1StartPos = { x: this.bgMaxX, y: this.bgMinY };                   // 队伍B一号玩家起始位置
+    public TeamAPlayer1StartPos = { x: this.bgMinX + 100, y: this.bgMaxY - 100 };                   // 队伍A一号玩家起始位置
+    public TeamBPlayer1StartPos = { x: this.bgMaxX - 100, y: this.bgMinY + 100 };                   // 队伍B一号玩家起始位置
 
-    public needResetRoomFrameId: boolean = false;                                       // 标志需要重置房间帧同步起始帧id
+    public needResetRoomFrameId: boolean = false;                                                   // 标志需要重置房间帧同步起始帧id
+    public maxReconnectCount: number = 3;                                                           // 断线最大重连次数
 }
 export const global = new HwGobeGlobalData();

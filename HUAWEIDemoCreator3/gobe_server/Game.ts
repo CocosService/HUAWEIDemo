@@ -26,9 +26,7 @@ export class Game {
     #direction = [[0, 1], [-1, 0], [0, -1], [1, 0]];
 
     public constructor (initInfo: GameInitInfo, logger: any, frameInterval: number, roomId: string) {
-        this.gameBasicInfo = {
-
-        };
+        this.gameBasicInfo = {};
         this.planeInfo = new Map<string, Plane>();
         this.logger = logger;
         this.#frameInterval = frameInterval;
@@ -43,7 +41,7 @@ export class Game {
     /**
      * 初始化飞机
      */
-    public initPlane (planeInitInfo: PlaneInitInfo) {
+    public addPlane (planeInitInfo: PlaneInitInfo): Plane {
         let plane: Plane = {
             playerId: planeInitInfo.playerId,
             x: planeInitInfo.position.x,
@@ -51,6 +49,7 @@ export class Game {
             direction: this.transferDir(planeInitInfo.direction),
         }
         this.planeInfo.set(planeInitInfo.playerId, plane);
+        return plane;
     }
 
     /**
@@ -73,7 +72,7 @@ export class Game {
      * @param direction 枚举值
      * @private 方向数组index
      */
-    private transferDir (direction: Direction): number {
+    private transferDir (direction: number): number {
         return ((direction + 360) % 360) / 90;
     }
 

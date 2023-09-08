@@ -38,7 +38,7 @@ export class HwGOBE extends Component {
     /**
      * 初始化sdk
     */
-    private _initSDK (openId: string = null) {
+    private _initSDK (openId: string) {
         if (isInited()) {
             director.loadScene("gobe_hall");
             return;
@@ -46,10 +46,9 @@ export class HwGOBE extends Component {
 
         let clientConfig = {
             appId: config.gameId,
-            openId: openId != null ? openId : mockOpenId(), // 区别不同用户
+            openId: openId,
             clientId: config.clientId,
             clientSecret: config.clientSecret,
-            // accessToken: this.accessTokenEdit.string,
             appVersion: '1.10.111',
         };
 
@@ -77,19 +76,33 @@ export class HwGOBE extends Component {
             if (resultCode === GOBE.ErrorCode.COMMON_OK) {
                 global.playerId = global.client.playerId;
                 if (global.client.lastRoomId) {
-                    //尝试进入上一次的房间
+                    //方式1 退出旧房间
+                    // global.client.leaveRoom()
+                    //     .then(() => {
+                    //         console.log("leaveRoom success");
+                    //     })
+                    //     .catch((err) => {
+                    //         console.log("leaveRoom success");
+                    //     })
+
+                    //方式2 尝试进入上一次的房间
                     global.client.joinRoom(global.client.lastRoomId,
                         { customPlayerStatus: 0, customPlayerProperties: "" })
                         .then((room) => {
+                            //是否就1个人，退出房间
+                            if (room.players.length <= 1) {
+                                global.client.leaveRoom().then(() => {
+                                    console.log("onInitResult room.players.length <= 1 leaveRoom success");
+                                });
+                                director.loadScene("gobe_hall");
+                                return;
+                            }
                             console.log("加入旧房间成功");
                             global.room = room;
                             global.player = room.player;
                             // 重置帧id
-                            //customRoomProperties 在游戏结束时会设置为 ""
-                            if (global.room.customRoomProperties && global.room.customRoomProperties.length > 0) {
-                                //标志需要重置房间帧同步起始帧id
-                                global.needResetRoomFrameId = true;
-                            }
+                            //标志需要重置房间帧同步起始帧id
+                            global.needResetRoomFrameId = true;
                             director.loadScene("gobe_room");
                         }).catch((e) => {
                             console.log("加入旧房间失败", e);

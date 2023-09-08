@@ -13,6 +13,11 @@ export class GobeMatch extends Component {
     //是否在匹配中
     private isInMatch: boolean = false;
 
+    protected onEnable (): void {
+        this.isInMatch = false;
+    }
+
+
     /**
      * 创建房间
     */
@@ -20,7 +25,11 @@ export class GobeMatch extends Component {
         if (!isInited()) {
             return this.console.log("请先初始化 SDK");
         }
-        !this.isInMatch && director.loadScene("gobe_create_room");
+        if (this.isInMatch) {
+            this.console.log("正在匹配,请先取消匹配");
+        } else {
+            director.loadScene("gobe_create_room");
+        }
     }
 
     /**
@@ -37,7 +46,6 @@ export class GobeMatch extends Component {
     onGoBackClick () {
         director.loadScene("gobe_hall");
     }
-
 
     /**
      * 快速匹配
