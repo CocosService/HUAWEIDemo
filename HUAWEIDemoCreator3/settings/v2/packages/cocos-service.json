@@ -121,7 +121,10 @@
         {
           "service_id": "308",
           "enable": false,
-          "param": {}
+          "param": {
+            "params": [],
+            "plugin_version": "2.2.0_1.9.1.300"
+          }
         },
         {
           "service_id": "300",
@@ -130,7 +133,7 @@
         },
         {
           "service_id": "357",
-          "enable": true,
+          "enable": false,
           "param": {}
         }
       ]

@@ -60,7 +60,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 451
+      "__id__": 441
     },
     "_id": "db365b74-8cce-4922-942c-6faabef66fce"
   },
@@ -10155,21 +10155,6 @@
       },
       {
         "__id__": 439
-      },
-      {
-        "__id__": 441
-      },
-      {
-        "__id__": 443
-      },
-      {
-        "__id__": 445
-      },
-      {
-        "__id__": 447
-      },
-      {
-        "__id__": 449
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -10199,116 +10184,6 @@
   {
     "__type__": "cc.TargetOverrideInfo",
     "source": {
-      "__id__": 398
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "console"
-    ],
-    "target": {
-      "__id__": 16
-    },
-    "targetInfo": {
-      "__id__": 434
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "4bPRRl1vBDjJFqEzj1I+Fx"
-    ]
-  },
-  {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
-      "__id__": 431
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "console"
-    ],
-    "target": {
-      "__id__": 16
-    },
-    "targetInfo": {
-      "__id__": 436
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "4bPRRl1vBDjJFqEzj1I+Fx"
-    ]
-  },
-  {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
-      "__id__": 278
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "console"
-    ],
-    "target": {
-      "__id__": 16
-    },
-    "targetInfo": {
-      "__id__": 438
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "4bPRRl1vBDjJFqEzj1I+Fx"
-    ]
-  },
-  {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
-      "__id__": 278
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "selfPlayer"
-    ],
-    "target": {
-      "__id__": 217
-    },
-    "targetInfo": {
-      "__id__": 440
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "b1/LF5ejJCa7x2jtJsAfMc"
-    ]
-  },
-  {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
-      "__id__": 278
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "otherPlayer"
-    ],
-    "target": {
-      "__id__": 242
-    },
-    "targetInfo": {
-      "__id__": 442
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "b1/LF5ejJCa7x2jtJsAfMc"
-    ]
-  },
-  {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
       "__id__": 278
     },
     "sourceInfo": null,
@@ -10319,7 +10194,7 @@
       "__id__": 182
     },
     "targetInfo": {
-      "__id__": 444
+      "__id__": 434
     }
   },
   {
@@ -10341,7 +10216,7 @@
       "__id__": 148
     },
     "targetInfo": {
-      "__id__": 446
+      "__id__": 436
     }
   },
   {
@@ -10363,7 +10238,7 @@
       "__id__": 114
     },
     "targetInfo": {
-      "__id__": 448
+      "__id__": 438
     }
   },
   {
@@ -10385,7 +10260,7 @@
       "__id__": 80
     },
     "targetInfo": {
-      "__id__": 450
+      "__id__": 440
     }
   },
   {
@@ -10397,25 +10272,25 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 452
+      "__id__": 442
     },
     "shadows": {
-      "__id__": 453
+      "__id__": 443
     },
     "_skybox": {
-      "__id__": 454
+      "__id__": 444
     },
     "fog": {
-      "__id__": 455
+      "__id__": 445
     },
     "octree": {
-      "__id__": 456
+      "__id__": 446
     },
     "skin": {
-      "__id__": 457
+      "__id__": 447
     },
     "lightProbeInfo": {
-      "__id__": 458
+      "__id__": 448
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false

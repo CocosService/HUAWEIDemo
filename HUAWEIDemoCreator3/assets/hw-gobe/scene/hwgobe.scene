@@ -3170,10 +3170,7 @@
     "console": {
       "__id__": 34
     },
-    "cerPath": {
-      "__uuid__": "4df2545d-1de2-462d-bfbb-e478a134bd2e",
-      "__expectedType__": "cc.Asset"
-    },
+    "cerPath": null,
     "_id": "7fWNXgODlBy5x+eY0am7rV"
   },
   {
