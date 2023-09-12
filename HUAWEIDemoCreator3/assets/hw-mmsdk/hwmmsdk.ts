@@ -474,8 +474,113 @@ export class Hwmmsdk extends Component {
         if (showLogToPanel) {
             this.console.log("已关闭监听发言玩家列表变化");
         }
-
     }
+
+
+    //注意：3D音效 和 范围语音 代码仅做示例
+
+    //实时语音-3D音效 
+    /**
+     * 初始化3d音效 返回值为0则表示成功，返回值为错误码则表示失败。
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-gmme-gamemediaengine-android-0000001238323625#section1685641114101
+     */
+    public initSpatialSound () {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.initSpatialSoundCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        })
+        huawei.game.mmsdk.mmsdkService.initSpatialSound();
+    }
+
+    /**
+     * 开启/关闭3D音效 返回值为0则表示成功，返回值为错误码则表示失败。
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-gmme-gamemediaengine-android-0000001238323625#section1496016465103
+     *
+     */
+    public enableSpatialSound () {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.enableSpatialSoundCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        })
+        huawei.game.mmsdk.mmsdkService.enableSpatialSound("XXXX", true);
+    }
+
+    /**
+     * 设置语音接收范围
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-gmme-gamemediaengine-android-0000001238323625#section35878131182
+     */
+    public setAudioRecvRange () {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.setAudioRecvRangeCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        })
+        huawei.game.mmsdk.mmsdkService.setAudioRecvRange(10);
+    }
+
+
+    /**
+     * 更新自身位置 返回值为0则表示成功，返回值为错误码则表示失败。
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-gmme-gamemediaengine-android-0000001238323625#section11572124810519
+     */
+    public updateSelfPosition () {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.updateSelfPositionCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        })
+        huawei.game.mmsdk.mmsdkService.updateSelfPosition(1, 2, 3);
+    }
+
+    /**
+     * 更新其他玩家位置 返回值为0则表示成功，返回值为错误码则表示失败。
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-gmme-gamemediaengine-android-0000001238323625#section3976836369
+     */
+    public updateRemotePosition () {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.updateRemotePositionCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        })
+        huawei.game.mmsdk.mmsdkService.updateRemotePosition("XXXX", 1, 2, 3);
+    }
+
+    /**
+     * 清理其他玩家位置 返回值为0则表示成功，返回值为错误码则表示失败。
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-gmme-gamemediaengine-android-0000001238323625#section185619282094
+     */
+    public clearRemotePlayerPosition () {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.clearRemotePlayerPositionCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        })
+        huawei.game.mmsdk.mmsdkService.clearRemotePlayerPosition("XXXX");
+    }
+    /**
+     * 清理其他所有玩家的位置信息 返回值为0则表示成功，返回值为错误码则表示失败。
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-gmme-gamemediaengine-android-0000001238323625#section859216551087
+     */
+    public clearAllRemotePositions () {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.clearAllRemotePositionsCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        })
+        huawei.game.mmsdk.mmsdkService.clearAllRemotePositions();
+    }
+
+
+    /**
+     * 查询3D音效开启状态  true：已开启  false：已关闭
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-gmme-gamemediaengine-android-0000001238323625#section188399396116
+     */
+    public isEnableSpatialSound () {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.isEnableSpatialSoundCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        })
+        huawei.game.mmsdk.mmsdkService.isEnableSpatialSound("XXXX");
+    }
+
+    /**
+     * 加入范围语音房间
+     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-gmme-gamemediaengine-android-0000001238323625#section55155121859
+     */
+    public joinRangeRoom () {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onJoinRangeRoomCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        })
+        huawei.game.mmsdk.mmsdkService.joinRangeRoom("XXXX");
+    }
+
 
     //IM聊天-文本消息-群组管理---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
