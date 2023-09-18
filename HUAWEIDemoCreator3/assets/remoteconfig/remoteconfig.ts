@@ -7,29 +7,51 @@ export class RemoteConfig extends Component {
     @property({ type: Console })
     console: Console = null!;
 
-    start() {
-        huawei.agc.rc.rcService.setRemoteConfigListener((retCode, msg) => {
-            this.console.log('retCode:', retCode);
-            this.console.log('msg:', msg);
-        });
+    start () {
     }
 
-    fetchAndApply() {
+    fetchAndApply () {
+        huawei.agc.rc.rcService.once(huawei.agc.rc.API_EVENT_LIST.fetchAndApplyCallback, (result: huawei.agc.rc.ApiCbResult) => {
+            this.console.log(result);
+        });
         const interval = 30;
         huawei.agc.rc.rcService.fetchAndApply(interval);
-        this.console.log(
-            `Fetch config from remote and apply config! interval: ${interval}s`
-        );
     }
 
-    getValues() {
+    getMergedAll () {
         const values = huawei.agc.rc.rcService.getMergedAll();
-        this.console.log('Get all configs:', values);
+        this.console.log("getMergedAll succeed:", values);
     }
 
-    getValueByKey() {
+    getValueByKey () {
         let key = 'test';
         let value: any = huawei.agc.rc.rcService.getValueAsString(key);
-        this.console.log(`Get config by key: ${key}, value: ${value}`);
+        this.console.log("getValueByKey succeed:", value);
     }
+
+
+    getSource () {
+        let key = 'test';
+        let value: any = huawei.agc.rc.rcService.getSource(key);
+        this.console.log("getSource succeed:", value);
+    }
+
+    setCustomAttributes () {
+        huawei.agc.rc.rcService.once(huawei.agc.rc.API_EVENT_LIST.setCustomAttributesCallback, (result: huawei.agc.rc.ApiCbResult) => {
+            this.console.log(result);
+        });
+        let map = {
+            "testKey1": "testValue1",
+            "testKey2": "testValue2",
+            "testKey3": "testValue3",
+        };
+        huawei.agc.rc.rcService.setCustomAttributes(map);
+    }
+
+
+    getCustomAttributes () {
+        let value: string = huawei.agc.rc.rcService.getCustomAttributes();
+        this.console.log("getCustomAttributes succeed: ", value);
+    }
+
 }

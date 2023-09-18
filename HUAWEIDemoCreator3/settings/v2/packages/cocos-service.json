@@ -1,9 +1,9 @@
 {
   "__version__": "3.0.7",
   "game": {
-    "app_id": "689714782",
+    "app_id": "650056294",
     "c_id": "0",
-    "name": "华为 service 服务测试"
+    "name": "测试"
   },
   "appConfigMaps": [
     {
@@ -13,6 +13,14 @@
     {
       "app_id": "689714782",
       "config_id": "fa04b5"
+    },
+    {
+      "app_id": "603116860",
+      "config_id": "3e44a0"
+    },
+    {
+      "app_id": "650056294",
+      "config_id": "597efa"
     }
   ],
   "configs": [
@@ -24,6 +32,39 @@
       "services": [
         {
           "service_id": "354",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "301",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "302",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "357",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "303",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "278",
+          "enable": false,
+          "param": {
+            "configId": "2cc531",
+            "plugin_version": "2.0.7_0.2.0"
+          }
+        },
+        {
+          "service_id": "356",
           "enable": false,
           "param": {}
         }
@@ -47,7 +88,7 @@
         },
         {
           "service_id": "356",
-          "enable": false,
+          "enable": true,
           "param": {}
         },
         {
@@ -100,8 +141,100 @@
         },
         {
           "service_id": "308",
+          "enable": true,
+          "param": {
+            "params": [],
+            "plugin_version": "2.2.0_1.9.1.300"
+          }
+        },
+        {
+          "service_id": "300",
           "enable": false,
           "param": {}
+        },
+        {
+          "service_id": "357",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "315",
+          "enable": false,
+          "param": {}
+        }
+      ]
+    },
+    {
+      "app_id": "603116860",
+      "config_id": "3e44a0",
+      "config_name": "Default",
+      "config_remarks": "",
+      "services": [
+        {
+          "service_id": "301",
+          "enable": true,
+          "param": {}
+        },
+        {
+          "service_id": "302",
+          "enable": true,
+          "param": {}
+        }
+      ]
+    },
+    {
+      "app_id": "650056294",
+      "config_id": "597efa",
+      "config_name": "Default",
+      "config_remarks": "",
+      "services": [
+        {
+          "service_id": "357",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "356",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "308",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "354",
+          "enable": false,
+          "param": {}
+        }
+      ]
+    }
+  ],
+  "sdkHubConfigSet": [
+    {
+      "id": "2cc531",
+      "name": "HUAWEI  AppGallery Connect",
+      "platform": "3",
+      "channelID": "161221",
+      "channelName": "HUAWEI  AppGallery Connect",
+      "remarks": "HUAWEI  AppGallery Connect",
+      "plugins": [
+        {
+          "hasParam": false,
+          "pParam": {},
+          "pId": "2412",
+          "pName": "HUAWEI HMS",
+          "packageName": "huawei-hms",
+          "pType": 30,
+          "pUseType": 30,
+          "hasLocal": true,
+          "hasUpdate": false,
+          "requireParam": true,
+          "pVersion": "2.1.2_6.3.0",
+          "needUpdate": true,
+          "isInstall": false,
+          "installProgress": true
         }
       ]
     }

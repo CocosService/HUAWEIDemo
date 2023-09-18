@@ -1,11 +1,11 @@
-import { _decorator, Component, director } from 'cc';
+import { _decorator, Component, director, sys } from 'cc';
 const { ccclass } = _decorator;
 
 @ccclass('ButtonGoBack')
 export class ButtonGoBack extends Component {
-    start() {}
+    start () { }
 
-    goBack() {
+    goBack () {
         director.loadScene('startup');
     }
 }

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, instantiate, Prefab } from 'cc';
+import { _decorator, Component, Node, instantiate, Prefab, director, profiler } from 'cc';
 const { ccclass, property } = _decorator;
 import { ButtonLoadScene } from './prefabs/button-load-scene';
 
@@ -19,21 +19,29 @@ export class Startup extends Component {
     buttonLoadScene: Prefab = null!;
 
     start () {
-        // @ts-ignore
-        cc.debug.setDisplayStats(false);
-        for (const sceneListItem of this.sceneList) {
-            if (!this.checkServiceAvailable(sceneListItem.sceneName)) continue;
-
-            const buttonLoadScene = instantiate(this.buttonLoadScene);
-            const script = buttonLoadScene.getComponent(
-                'ButtonLoadScene'
-            ) as ButtonLoadScene;
-            script.init(sceneListItem.sceneName);
-            this.scrollContent.addChild(buttonLoadScene);
+        profiler.hideStats();
+        for (let i = 0; i < this.sceneList.length; i++) {
+            const sceneListItem = this.sceneList[i];
+            if (this.checkServiceAvailable(sceneListItem.sceneName)) {
+                const buttonLoadScene = instantiate(this.buttonLoadScene);
+                const script = buttonLoadScene.getComponent(
+                    'ButtonLoadScene'
+                ) as ButtonLoadScene;
+                script.init(sceneListItem.sceneName);
+                this.scrollContent.addChild(buttonLoadScene);
+            }
         }
     }
 
     private checkServiceAvailable (sceneName: string): boolean {
+
+        if (sceneName == "hwgobe") {
+            // @ts-ignore
+            return typeof GOBE !== 'undefined';
+        }
+
+
+        // @ts-ignore
         if (typeof huawei === 'undefined') {
             return false;
         }
@@ -135,8 +143,6 @@ export class Startup extends Component {
                     // @ts-ignore
                     huawei?.game?.mmsdk?.mmsdkService
                 );
-
-
             default:
                 console.error("未处理的场景：" + sceneName);
                 return false;
