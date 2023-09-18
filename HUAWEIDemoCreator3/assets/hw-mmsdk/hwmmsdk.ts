@@ -364,7 +364,7 @@ export class Hwmmsdk extends Component {
      *   isForbidden true表示禁言,false表示解禁
      */
     //禁言
-    public forbidPlayer (roomId: string, openId: string, isForbidden: boolean): void {
+    public forbidPlayer (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onForbidPlayerCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
             this.console.log(result);
         })
@@ -372,7 +372,7 @@ export class Hwmmsdk extends Component {
         huawei.game.mmsdk.mmsdkService.forbidPlayer(this._teamRoomId, tarOpenId, true);
     }
     //解禁
-    public notForbidPlayer (roomId: string, openId: string, isForbidden: boolean): void {
+    public notForbidPlayer (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onForbidPlayerCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
             this.console.log(result);
         })
@@ -442,7 +442,6 @@ export class Hwmmsdk extends Component {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onMuteAllPlayersCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
             this.console.log(result);
         })
-        let tarOpenId = this._selfOpenId == "A" ? "B" : "A";
         huawei.game.mmsdk.mmsdkService.muteAllPlayers(this._teamRoomId, true);
     }
 
@@ -451,7 +450,6 @@ export class Hwmmsdk extends Component {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onMuteAllPlayersCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
             this.console.log(result);
         })
-        let tarOpenId = this._selfOpenId == "A" ? "B" : "A";
         huawei.game.mmsdk.mmsdkService.muteAllPlayers(this._teamRoomId, false);
     }
 
