@@ -12,25 +12,25 @@ const { ccclass, property } = _decorator;
 @ccclass('HwGOBE')
 export class HwGOBE extends Component {
     @property({ type: Console })
-    console: Console = null!;
-    @property(Asset)
-    cerPath: Asset = null;
+    console: Console;
+    @property({ type: Asset })
+    cerPath: Asset;
 
-    onEnable () {
+    onEnable() {
         // GOBE.Logger.level = GOBE.LogLevel.INFO;
         profiler.hideStats();
         console.log("this.cerPath.nativeUrl:" + this.cerPath?.nativeUrl);
     }
-    onDisable () {
+    onDisable() {
     }
 
 
     //openId = A
-    public initSDKWithOpenIdA () {
+    public initSDKWithOpenIdA() {
         this._initSDK("A");
     }
     //openId = B
-    public initSDKWithOpenIdB () {
+    public initSDKWithOpenIdB() {
         this._initSDK("B");
     }
 
@@ -38,7 +38,7 @@ export class HwGOBE extends Component {
     /**
      * 初始化sdk
     */
-    private _initSDK (openId: string) {
+    private _initSDK(openId: string) {
         if (isInited()) {
             director.loadScene("gobe_hall");
             return;
