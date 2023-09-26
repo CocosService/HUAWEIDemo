@@ -29,7 +29,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 269
+      "__id__": 270
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -60,7 +60,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 274
+      "__id__": 275
     },
     "_id": "ec051b66-6519-4878-8734-915e3d0e5144"
   },
@@ -279,16 +279,16 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 262
+        "__id__": 263
       },
       {
-        "__id__": 264
+        "__id__": 265
       },
       {
-        "__id__": 266
+        "__id__": 267
       },
       {
-        "__id__": 268
+        "__id__": 269
       }
     ],
     "_prefab": null,
@@ -4197,11 +4197,8 @@
         "__id__": 249
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
-      {
-        "__id__": 258
-      },
       {
         "__id__": 259
       },
@@ -4210,6 +4207,9 @@
       },
       {
         "__id__": 261
+      },
+      {
+        "__id__": 262
       }
     ],
     "_prefab": null,
@@ -5308,6 +5308,9 @@
       },
       {
         "__id__": 256
+      },
+      {
+        "__id__": 258
       }
     ],
     "_prefab": null,
@@ -5613,6 +5616,36 @@
     "customEventData": ""
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 249
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_alignFlags": 20,
+    "_target": null,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 6.207000000000107,
+    "_horizontalCenter": 0,
+    "_verticalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
+    "_alignMode": 2,
+    "_lockFlags": 0,
+    "_id": "e7Mp7zHCxJa4zb+L692QMK"
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -5735,7 +5768,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 263
+      "__id__": 264
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -5763,7 +5796,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 265
+      "__id__": 266
     },
     "_cameraComponent": {
       "__id__": 9
@@ -5785,7 +5818,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 267
+      "__id__": 268
     },
     "_alignFlags": 45,
     "_target": null,
@@ -5825,7 +5858,7 @@
       "__id__": 34
     },
     "recordListPanel": {
-      "__id__": 261
+      "__id__": 262
     },
     "cancelFastMatchPlayerBtn": {
       "__id__": 132
@@ -5840,10 +5873,10 @@
     "instance": null,
     "targetOverrides": [
       {
-        "__id__": 270
+        "__id__": 271
       },
       {
-        "__id__": 272
+        "__id__": 273
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -5870,7 +5903,7 @@
   {
     "__type__": "cc.TargetOverrideInfo",
     "source": {
-      "__id__": 268
+      "__id__": 269
     },
     "sourceInfo": null,
     "propertyPath": [
@@ -5880,7 +5913,7 @@
       "__id__": 16
     },
     "targetInfo": {
-      "__id__": 271
+      "__id__": 272
     }
   },
   {
@@ -5892,7 +5925,7 @@
   {
     "__type__": "cc.TargetOverrideInfo",
     "source": {
-      "__id__": 261
+      "__id__": 262
     },
     "sourceInfo": null,
     "propertyPath": [
@@ -5902,7 +5935,7 @@
       "__id__": 16
     },
     "targetInfo": {
-      "__id__": 273
+      "__id__": 274
     }
   },
   {
@@ -5914,25 +5947,25 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 275
-    },
-    "shadows": {
       "__id__": 276
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 277
     },
-    "fog": {
+    "_skybox": {
       "__id__": 278
     },
-    "octree": {
+    "fog": {
       "__id__": 279
     },
-    "skin": {
+    "octree": {
       "__id__": 280
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 281
+    },
+    "lightProbeInfo": {
+      "__id__": 282
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false

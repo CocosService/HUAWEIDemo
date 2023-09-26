@@ -1,9 +1,9 @@
 {
   "__version__": "3.0.7",
   "game": {
-    "app_id": "650056294",
+    "app_id": "689714782",
     "c_id": "0",
-    "name": "测试"
+    "name": "华为 service 服务测试"
   },
   "appConfigMaps": [
     {
@@ -67,6 +67,11 @@
           "service_id": "356",
           "enable": false,
           "param": {}
+        },
+        {
+          "service_id": "308",
+          "enable": false,
+          "param": {}
         }
       ]
     },
@@ -88,7 +93,7 @@
         },
         {
           "service_id": "356",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
@@ -141,7 +146,7 @@
         },
         {
           "service_id": "308",
-          "enable": true,
+          "enable": false,
           "param": {
             "params": [],
             "plugin_version": "2.2.0_1.9.1.300"
@@ -154,7 +159,7 @@
         },
         {
           "service_id": "357",
-          "enable": true,
+          "enable": false,
           "param": {}
         },
         {
@@ -190,21 +195,55 @@
       "services": [
         {
           "service_id": "357",
-          "enable": false,
+          "enable": true,
           "param": {}
         },
         {
           "service_id": "356",
-          "enable": false,
+          "enable": true,
           "param": {}
         },
         {
           "service_id": "308",
+          "enable": true,
+          "param": {
+            "params": [
+              {
+                "key": "A",
+                "value": "A1"
+              },
+              {
+                "key": "test",
+                "value": "testValue1"
+              },
+              {
+                "key": "TEST_CFG_A",
+                "value": "TEST_CFG_A1"
+              }
+            ],
+            "plugin_version": "2.2.1_1.9.1.300"
+          }
+        },
+        {
+          "service_id": "354",
           "enable": false,
           "param": {}
         },
         {
-          "service_id": "354",
+          "service_id": "300",
+          "enable": false,
+          "param": {
+            "configId": "2cc531",
+            "plugin_version": "2.0.7_0.2.0"
+          }
+        },
+        {
+          "service_id": "303",
+          "enable": false,
+          "param": {}
+        },
+        {
+          "service_id": "315",
           "enable": false,
           "param": {}
         }
@@ -231,7 +270,7 @@
           "hasLocal": true,
           "hasUpdate": false,
           "requireParam": true,
-          "pVersion": "2.1.2_6.3.0",
+          "pVersion": "2.1.0_6.3.0",
           "needUpdate": true,
           "isInstall": false,
           "installProgress": true
