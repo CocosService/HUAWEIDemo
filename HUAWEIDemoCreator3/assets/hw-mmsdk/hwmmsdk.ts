@@ -16,9 +16,14 @@ export class Hwmmsdk extends Component {
     @property(Node)
     realTimeVoice: Node = null;
     @property(Node)
+    rtm: Node = null;
+    @property(Node)
     imAudioMsg: Node = null;
     @property(Node)
+    localAudioClip: Node = null;
+    @property(Node)
     imAudioToText: Node = null;
+    
 
 
     //两个初始化按钮
@@ -109,6 +114,29 @@ export class Hwmmsdk extends Component {
         //     this.console.log("获得当前发言玩家信息如下");
         //     this.console.log(result);
         // })
+        
+        //实时信令
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onRtmConnectionChangedCallback, (result: huawei.game.mmsdk.ApiCbResult) => {         
+            this.console.log("收到RTM,信息如下");
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onReceiveRtmPeerMessageCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("收到peer,信息如下");
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onReceiveRtmChannelMessageCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("收到channel,信息如下");
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onRtmChannelPlayerPropertiesChangedCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("收到player,信息如下");
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onAudioClipStateChangedNotifyCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("收到效果音播放,信息如下");
+            this.console.log(result);
+        });
+
     }
 
     onDisable () {
@@ -119,6 +147,12 @@ export class Hwmmsdk extends Component {
         huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onRecvMsgCallback);
         huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onSpeakersDetectionCallback);
         // huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onSpeakersDetectionExCallback);
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onRtmConnectionChangedCallback);
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onAudioClipStateChangedNotifyCallback);
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onReceiveRtmChannelMessageCallback);
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onReceiveRtmPeerMessageCallback);
+        huawei.game.mmsdk.mmsdkService.off(huawei.game.mmsdk.API_EVENT_LIST.onRtmChannelPlayerPropertiesChangedCallback);
+
     }
 
 
@@ -199,31 +233,64 @@ export class Hwmmsdk extends Component {
     public enterStartBtnPanel () {
         this.startBtnArr.active = true;//
         this.realTimeVoice.active = false;
+        this.rtm.active = false;
         this.imAudioMsg.active = false;
+        this.localAudioClip.active = false;
         this.imAudioToText.active = false;
     }
 
     //转到实时语音界面
-    public enterRealTimeVoiceRoom () {
+    public enterRealTimeVoice () {
         this.startBtnArr.active = false;
         this.realTimeVoice.active = true;//
+        this.rtm.active = false;
         this.imAudioMsg.active = false;
+        this.localAudioClip.active = false;
         this.imAudioToText.active = false;
+
     }
-    //转到语音消息界面
-    public enterAudioMsgRoom () {
+
+    //转到实时信令
+    public enterRTM () {
         this.startBtnArr.active = false;
         this.realTimeVoice.active = false;
-        this.imAudioMsg.active = true;//
+        this.rtm.active = true;
+        this.imAudioMsg.active = false;
+        this.localAudioClip.active = false;
         this.imAudioToText.active = false;
     }
+
+    //转到语音消息界面
+    public enterAudioMsg () {
+        this.startBtnArr.active = false;
+        this.realTimeVoice.active = false;
+        this.rtm.active = false;
+        this.imAudioMsg.active = true;
+        this.localAudioClip.active = false;
+        this.imAudioToText.active = false;
+
+    }
+
+    //转到效果音播放
+    public enterLocalAudioClip () {
+        this.startBtnArr.active = false;
+        this.realTimeVoice.active = false;
+        this.rtm.active = false;
+        this.imAudioMsg.active = false;
+        this.localAudioClip.active = true;
+        this.imAudioToText.active = false;
+    }
+
     //转到声音转文本界面
     public enterAudioToText () {
         this.startBtnArr.active = false;
         this.realTimeVoice.active = false;
+        this.rtm.active = false;
         this.imAudioMsg.active = false;
-        this.imAudioToText.active = true;//
+        this.localAudioClip.active = false;
+        this.imAudioToText.active = true;
     }
+
 
 
     /**
@@ -580,75 +647,6 @@ export class Hwmmsdk extends Component {
     }
 
 
-    //IM聊天-文本消息-群组管理---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    /**
-     * 加入临时群组
-     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gamemme-joingroupchannel-android-0000001372297610
-     *
-     *  channelId 自定义的群组ID
-     */
-    public joinGroupChannel (): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onJoinChannelCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.console.log(result);
-        })
-        huawei.game.mmsdk.mmsdkService.joinGroupChannel(this.groupChannelId);
-    }
-
-    /**
-     * 离开群组
-     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gamemme-leavechannel-android-0000001422217617
-     *
-     *  channelId 自定义的群组ID
-     */
-    public leaveChannel (): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onLeaveChannelCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.console.log(result);
-        })
-        huawei.game.mmsdk.mmsdkService.leaveChannel(this.groupChannelId);
-    }
-
-    /**
-     * 获取群组信息
-     * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-Guides/gamemme-getchannelinfo-android-0000001422457597
-     *
-     * @param channelId 自定义的群组ID
-     */
-    public getChannelInfo (): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.getChannelInfoCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.console.log(result);
-        })
-        huawei.game.mmsdk.mmsdkService.getChannelInfo(this.groupChannelId);
-    }
-
-    //IM聊天-文本消息-消息管理
-    /**
-     * 发送消息
-     *
-     *  recvId  接受者ID, 单聊时传入OpenId，群聊时传入ChannelId
-     *  content 文本字符串
-     *  type    1表示单聊, 2表示群聊
-     */
-    public sendTextMsg (): void {
-        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onSendMsgCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.console.log(result);
-        })
-        let msg = "这是一条测试消息，现在时间为：" + this.getNowDate();
-        huawei.game.mmsdk.mmsdkService.sendTextMsg(this.groupChannelId, msg, 2);
-    }
-
-    // 格式化日对象
-    private getNowDate () {
-        var date = new Date();
-        var sign2 = ":";
-        var year = date.getFullYear() // 年
-        var month = date.getMonth() + 1; // 月
-        var day = date.getDate(); // 日
-        var hour = date.getHours(); // 时
-        var minutes = date.getMinutes(); // 分
-        var seconds = date.getSeconds() //秒
-        return year + "-" + month + "-" + day + " " + hour + sign2 + minutes + sign2 + seconds;
-    }
 
     //IM聊天-语音消息
     /**
@@ -721,7 +719,7 @@ export class Hwmmsdk extends Component {
 
 
 
-    //IM聊天-语音消息-语音转文本
+    //语音转文本
 
     /**
      * 开始录音
@@ -744,12 +742,250 @@ export class Hwmmsdk extends Component {
     /**
      * 停止录音 语音内容将自动转写成文本内容
      */
-    private _stopRecordAudioToText (): void {
+    public stopRecordAudioToText (): void {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onVoiceToTextCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
             this.console.log(result);
         })
         huawei.game.mmsdk.mmsdkService.stopRecordAudioToText();
     }
 
+    //实时信令
 
+    /**
+    * 发送点对点消息
+    */
+    public publishRtmPeerMessage (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onPublishRtmPeerMessageCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        let str = "xxxxx";
+        let info = {
+            peerId: this._selfOpenId == "A" ? "B" : "A",
+            type: 1,
+            messageString: str,
+            messageBytes: new Uint8Array(str.split('').map(char => char.charCodeAt(0)))
+        }
+        console.log("code", JSON.stringify(info))
+        huawei.game.mmsdk.mmsdkService.publishRtmPeerMessage(info);
+    }
+
+
+    //实时信令-频道消息
+    /**
+     * 订阅频道
+     */
+    public subscribeRtmChannel (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onSubscribeRtmChannelCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.subscribeRtmChannel("123", {name: "xxxxx", age: "18"});
+    }
+  
+
+    /**
+     * 取消订阅频道
+     */
+    public unSubscribeRtmChannel (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onUnSubscribeRtmChannelCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.unSubscribeRtmChannel("123");
+    }
+
+
+    /**
+     * 发布频道消息
+     */
+    public publishRtmChannelMessage (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onPublishRtmChannelMessageCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        let str = "xxxxx";
+        huawei.game.mmsdk.mmsdkService.publishRtmChannelMessage({
+            channelId: "123",
+            messageType: 1,
+            allowCacheMsg: true,
+            contentIdentify: true,
+            adsIdentify: true,
+            messageString: str,
+            messageBytes:  new Uint8Array(str.split('').map(char => char.charCodeAt(0))),
+            receivers: ["A", "B"]
+        });
+    }
+
+    /**
+     * 设置玩家属性
+     */
+    public setRtmChannelPlayerProperties (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onSetRtmChannelPlayerPropertiesCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.setRtmChannelPlayerProperties("123", {name: "xxxxx", age: "18"});
+    }
+
+
+    /**
+        * 查询玩家属性
+    */
+    public getRtmChannelPlayerProperties (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onGetRtmChannelPlayerPropertiesCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.getRtmChannelPlayerProperties("123", ["A"]);
+    }
+
+
+    /**
+     * 删除玩家属性
+    */
+    public deleteRtmChannelPlayerProperties (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onDeleteRtmChannelPlayerPropertiesCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.deleteRtmChannelPlayerProperties("123", ["name", "age"]);
+    }
+
+
+    /**
+     * 设置频道属性
+     */
+    public setRtmChannelProperties (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onSetRtmChannelPropertiesCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.setRtmChannelProperties("123", {name: "xxxxx", age: "18"});
+    }
+
+    /**
+     * 查询频道属性
+     */
+    public getRtmChannelProperties (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onGetRtmChannelPropertiesCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.getRtmChannelProperties("123");
+    }
+
+    /**
+     * 删除频道属性
+     */
+    public deleteRtmChannelProperties (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onDeleteRtmChannelPropertiesCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.deleteRtmChannelProperties("123", ["name", "age"]);
+    }
+
+    /**
+     * 查询频道详情
+     */
+    public getRtmChannelInfo (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onGetRtmChannelInfoCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.getRtmChannelInfo("123", true);
+    }
+
+
+    /**
+     * 查询已订阅频道列表
+     */
+    public getRtmSubscribedChannelInfo (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onGetRtmSubscribedChannelInfoCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.getRtmSubscribedChannelInfo();
+    }
+
+    /**
+     * 查询频道历史消息
+     */
+    public getRtmChannelHistoryMessages (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onGetRtmChannelHistoryMessagesCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.getRtmChannelHistoryMessages("123", 1701792597, 10);
+    }
+
+
+    //效果音播放
+    /**
+     * 开始播放
+     */
+    public playLocalAudioClip (): void {
+        huawei.game.mmsdk.mmsdkService.playLocalAudioClip(1, 100, "http://music.163.com/song/media/outer/url?id=25906124.mp3", 1);
+    }
+
+
+    /**
+     * 暂停
+     */
+    public pauseLocalAudioClip (): void {
+        huawei.game.mmsdk.mmsdkService.pauseLocalAudioClip(1);
+    }
+
+    /**
+     * 暂停所有本地音效
+     */
+    public pauseAllLocalAudioClips (): void {
+        huawei.game.mmsdk.mmsdkService.pauseAllLocalAudioClips();
+    }
+
+    /**
+     * 恢复
+     */
+    public resumeLocalAudioClip (): void {
+        huawei.game.mmsdk.mmsdkService.resumeLocalAudioClip(1);
+    }
+
+
+    /**
+     * 恢复所有
+     */
+    public resumeAllLocalAudioClips (): void {
+        huawei.game.mmsdk.mmsdkService.resumeAllLocalAudioClips();
+    }
+
+
+    /**
+     * 停止
+     */
+    public stopLocalAudioClip (): void {
+        huawei.game.mmsdk.mmsdkService.stopLocalAudioClip(1);
+    }
+    /**
+     * 停止所有
+     */
+    public stopAllLocalAudioClips (): void {
+        huawei.game.mmsdk.mmsdkService.stopAllLocalAudioClips();
+    }
+
+    /**
+     * 设置指定音效或所有音效的音量系数
+     */
+    public setVolumeOfLocalAudioClip (): void {
+        huawei.game.mmsdk.mmsdkService.setVolumeOfLocalAudioClip(1, 50);
+    }
+
+    /**
+     * 设置所有本地音效的音量系数
+     */
+    public setLocalAudioClipsVolume (): void {
+        huawei.game.mmsdk.mmsdkService.setLocalAudioClipsVolume(80);
+    }
+
+    /**
+     * 获取指定音效或所有音效的音量系数
+     */
+    public getVolumeOfLocalAudioClip (): void {
+
+        huawei.game.mmsdk.mmsdkService.getVolumeOfLocalAudioClip(1);
+    }
+
+    /**
+     * 获取所有本地音效的音量系数
+     */
+    public getLocalAudioClipsVolume (): void {
+        huawei.game.mmsdk.mmsdkService.getLocalAudioClipsVolume();
+    }
 }
