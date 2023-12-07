@@ -1,10 +1,13 @@
 {
-  "__version__": "1.0.5",
+  "__version__": "1.0.6",
   "general": {
     "designResolution": {
       "width": 1080,
       "height": 1920
     }
   },
-  "custom_joint_texture_layouts": []
+  "custom_joint_texture_layouts": [],
+  "script": {
+    "preserveSymlinks": true
+  }
 }
