@@ -758,7 +758,7 @@ export class Hwmmsdk extends Component {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onPublishRtmPeerMessageCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
             this.console.log(result);
         });
-        let str = "xxxxx";
+        let str = "hello";
         let info = {
             peerId: this._selfOpenId == "A" ? "B" : "A",
             type: 1,
@@ -800,7 +800,7 @@ export class Hwmmsdk extends Component {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onPublishRtmChannelMessageCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
             this.console.log(result);
         });
-        let str = "xxxxx";
+        let str = "hello";
         huawei.game.mmsdk.mmsdkService.publishRtmChannelMessage({
             channelId: "123",
             messageType: 1,
@@ -809,7 +809,7 @@ export class Hwmmsdk extends Component {
             adsIdentify: true,
             messageString: str,
             messageBytes:  new Uint8Array(str.split('').map(char => char.charCodeAt(0))),
-            receivers: ["A", "B"]
+            receivers: []
         });
     }
 
@@ -904,7 +904,7 @@ export class Hwmmsdk extends Component {
         huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onGetRtmChannelHistoryMessagesCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
             this.console.log(result);
         });
-        huawei.game.mmsdk.mmsdkService.getRtmChannelHistoryMessages("123", 1701792597, 10);
+        huawei.game.mmsdk.mmsdkService.getRtmChannelHistoryMessages("123", 1701761445000, 10);
     }
 
 
