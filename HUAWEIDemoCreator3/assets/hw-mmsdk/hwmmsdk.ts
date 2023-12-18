@@ -129,7 +129,11 @@ export class Hwmmsdk extends Component {
             this.console.log(result);
         });
         huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onRtmChannelPlayerPropertiesChangedCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
-            this.console.log("收到player,信息如下");
+            this.console.log("修改player,信息如下");
+            this.console.log(result);
+        });
+        huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onRtmChannelPropertiesChangedCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this.console.log("修改channel,信息如下");
             this.console.log(result);
         });
         huawei.game.mmsdk.mmsdkService.on(huawei.game.mmsdk.API_EVENT_LIST.onAudioClipStateChangedNotifyCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
@@ -625,7 +629,7 @@ export class Hwmmsdk extends Component {
 
 
     /**
-     * 查询3D音效开启状态  true：已开启  false：已关闭
+     * 查询3D音效开启状态  roomId
      * https://developer.huawei.com/consumer/cn/doc/development/AppGallery-connect-References/gamemme-gmme-gamemediaengine-android-0000001238323625#section188399396116
      */
     public isEnableSpatialSound () {
