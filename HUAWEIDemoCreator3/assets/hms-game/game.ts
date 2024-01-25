@@ -166,6 +166,7 @@ export class Game extends Component {
     }
 
     /**
+     * @deprecated
      * 保存玩家在当前游戏内的信息
     */
     submitAppPlayerInfo () {
@@ -174,6 +175,18 @@ export class Game extends Component {
         });
         this.game.submitAppPlayerInfo({
             area: "测试区服1", rank: "测试等级1", role: "测试角色1", sociaty: "测试工会消息1"
+        });
+    }
+
+    /**
+     * 保存玩家在当前游戏内的信息
+    */
+    savePlayerRole () {
+        this.game.once(huawei.hms.game.API_EVENT_LIST.savePlayerRoleCallback, (result: huawei.hms.game.ApiCbResult) => {
+            this.consolePanel.log(result);
+        });
+        this.game.savePlayerRole({
+            serverId: "123", serverName: "server1", roleId: "321", roleName: "测试角色1"
         });
     }
 
