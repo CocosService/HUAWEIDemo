@@ -123,6 +123,29 @@ export class HwGOBE extends Component {
             .catch((e) => {
                 this.console.log("初始化失败，请重新刷新页面", e);
             });
+        this._statistics();
+    }
+    
+    private _statistics() {
+        let params = {
+            "appType": "hwsdk",
+            "reportType": "Start",
+            "sdkName" : "hwgobe",
+            "appId": config.gameId,
+            "time" : Date.now(),
+            "version": "1.0.0_13.8.1.300", 
+        }
+        fetch("https://k.cocos.org/", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        }).then((response: Response) => {
+            return response.text()
+        }).then((value) => {
+            console.log(value);
+        })
     }
 
 

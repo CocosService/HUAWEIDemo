@@ -10,6 +10,13 @@ export class RemoteConfig extends Component {
     start () {
     }
 
+    setEnableCollectUserPrivacy() {
+        huawei.agc.rc.rcService.once(huawei.agc.rc.API_EVENT_LIST.setEnableCollectUserPrivacy, (result: huawei.agc.rc.ApiCbResult) => {
+            this.console.log(result);
+        });
+        huawei.agc.rc.rcService.setEnableCollectUserPrivacy(true);
+    }
+
     fetchAndApply () {
         huawei.agc.rc.rcService.once(huawei.agc.rc.API_EVENT_LIST.fetchAndApplyCallback, (result: huawei.agc.rc.ApiCbResult) => {
             this.console.log(result);
