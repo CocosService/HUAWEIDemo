@@ -992,4 +992,39 @@ export class Hwmmsdk extends Component {
     public getLocalAudioClipsVolume (): void {
         huawei.game.mmsdk.mmsdkService.getLocalAudioClipsVolume();
     }
+
+        //语音变声
+    /**
+    * 开启/关闭房间内语音变声,roomId：房间ID; voiceType：变声类型,原声类型表示关闭变声
+    */
+    public enableVoiceConversion () {
+        let result = huawei.game.mmsdk.mmsdkService.enableVoiceConversion(this._teamRoomId, huawei.game.mmsdk.VoiceType.LOLITA);
+        this.console.log('enableVoiceConversion' + result);
+    }
+    
+
+    /**
+    * 查询当前房间的变声类型
+    */
+    public getVoiceConversionType (roomId: string) {
+        let result = huawei.game.mmsdk.mmsdkService.getVoiceConversionType(this._teamRoomId);
+        this.console.log('getVoiceConversionType' + result);
+    }
+
+    /**
+    * 测试变声效果
+    */
+    public enableEarsBack (enable: boolean) {
+        let result = huawei.game.mmsdk.mmsdkService.enableEarsBack(true);
+        this.console.log('enableEarsBack' + result);
+    }
+
+
+    /**
+    * 查询耳返是否已开启
+    */
+    public isEarsBackEnable () {
+        let result = huawei.game.mmsdk.mmsdkService.isEarsBackEnable();
+        this.console.log('isEarsBackEnable' + result);
+    }
 }
