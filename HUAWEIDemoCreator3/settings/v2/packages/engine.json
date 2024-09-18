@@ -1,5 +1,5 @@
 {
-  "__version__": "1.0.8",
+  "__version__": "1.0.9",
   "modules": {
     "cache": {
       "base": {
@@ -123,6 +123,9 @@
       },
       "custom-pipeline": {
         "_value": false
+      },
+      "graphics": {
+        "_value": true
       }
     },
     "flags": {},
@@ -138,6 +141,7 @@
       "intersection-2d",
       "light-probe",
       "marionette",
+      "meshopt",
       "particle",
       "particle-2d",
       "physics-2d-box2d",
