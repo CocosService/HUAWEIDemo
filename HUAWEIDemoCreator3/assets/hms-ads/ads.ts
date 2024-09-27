@@ -31,6 +31,8 @@ export class Ads extends Component {
     private _onAdEvent () {
         huawei.hms.ads.adsService.on(huawei.hms.ads.API_EVENT_LIST.showAdsCallback, (res: huawei.hms.ads.ApiCbResult) => { this.consolePanel && this.consolePanel.log("showAdsCallback\n" + res.toString()); }, this, false);
         huawei.hms.ads.adsService.on(huawei.hms.ads.API_EVENT_LIST.preloadAdsCallback, (res: huawei.hms.ads.ApiCbResult) => { this.consolePanel && this.consolePanel.log("preloadAdsCallback\n" + res.toString()); }, this, false);
+        huawei.hms.ads.adsService.on(huawei.hms.ads.API_EVENT_LIST.getBiddingInfoCallback, (res: huawei.hms.ads.ApiCbResult) => { this.consolePanel && this.consolePanel.log("getBiddingInfoCallback\n" + res.toString()); }, this, false);
+
 
         huawei.hms.ads.adsService.on(huawei.hms.ads.API_EVENT_LIST.onAdLoadedCallback, (res: huawei.hms.ads.ApiCbResult) => { this.consolePanel && this.consolePanel.log("onAdLoadedCallback\n" + res.toString()); }, this, false);
         huawei.hms.ads.adsService.on(huawei.hms.ads.API_EVENT_LIST.onAdFailedCallback, (res: huawei.hms.ads.ApiCbResult) => { this.consolePanel && this.consolePanel.log("onAdFailedCallback\n" + res.toString()); }, this, false);
@@ -52,6 +54,8 @@ export class Ads extends Component {
     private _offAdEvent () {
         huawei.hms.ads.adsService.off(huawei.hms.ads.API_EVENT_LIST.showAdsCallback);
         huawei.hms.ads.adsService.off(huawei.hms.ads.API_EVENT_LIST.preloadAdsCallback);
+        huawei.hms.ads.adsService.off(huawei.hms.ads.API_EVENT_LIST.getBiddingInfoCallback);
+
 
         huawei.hms.ads.adsService.off(huawei.hms.ads.API_EVENT_LIST.onAdLoadedCallback);
         huawei.hms.ads.adsService.off(huawei.hms.ads.API_EVENT_LIST.onAdFailedCallback);
@@ -133,10 +137,39 @@ export class Ads extends Component {
         };
         this.ads.showAds("Native", JSON.stringify(params));
     }
+
     hideNativeAd () {
         let params = {
             adId: "testy63txaom86",
         };
         this.ads.hideAds("Native", JSON.stringify(params));
+    }
+
+    bannerGetBiddingInfo () {
+        let params = {
+            adId: "testw6vs28auh3",
+        };
+        this.ads.getBiddingInfo("Banner", JSON.stringify(params));
+    }
+
+    rewardGetBiddingInfo () {
+        let params = {
+            adId: "testx9dtjwj8hp",
+        };
+        this.ads.getBiddingInfo("Reward", JSON.stringify(params));
+    }
+
+    InterstitialGetBiddingInfo () {
+        let params = {
+            adId: "testb4znbuh3n2",
+        };
+        this.ads.getBiddingInfo("Interstitial", JSON.stringify(params));
+    }
+
+    nativeGetBiddingInfo () {
+        let params = {
+            adId: "testy63txaom86",
+        };
+        this.ads.getBiddingInfo("Native", JSON.stringify(params));
     }
 }
