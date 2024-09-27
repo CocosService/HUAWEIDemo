@@ -879,6 +879,29 @@
     "_isUnderline": false,
     "_underlineHeight": 2,
     "_cacheMode": 0,
+    "_enableOutline": false,
+    "_outlineColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "_outlineWidth": 2,
+    "_enableShadow": false,
+    "_shadowColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "_shadowOffset": {
+      "__type__": "cc.Vec2",
+      "x": 2,
+      "y": 2
+    },
+    "_shadowBlur": 2,
     "_id": "9bCGIKg+tFq62MUDDkYPen"
   },
   {
@@ -1770,7 +1793,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 185.71300049801744,
+      "y": 185.71250408935714,
       "z": 0
     },
     "_lrot": {
@@ -4735,7 +4758,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1080,
-      "height": 529.9999990039646
+      "height": 530
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4791,7 +4814,7 @@
     "_left": 0,
     "_right": 0,
     "_top": 0,
-    "_bottom": 371.42600099603493,
+    "_bottom": 371.42550408935693,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -5082,6 +5105,9 @@
     "lightProbeInfo": {
       "__id__": 321
     },
+    "postSettings": {
+      "__id__": 322
+    },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
   },
@@ -5144,6 +5170,7 @@
       "z": 0
     },
     "_distance": 0,
+    "_planeBias": 1,
     "_shadowColor": {
       "__type__": "cc.Color",
       "r": 76,
@@ -5226,5 +5253,9 @@
     "_showConvex": false,
     "_data": null,
     "_lightProbeSphereVolume": 1
+  },
+  {
+    "__type__": "cc.PostSettingsInfo",
+    "_toneMappingType": 0
   }
 ]

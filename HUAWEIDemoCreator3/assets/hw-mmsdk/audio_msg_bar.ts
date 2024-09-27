@@ -59,6 +59,16 @@ export class AudioMsgBar extends Component {
         this._stopPlayAudioMsg();
     }
 
+    /**
+     * 对语音消息文件进行风控送检
+     */
+    public startDetectAudioFile (): void {
+        huawei.game.mmsdk.mmsdkService.once(huawei.game.mmsdk.API_EVENT_LIST.onStartDetectAudioFileCallback, (result: huawei.game.mmsdk.ApiCbResult) => {
+            this._console.log(result);
+        })
+        huawei.game.mmsdk.mmsdkService.startDetectAudioFile(this._fileId);
+    }
+
 
     private _updateInfoLb () {
         this.lbInfo.string = this._index + (this._isDownLoadOver ? "已下载" : "未下载") + " fileId:" + this._fileId + "\n" + "filePath:" + this._filePath;
