@@ -1,11 +1,8 @@
 {
-  "__version__": "1.0.9",
+  "__version__": "1.0.10",
   "modules": {
     "cache": {
       "base": {
-        "_value": true
-      },
-      "graphcis": {
         "_value": true
       },
       "gfx-webgl": {
@@ -121,11 +118,11 @@
       "procedural-animation": {
         "_value": false
       },
-      "custom-pipeline": {
-        "_value": false
-      },
       "graphics": {
         "_value": true
+      },
+      "render-pipeline": {
+        "_option": "legacy-pipeline"
       }
     },
     "flags": {},
@@ -139,9 +136,9 @@
       "gfx-webgl",
       "gfx-webgl2",
       "intersection-2d",
+      "legacy-pipeline",
       "light-probe",
       "marionette",
-      "meshopt",
       "particle",
       "particle-2d",
       "physics-2d-box2d",
